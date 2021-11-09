@@ -33,19 +33,15 @@
 }
 
 .red-title{
-    margin-top: 5px;
+    margin-top: 10px;
     padding-right: 30px;
-    justify-content: flex-start;
-    align-items: center;
     color: red;
     float: right;
     font-family: "Courier New", Courier, monospace;
-    font-size: 70px;
+    font-size: 60px;
     letter-spacing: -4px;
     word-spacing: 0.2px;
     font-weight: 700;
-    text-decoration: none;
-    font-style: normal;
     font-variant: small-caps;
     text-transform: none;
     -webkit-transition: all .3s;
