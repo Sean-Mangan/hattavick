@@ -1,15 +1,14 @@
 import './App.css';
+import React from "react";
 import { Typography } from '@mui/material';
+import SideNav from './components/SideNav/SideNav';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Typography variant="h3" className="maintenence-text">
-          Sean is the penis man
-        </Typography>
-      </header>
-    </div>
+    <Router>
+      <SideNav/>
+    </Router>
   );
 }
 
