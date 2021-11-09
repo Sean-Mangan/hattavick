@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Typography variant="h3" className="maintenence-text">
-          Sean is working on this site.
+          Sean is the penis man
         </Typography>
       </header>
     </div>
