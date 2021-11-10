@@ -23,7 +23,7 @@ function SideNav() {
                 <Link className='nav-link' to='#'>
                     <FaIcons.FaBars className='red-icon' onClick={showSidebar}/>
                 </Link>
-                <Link to='home'>
+                <Link to='/'>
                     <h3 className='red-title'>Hattavick</h3>
                 </Link>
             </div>
