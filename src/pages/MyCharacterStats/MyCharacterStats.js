@@ -4,6 +4,45 @@ const MyCharacterStats = () => {
     return (
         <div>
             <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
+            <h1>MyCharacterStat</h1>
+            <br/>
         </div>
     )
 }
