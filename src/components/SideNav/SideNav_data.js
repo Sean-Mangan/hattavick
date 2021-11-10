@@ -6,48 +6,74 @@ import * as RiIcons from 'react-icons/ri';
 
 export const SideNav_data = [
     {
-        title: 'Overview',
-        path: '/overview',
+        title: 'My Character',
+        path: '#',
         icon: <AiIcons.AiFillHome/>,
         iconClosed: <RiIcons.RiArrowDownSFill/>,
         iconOpened: <RiIcons.RiArrowUpSFill/>,
         subNav: [
             {
-                title: 'Users',
-                path: '/overview/users',
+                title: 'Stats',
+                path: '/mycharacter/stats',
                 icon: <IoIcons.IoIosPaper/>,
             },
             {
-                title: 'Revenue',
-                path: '/overview/revenue',
+                title: 'Backstory',
+                path: '/mycharacter/backstory',
                 icon: <IoIcons.IoIosAirplane/>,
             }
         ]
     },
     {
-        title: 'reports',
-        path: '/reports',
+        title: 'Characters',
+        path: '#',
         icon: <AiIcons.AiFillRocket/>,
         iconClosed: <RiIcons.RiArrowDownSFill/>,
         iconOpened: <RiIcons.RiArrowUpSFill/>,
         subNav: [
             {
-                title: 'Domestic',
-                path: '/reports/domestic',
+                title: 'Party',
+                path: '/characters/party',
                 icon: <IoIcons.IoIosAlarm/>,
             },
             {
-                title: 'International',
-                path: '/reports/international',
+                title: 'NPC\'s',
+                path: '/characters/npcs',
                 icon: <IoIcons.IoIosAnalytics/>,
+            },
+            {
+                title: 'All',
+                path: '/characters/all',
+                icon: <IoIcons.IoIosAperture/>,
             }
         ]
     },
     {
-        title: 'Products',
-        path: '/products',
+        title: 'Setting',
+        path: '#',
         icon: <FaIcons.FaCartPlus/>,
         iconClosed: <RiIcons.RiArrowDownSFill/>,
         iconOpened: <RiIcons.RiArrowUpSFill/>,
+        subNav: [
+            {
+                title: 'Locations',
+                path: '/setting/locations',
+                icon: <IoIcons.IoIosAlarm/>,
+            },
+            {
+                title: 'Things',
+                path: '/setting/things',
+                icon: <IoIcons.IoIosAnalytics/>,
+            },
+        ]
     },
+    {
+        title: 'Sessions',
+        path: '/sessions',
+        icon: <FaIcons.FaBattleNet/>,
+        iconClosed: <RiIcons.RiArrowDownSFill/>,
+        iconOpened: <RiIcons.RiArrowUpSFill/>,
+    }
 ]
+
+export default SideNav_data;
