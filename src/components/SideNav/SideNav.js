@@ -1,24 +1,43 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {Link} from 'react-router-dom';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
-import * as RiIcons from 'react-icons/ri';
 import SideNav_data from '../SideNav/SideNav_data';
 import SubMenu from "../SubMenu/SubMenu";
 
 import './SideNav.css';
-import { Typography } from "@mui/material";
+
 
 function SideNav() {
-    const [sideBar, setSideBar] = useState('-100%');
 
+    //Define ref for side menu and css value for left
+    // Such that the menu is not on screen
+    const wrapperRef = useRef(null);
+    const [sideBar, setSideBar] = useState( '-100%');
+
+    // Adds an event listener to the dom for an onclick method
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside, false);
+        return () => {
+            document.removeEventListener("click", handleClickOutside, false);
+            };
+    }, []);
+
+    // Function that will switch between 0 and 11% for the sidenav left value
     const showSidebar = () => {
         setSideBar((sideBar==='0') ? '-100%' : '0');
     };
 
+    // On a outside click close the menu
+    const handleClickOutside = event => {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+          setSideBar('-100%');
+        }
+      };
+
+    //render function
     return (
-        <>
+        <div ref={wrapperRef}>
             <div className='nav-content'>
                 <Link className='nav-link' to='#'>
                     <FaIcons.FaBars className='red-icon' onClick={showSidebar}/>
@@ -39,7 +58,7 @@ function SideNav() {
                     </div>
                 </div>
             </nav>  
-        </>
+        </div>
     )
 };
 

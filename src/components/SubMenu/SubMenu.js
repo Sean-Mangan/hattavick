@@ -1,14 +1,13 @@
-import React, {useEffect,useState} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import './SubMenu.css';
 
 
 function SubMenu({item}) {
+
     const [subnav, setSubnav] = useState(false);
-
     const showSubnav=()=> setSubnav(!subnav);
-
-
+    
     return (
         <div>
             <Link onClick={item.subNav && showSubnav}
