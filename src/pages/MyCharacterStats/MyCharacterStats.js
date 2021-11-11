@@ -16,6 +16,7 @@ const MyCharacterStats = () => {
     return (
         <div style={{textAlign: 'center'}}>
             <h1> My Character is {(character) ? character.name : ''} </h1>
+            <h3>My Characters description is {(character) ? character.description : ''}</h3>
         </div>
     )
 }
