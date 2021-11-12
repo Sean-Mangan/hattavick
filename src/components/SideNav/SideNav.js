@@ -42,9 +42,11 @@ function SideNav() {
                 <Link className='nav-link' to='#'>
                     <FaIcons.FaBars className='red-icon' onClick={showSidebar}/>
                 </Link>
-                <Link to='/'>
-                    <h3 className='red-title'>Hattavick</h3>
-                </Link>
+                <div className='title_wrapper'>
+                    <Link to='/'>
+                        <h3 className='red-title'>Hattavick</h3>
+                    </Link>
+                </div>
             </div>
             <nav className='nav-sidebar' style={{left: sideBar}}>
                 <div className='nav-div-sidebar'>

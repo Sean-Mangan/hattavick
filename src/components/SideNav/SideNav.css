@@ -33,11 +33,16 @@
     width: 100%;
 }
 
+.title_wrapper{
+    width:100%;
+    text-align: right;
+}
+
 .red-title{
+    display: inline-block;
     margin-top: 5px;
     padding-right: 30px;
     color: red;
-    float: right;
     font-family: "Times New Roman", Times, serif;
     font-size: 60px;
     letter-spacing: -4px;
@@ -45,6 +50,7 @@
     font-weight: 700;
     font-variant: small-caps;
     text-transform: none;
+    text-decoration: none;
     -webkit-transition: all .3s;
     transition: all .3s;
 }
