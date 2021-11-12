@@ -10,7 +10,7 @@ function SubMenu({item, onclick}) {
     
     return (
         <div>
-            <Link onClick={item.subNav && showSubnav}
+            <Link onClick={(item.subNav) ? showSubnav : onclick}
             to={item.path} 
             className='submenu_link'>
                 <div>
