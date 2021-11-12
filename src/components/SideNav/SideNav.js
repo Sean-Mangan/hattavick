@@ -55,7 +55,7 @@ function SideNav() {
                     </Link>
                     <div className='menu_wrapper'>
                         {SideNav_data.map((item, idx) =>{
-                            return <SubMenu item={item} key={idx}/>;
+                            return <SubMenu item={item} onclick={showSidebar} key={idx}/>;
                         })}
                     </div>
                 </div>

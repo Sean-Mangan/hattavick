@@ -6,7 +6,7 @@ function NPCs() {
 
     return (
         <div className='NPC_title'>
-            <p>This is my character</p>
+            <h1>NPC's</h1>
         </div>
     )
 }

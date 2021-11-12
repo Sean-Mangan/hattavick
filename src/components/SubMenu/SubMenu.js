@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import './SubMenu.css';
 
 
-function SubMenu({item}) {
+function SubMenu({item, onclick}) {
 
     const [subnav, setSubnav] = useState(false);
     const showSubnav=()=> setSubnav(!subnav);
@@ -27,12 +27,14 @@ function SubMenu({item}) {
             </Link>
             {subnav && item.subNav.map((item, idx)=> {
                 return (
-                    <Link to={item.path} className='dropdown_link'>
-                        {item.icon}
-                        <span className='dropdown_label'>
-                            {item.title}
-                        </span>
-                    </Link>
+                    <div onClick={onclick}>
+                        <Link to={item.path} className='dropdown_link'>
+                            {item.icon}
+                            <span className='dropdown_label'>
+                                {item.title}
+                            </span>
+                        </Link>
+                    </div>
                 )
             })}
         </div>

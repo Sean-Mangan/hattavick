@@ -8,13 +8,15 @@ import NPCs from './pages/NPCs/NPCs';
 function App() {
 
   return ( 
-    <Router>
-      <SideNav/>
-      <Routes>
-        <Route path='/mycharacter/stats' exact element={<MyCharacterStats/>}/>
-        <Route path='/characters/npcs' exact element={<NPCs/>}/>
-      </Routes>
-    </Router>
+    <div>
+      <Router>
+        <SideNav/>
+        <Routes>
+          <Route path='/mycharacter/stats' exact element={<MyCharacterStats/>}/>
+          <Route path='/characters/npcs' exact element={<NPCs/>}/>
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
