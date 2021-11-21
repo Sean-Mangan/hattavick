@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const MyCharacterStats = () => {
 
-    var [character, setCharacter] = useState();
+    var [character, setCharacter] = useState({name: 'penis'});
 
     useEffect(() => {
 
