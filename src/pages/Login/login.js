@@ -5,6 +5,7 @@ import './login.css';
 function LoginPage({setLogin,setName}) {
 
     var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
+    var uri = "http://localhost:5555/api/login"
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -17,11 +18,14 @@ function LoginPage({setLogin,setName}) {
         try{
             var response = await fetch(uri, {
                 method: 'POST', 
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({'name': name}),
                 })
             response = await response.json()
             console.log(response)
-                //{if (data.body.name) setLogin(true)}
+            if (response.name){
+                setLogin(true)
+            } 
             } catch (err) {
                 console.log(err)
             }
