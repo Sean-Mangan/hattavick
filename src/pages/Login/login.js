@@ -4,7 +4,7 @@ import './login.css';
 
 function LoginPage({setLogin,setName}) {
 
-    const uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
+    var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -13,17 +13,14 @@ function LoginPage({setLogin,setName}) {
         login(nameInput);
     };
   
-    function login(name){
+    async function login(name){
         try{
-            fetch(uri, {
-                method: 'post', 
+            var response = await fetch(uri, {
+                method: 'POST', 
                 body: JSON.stringify({'name': name}),
-                headers: {
-                    'Access-Control-Allow-Origin':'*'
-                }
                 })
-                .then(response => response.json())
-                .then(data => console.log(data))
+            response = await response.json()
+            console.log(response)
                 //{if (data.body.name) setLogin(true)}
             } catch (err) {
                 console.log(err)

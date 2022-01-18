@@ -10,19 +10,6 @@ import { responsivePropType } from 'react-bootstrap/esm/createUtilityClasses';
 function App() {
   const [loggedIn, setloggedIn] = useState(false)
   const [name, setName] = useState("")
-  const uri = "http://localhost:5555/api/login"
-
-  function handleClick(e){
-    e.preventDefault();
-    // setloggedIn(true)
-    console.log(e)
-  }
-
-  function login(name){
-    fetch(uri, {method: 'get', body: JSON.stringify({'name': name})})
-      .then(response => response.json())
-      .then(data => {if (data.body.name) setloggedIn(true)})
-  }
 
   const Real_pages = 
     <div>
