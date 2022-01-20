@@ -1,20 +1,47 @@
 import './App.css';
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import axios from 'axios';
 import SideNav from './components/SideNav/SideNav';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import MyCharacterStats from './pages/MyCharacterStats/MyCharacterStats';
 import NPCs from './pages/NPCs/NPCs';
 import LoginPage from './pages/Login/login';
-import { responsivePropType } from 'react-bootstrap/esm/createUtilityClasses';
 
 function App() {
   const [loggedIn, setloggedIn] = useState(false)
   const [name, setName] = useState("")
 
+  axios.defaults.withCredentials = true
+
+  var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
+  uri = "http://localhost:5555/api/login"
+
+  async function login(){
+    try{
+      var response = await axios({
+        withCredentials: true,
+        method : "post",
+        url: uri,
+        data: {
+            'name' : "check"
+        }
+      })
+
+      if (response.data.name){
+          setName(response.data.name);
+          setloggedIn(true);
+      }
+    }catch (err){
+        console.log(err)
+    }
+  }
+
+  login()
+
   const Real_pages = 
     <div>
         <Router>
-          <SideNav/>
+          <SideNav userName={name}/>
           <Routes>
             <Route path='/mycharacter/stats' exact element={<MyCharacterStats/>}/>
             <Route path='/characters/npcs' exact element={<NPCs/>}/>

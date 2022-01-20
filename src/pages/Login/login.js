@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 
 import { Grid,Paper, Avatar, TextField, Button, Alert } from '@mui/material';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
@@ -7,6 +8,7 @@ import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 const Login=({setLogin,setName})=>{
 
     var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
+    uri = "http://localhost:5555/api/login"
     const alt = 'background prop'
 
     const [xCoords, setXCoords] = useState(0)
@@ -22,22 +24,23 @@ const Login=({setLogin,setName})=>{
   
     async function login(name){
         try{
-            var response = await fetch(uri, {
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({'name': name}),
-                })
-            response = await response.json()
-            console.log(response)
-            if (response.name){
-                setName(response.name)
-                setLogin(true)
-            } else{
-                setErrd(true)
+            var response = await axios({
+                method : "post",
+                url: uri,
+                data: {
+                    'name' : name
+                }
+            })
+
+            if (response.data.name){
+                setName(response.data.name);
+                setLogin(true);
+            }else{
+                setErrd(true);
             }
-            } catch (err) {
-                console.log(err)
-            }
+        }catch (err){
+            console.log(err)
+        }
     }
 
 

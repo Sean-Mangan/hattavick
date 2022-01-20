@@ -8,7 +8,7 @@ import SubMenu from "../SubMenu/SubMenu";
 import './SideNav.css';
 
 
-function SideNav() {
+function SideNav({userName}) {
 
     //Define ref for side menu and css value for left
     // Such that the menu is not on screen
@@ -53,6 +53,7 @@ function SideNav() {
                     <Link className='nav-link' to='#'>
                         <AiIcons.AiOutlineClose className='red-icon' onClick={showSidebar}/>
                     </Link>
+                    {/* <h4 style={{border:"3px solid green", color:"red"}}>{userName}</h4> */}
                     <div className='menu_wrapper'>
                         {SideNav_data.map((item, idx) =>{
                             return <SubMenu item={item} onclick={showSidebar} key={idx}/>;
