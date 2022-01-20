@@ -14,12 +14,10 @@ function App() {
   axios.defaults.withCredentials = true
 
   var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
-  uri = "http://localhost:5555/api/login"
 
   async function login(){
     try{
       var response = await axios({
-        withCredentials: true,
         method : "post",
         url: uri,
         data: {
