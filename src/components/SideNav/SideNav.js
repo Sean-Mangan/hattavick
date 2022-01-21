@@ -48,8 +48,8 @@ function SideNav({userName}) {
                     </Link>
                 </div>
             </div>
-            <nav className='nav-sidebar' style={{left: sideBar}}>
-                <div className='nav-div-sidebar'>
+            <nav className='nav-sidebar example' style={{left: sideBar}}>
+                <div className='nav-div-sidebar example'>
                     <Link className='nav-link' to='#'>
                         <AiIcons.AiOutlineClose className='red-icon' onClick={showSidebar}/>
                     </Link>

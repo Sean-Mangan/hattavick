@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Grid,Paper, Avatar, TextField, Button, Alert } from '@mui/material';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 
+axios.defaults.withCredentials = true;
+
 
 const Login=({setLogin,setName})=>{
 
@@ -23,13 +25,12 @@ const Login=({setLogin,setName})=>{
   
     async function login(name){
         try{
-            var response = await axios({
-                method : "post",
-                url: uri,
-                data: {
-                    'name' : name
-                }
+            var response = await axios.post(uri, {'name' : name},
+            {
+                withCredentials: true,
+                headers: { crossDomain: true, 'Content-Type': 'application/json' }
             })
+            console.log(response)
 
             if (response.data.name){
                 setName(response.data.name);

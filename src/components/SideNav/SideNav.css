@@ -16,7 +16,18 @@
     float: left;
 }
 
+.example::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.example {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
 .nav-sidebar{
+    display: none;
     background: #15171c;
     width: 250px;
     height: 100vh;
@@ -26,10 +37,10 @@
     top: 0;
     transition: 350ms;
     z-index: 10;
-    overflow: auto;
 }
 
 .nav-div-sidebar{
+    border: 3px solid green;
     width: 100%;
 }
 
