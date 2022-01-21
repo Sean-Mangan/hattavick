@@ -15,6 +15,10 @@ function App() {
 
   var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
 
+  useEffect(() => {
+    login();
+  },[]);
+
   async function login(){
     try{
       var response = await axios.post(uri, {'name' : name},
@@ -32,8 +36,6 @@ function App() {
         console.log(err)
     }
   }
-
-  login()
 
   const Real_pages = 
     <div>
