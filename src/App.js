@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import MyCharacterStats from './pages/MyCharacterStats/MyCharacterStats';
 import NPCs from './pages/NPCs/NPCs';
 import LoginPage from './pages/Login/login';
+import HomePage from './pages/HomePage/HomePage'
 
 axios.defaults.withCredentials = true;
 
@@ -42,6 +43,7 @@ function App() {
         <Router>
           <SideNav userName={name}/>
           <Routes>
+            <Route path='/' exact element={<HomePage/>}/>
             <Route path='/mycharacter/stats' exact element={<MyCharacterStats/>}/>
             <Route path='/characters/npcs' exact element={<NPCs/>}/>
           </Routes>

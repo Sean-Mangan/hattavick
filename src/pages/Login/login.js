@@ -12,8 +12,6 @@ const Login=({setLogin,setName})=>{
     var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
     const alt = 'background prop'
 
-    const [xCoords, setXCoords] = useState(0)
-    const [yCoords, setYCoords] = useState(0)
     const [errd, setErrd] = useState(false)
 
     const handleSubmit = (event) => {
