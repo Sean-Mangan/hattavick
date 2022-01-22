@@ -23,3 +23,12 @@
   font-variant: small-caps;
   text-transform: lowercase;
 }
+
+* {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}

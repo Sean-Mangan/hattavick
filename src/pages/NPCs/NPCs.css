@@ -1,3 +1,18 @@
-.NPC_title {
+.npc_wrapper {
     text-align: center;
+    height: 100vh;
+}
+
+.npc_title{
+    display: inline-block;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    margin-bottom: 3vh;
+    margin-top: 3vh;
 }
