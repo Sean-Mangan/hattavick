@@ -23,9 +23,9 @@ function HomePage() {
             {(overview) 
                 ?  overview.map((p) => {
                     if (p === overview[overview.length -1]){
-                        return <><br/><p className='homepage_overview bottom'>&emsp;{p}</p><br/><br/></>
+                        return <div key={p}><br/><p className='homepage_overview bottom'>&emsp;{p}</p><br/><br/></div>
                     }else{
-                      return <><p className='homepage_overview'>&emsp;{p}</p><br/></> 
+                      return <div key={p}><p className='homepage_overview'>&emsp;{p}</p><br/></div> 
                     }
                 })
                 : <></>}

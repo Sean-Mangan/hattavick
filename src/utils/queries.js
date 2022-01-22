@@ -21,7 +21,7 @@ export async function get_homepage_data(){
             return false
         }
     }catch (err){
-        console.log("poop")
+        console.log(err)
         return false
     }
 }

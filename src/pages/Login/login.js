@@ -28,7 +28,6 @@ const Login=({setLogin,setName})=>{
                 withCredentials: true,
                 headers: { crossDomain: true, 'Content-Type': 'application/json' }
             })
-            console.log(response)
 
             if (response.data.name){
                 setName(response.data.name);
