@@ -17,7 +17,6 @@ const Login=({setLogin,setName})=>{
     const handleSubmit = (event) => {
         event.preventDefault();
         const nameInput = event.target.name.value;
-        console.log(nameInput)
         login(nameInput);
     };
   
@@ -28,7 +27,6 @@ const Login=({setLogin,setName})=>{
                 withCredentials: true,
                 headers: { crossDomain: true, 'Content-Type': 'application/json' }
             })
-
             if (response.data.name){
                 setName(response.data.name);
                 setLogin(true);
@@ -36,6 +34,7 @@ const Login=({setLogin,setName})=>{
                 setErrd(true);
             }
         }catch (err){
+            setErrd(true);
             console.log(err)
         }
     }
