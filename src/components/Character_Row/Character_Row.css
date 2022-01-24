@@ -101,13 +101,17 @@ span.ripple {
 /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
 @media screen and (max-width: 600px) {
     .character_name{
+        text-align: center;
+        padding-top: 30px;
         letter-spacing: -1px;
         font-size: 4vw;
     }
     .character_header{
-        font-size: 3vw;
+        text-align: center;
+        font-size: 4vw;
     }
     .blurb {
         font-size: min(2.4vw, 1.5vh);
+        display: None;
     }
 }
