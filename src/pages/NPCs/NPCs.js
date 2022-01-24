@@ -1,6 +1,5 @@
 import React, {useState}from 'react';
 import Character_Row from '../../components/Character_Row/Character_Row';
-import { Grid, Hidden } from '@mui/material';
 import Content_Wrapper from '../../components/Content_Wrapper/Content_Wrapper';
 
 import './NPCs.css';
@@ -22,7 +21,7 @@ const USERS = [
 const characters = [
     {
     name: "Mike",
-    icon: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2w7i1r5y3u2q8u2_rono-daniel-empty-profile-picture-icon%2F&psig=AOvVaw1HOr5ILqfgJtFoeBmBWU4X&ust=1642955658244000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCc__XkxfUCFQAAAAAdAAAAABAJ",
+    icon : "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU=",
     title: "Example Title",
     location: "Example location",
     blurb: "This is an example blurb",
@@ -30,15 +29,15 @@ const characters = [
     },
     {
     name: "Meriam",
-    icon: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2w7i1r5y3u2q8u2_rono-daniel-empty-profile-picture-icon%2F&psig=AOvVaw1HOr5ILqfgJtFoeBmBWU4X&ust=1642955658244000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCc__XkxfUCFQAAAAAdAAAAABAJ",
+    icon : "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU=",
     title: "Example Title",
     location: "Example location",
-    blurb: "This is an example blurb",
+    blurb: "This is an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb",
     background: ["blurb1", "blurb2", "blurb3"], 
     },
     {
     name: "Steve",
-    icon: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2w7i1r5y3u2q8u2_rono-daniel-empty-profile-picture-icon%2F&psig=AOvVaw1HOr5ILqfgJtFoeBmBWU4X&ust=1642955658244000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCc__XkxfUCFQAAAAAdAAAAABAJ",
+    icon : "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU=",
     title: "Example Title",
     location: "Example location",
     blurb: "This is an example blurb",
@@ -46,7 +45,7 @@ const characters = [
     },
     {
     name: "Alice",
-    icon: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2w7i1r5y3u2q8u2_rono-daniel-empty-profile-picture-icon%2F&psig=AOvVaw1HOr5ILqfgJtFoeBmBWU4X&ust=1642955658244000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCc__XkxfUCFQAAAAAdAAAAABAJ",
+    icon : "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU=",
     title: "Example Title",
     location: "Example location",
     blurb: "This is an example blurb",
@@ -54,8 +53,7 @@ const characters = [
     },
     {
     name: "Scootie",
-    icon: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.seekpng.com%2Fipng%2Fu2w7i1r5y3u2q8u2_rono-daniel-empty-profile-picture-icon%2F&psig=AOvVaw1HOr5ILqfgJtFoeBmBWU4X&ust=1642955658244000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNCc__XkxfUCFQAAAAAdAAAAABAJ",
-    title: "Example Title",
+    icon : "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU=",
     location: "Example location",
     blurb: "This is an example blurb",
     background: ["blurb1", "blurb2", "blurb3"], 
@@ -105,7 +103,7 @@ function NPCs() {
                     />
                     <div>
                         <br/>
-                        {foundUsers && foundUsers.length > 0 ? (
+                        {foundUsers && foundUsers.length > 0 ?  (
                             foundUsers.map((character) => (<Character_Row key={character.name} character_data={character}/>))) 
                             : (<h3>No results found!</h3>)
                         }
