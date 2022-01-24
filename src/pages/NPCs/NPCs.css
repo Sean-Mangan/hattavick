@@ -2,6 +2,7 @@
     text-align: center;
     display: block;
     position: relative;
+    height: 100vh;
 }
 
 .npc_title{
