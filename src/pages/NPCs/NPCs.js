@@ -28,11 +28,11 @@ const characters = [
     background: ["blurb1", "blurb2", "blurb3"],
     },
     {
-    name: "Meriam",
+    name: "Meriam \"Six-Shot\" Jonstantine",
     icon : "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU=",
     title: "Example Title",
     location: "Example location",
-    blurb: "This is an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb",
+    blurb: "This is an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb an example blurb end",
     background: ["blurb1", "blurb2", "blurb3"], 
     },
     {
