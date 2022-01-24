@@ -27,6 +27,7 @@ function Character_Row({character_data}) {
 
 
     return (
+        <div className='wrapper'>
             <Card variant="outlined" onClick={createRipple} className="row_wrapper button">
                 <div className='icon_wrapper'>
                     <img className='npc_icon' src={character_data.icon} alt="character picture"/>
@@ -37,6 +38,7 @@ function Character_Row({character_data}) {
                     <p className='character_header blurb'>{character_data.blurb}</p>
                 </div>
             </Card>
+        </div>
     )
 }
 

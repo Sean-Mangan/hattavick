@@ -1,6 +1,7 @@
 .npc_wrapper {
     text-align: center;
-    height: 100vh;
+    display: block;
+    position: relative;
 }
 
 .npc_title{
