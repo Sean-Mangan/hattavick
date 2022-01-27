@@ -1,0 +1,33 @@
+.image{
+    width: 100%;
+    height: 20px;
+    padding-bottom: 30px;
+    display: block;
+    margin-top: 0;
+}
+
+.form_container{
+    align-items: center;
+    text-align: center;
+}
+
+h3{
+    padding-top:10px;
+    margin: 0;
+}
+
+.large_text{
+    word-wrap: break-word;
+    word-break: break-all;
+    height: 80px;
+}
+
+.text_area{
+    width: 100%;
+    height: 100px;
+    padding-bottom: 30px;
+    display: block;
+    margin-top: 0;
+    overflow: hidden;
+    resize: vertical;
+}
