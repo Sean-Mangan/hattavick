@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import "./Character_Row.css"
 
@@ -25,19 +26,24 @@ function Character_Row({character_data}) {
         button.appendChild(circle);
       }
 
+      const not_there = "https://media.istockphoto.com/vectors/male-user-icon-vector-id517998264?k=20&m=517998264&s=612x612&w=0&h=pdEwtkJlZsIoYBVeO2Bo4jJN6lxOuifgjaH8uMIaHTU="
+
+
 
     return (
         <div className='wrapper'>
-            <Card variant="outlined" onClick={createRipple} className="row_wrapper button">
-                <div className='icon_wrapper'>
-                    <img className='npc_icon' src={character_data.icon} alt="character picture"/>
-                </div>
-                <div className='npc_data_wrapper'>
-                    <h4 className='character_name'>{character_data.name}</h4>
-                    <h4 className='character_header'>{character_data.location}</h4>
-                    <p className='character_header blurb'>{character_data.blurb}</p>
-                </div>
-            </Card>
+            <Link to={(character_data.name === "unknown") ? '#' : `/character/${character_data.name}`} style={{textDecoration:"none"}}>
+                <Card variant="outlined" onClick={createRipple} className="row_wrapper button">
+                    <div className='icon_wrapper'>
+                        <img className='npc_icon' src={(character_data.icon) ? character_data.icon : not_there} alt="character picture"/>
+                    </div>
+                    <div className='npc_data_wrapper'>
+                        <h4 className='character_name'>{(character_data.name === "unknown") ? 'Unknown Name' : character_data.name}</h4>
+                        <h4 className='character_header'>{(character_data.location) ? character_data.location : "Unknown Location"}</h4>
+                        <p className='character_header blurb'>{(character_data.description)? character_data.description.slice(0,240)+"..." : "You have not met this character yet"}</p>
+                    </div>
+                </Card>
+            </Link>
         </div>
     )
 }

@@ -7,12 +7,16 @@ import MyCharacterStats from './pages/MyCharacterStats/MyCharacterStats';
 import NPCs from './pages/NPCs/NPCs';
 import LoginPage from './pages/Login/login';
 import HomePage from './pages/HomePage/HomePage'
+import Example from "./pages/Example/Example";
+import AdminPage from './pages/AdminPage/AdminPage';
 
 axios.defaults.withCredentials = true;
 
 function App() {
   const [loggedIn, setloggedIn] = useState(false)
   const [name, setName] = useState("")
+
+  //export NODE_OPTIONS=--openssl-legacy-provider
 
   var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/login'
 
@@ -45,6 +49,8 @@ function App() {
             <Route path='/' exact element={<HomePage/>}/>
             <Route path='/mycharacter/stats' exact element={<MyCharacterStats/>}/>
             <Route path='/characters/npcs' exact element={<NPCs/>}/>
+            <Route path='/character/:name' exact element={<Example/>}/>
+            <Route path='/admin' exact element={<AdminPage/>}/>
           </Routes>
         </Router>
       </div>

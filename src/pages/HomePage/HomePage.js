@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {get_homepage_data} from '../../utils/queries'
 import Content_Wrapper from '../../components/Content_Wrapper/Content_Wrapper';
+import { uuid } from 'uuidv4';
 
 
 import './HomePage.css';
@@ -24,9 +25,9 @@ function HomePage() {
                 {(overview) 
                     ?  overview.map((p) => {
                         if (p === overview[overview.length -1]){
-                            return <div key={p}><br/><p className='homepage_overview bottom'>&emsp;{p}</p><br/><br/></div>
+                            return <div key={uuid()}><br/><p className='homepage_overview bottom'>&emsp;{p}</p><br/><br/></div>
                         }else{
-                        return <div key={p}><p className='homepage_overview'>&emsp;{p}</p><br/></div> 
+                        return <div key={uuid()}><p className='homepage_overview'>&emsp;{p}</p><br/></div> 
                         }
                     })
                     : <></>}

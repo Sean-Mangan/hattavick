@@ -25,3 +25,25 @@ export async function get_homepage_data(){
         return false
     }
 }
+
+export async function get_npcpage_data(){
+    try{
+        var response = await axios.post(uri+"api/page",
+        {
+            page : "npcs"
+        },
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data.overview){
+            return response.data.overview
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
