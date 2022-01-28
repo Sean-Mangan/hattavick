@@ -25,8 +25,16 @@ function NPCs() {
                 headers: { crossDomain: true, 'Content-Type': 'application/json' }
             })
             if (response.data){
-                setAllCharacters(response.data);
-                setCharacters(response.data)
+                var ex = []
+                for (var i = 0; i < response.data.length; i++){
+                    if(response.data[i].name === "unknown"){
+                        ex.push(response.data[i])
+                    }else{
+                        ex.unshift(response.data[i])
+                    }
+                }
+                setAllCharacters(ex);
+                setCharacters(ex)
             }
         }catch (err){
             console.log(err)

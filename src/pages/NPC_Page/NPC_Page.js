@@ -57,7 +57,7 @@ function NPC_Page() {
                 <h3 className='notes_title'>Notes</h3>
                 <Paper elevation={10} className='note_content'>
                     <br/>
-                    {((character.available_notes) && (character.available_notes.length >= 1)) 
+                    {((character.available_notes) && (character.available_notes.length >= 1))
                     ?    character.available_notes.map((paragraph)=> (<Typography className='noted'>&emsp;&emsp;{paragraph}</Typography>)) 
                     : <Typography>You do not have any notes on this NPC yet</Typography>}
                     <br/>
