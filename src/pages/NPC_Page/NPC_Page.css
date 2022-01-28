@@ -1,0 +1,67 @@
+.character_title{
+    text-align: center;
+    padding-bottom: 30px;
+    padding-top: 20px;
+}
+
+.character_wrapper{
+    padding-top: 20px;
+    min-height: 100vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    text-align: left;
+}
+
+.desc_wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.desc_text{
+    margin:auto;
+    align-items: center;
+    min-width: 10vw;
+    max-width: 600px;
+}
+
+.noted{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.npc_page_image{
+    float: left;
+    outline: 5px solid black;
+    max-width: 20vw;
+    min-width: 300px;
+    margin-right: 3vw;
+}
+
+.notes_title{
+    padding-top: 30px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 1450px) {
+    .npc_page_image {
+      float:none;
+      margin:auto;
+      align-items: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      margin-bottom: 20px;
+    }
+    .desc_wrapper{
+        display: block;
+    }
+    .desc_text{
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
+    .notes_title{
+        text-align: center;
+    }
+  }

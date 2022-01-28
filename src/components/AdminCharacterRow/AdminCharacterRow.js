@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import "./AdminCharacterRow.css"
 
-function AdminCharacterRow({character}) {
+function AdminCharacterRow({character, reload}) {
 
   var uri = 'https://f12u17d0a5.execute-api.us-east-1.amazonaws.com/dev/api/character'
 
@@ -41,6 +41,7 @@ function AdminCharacterRow({character}) {
           withCredentials: true,
           headers: { crossDomain: true, 'Content-Type': 'application/json' }
       })
+      reload()
     }catch (err){
         console.log(err)
     }
@@ -63,6 +64,7 @@ function AdminCharacterRow({character}) {
           withCredentials: true,
           headers: { crossDomain: true, 'Content-Type': 'application/json' }
       })
+      reload()
     }catch (err){
         console.log(err)
     }

@@ -9,6 +9,7 @@ import LoginPage from './pages/Login/login';
 import HomePage from './pages/HomePage/HomePage'
 import Example from "./pages/Example/Example";
 import AdminPage from './pages/AdminPage/AdminPage';
+import NPC_Page from './pages/NPC_Page/NPC_Page';
 
 axios.defaults.withCredentials = true;
 
@@ -49,7 +50,7 @@ function App() {
             <Route path='/' exact element={<HomePage/>}/>
             <Route path='/mycharacter/stats' exact element={<MyCharacterStats/>}/>
             <Route path='/characters/npcs' exact element={<NPCs/>}/>
-            <Route path='/character/:name' exact element={<Example/>}/>
+            <Route path='/character/:name' exact element={<NPC_Page/>}/>
             <Route path='/admin' exact element={<AdminPage/>}/>
           </Routes>
         </Router>

@@ -45,6 +45,7 @@ function AdminPage() {
           withCredentials: true,
           headers: { crossDomain: true, 'Content-Type': 'application/json' }
       })
+      get_characters()
       }catch (err){
           console.log(err)
       }
@@ -52,12 +53,14 @@ function AdminPage() {
 
   return (
     <Content_Wrapper>
-      <h1 style={{textAlign:"center"}}> NPCS</h1>
-      <form style={{textAlign:'center', paddingBottom:"15px"}} onSubmit={add_character}>
-        Add Character: <input name="name" placeholder="character name" type="text"/>
-        <button type='submit'> Submit </button>
-      </form>
-      {characters.map((character)=> (<AdminCharacterRow character={character}/>))}
+      <div style={{minHeight:"100vh"}}>
+        <h1 style={{textAlign:"center"}}> NPCS</h1>
+        <form style={{textAlign:'center', paddingBottom:"15px"}} onSubmit={add_character}>
+          Add Character: <input name="name" placeholder="character name" type="text"/>
+          <button type='submit'> Submit </button>
+        </form>
+        {characters.map((character)=> (<AdminCharacterRow reload={get_characters} character={character}/>))}
+      </div>
     </Content_Wrapper>
   );
 }
