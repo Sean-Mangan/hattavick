@@ -45,7 +45,7 @@ function NPC_Page() {
             <div className="character_wrapper">
                 <div className='character_title'>
                     <h1 style={{padding: "0", margin:"0"}}>{name}</h1>
-                    <h4 style={{padding: "0", margin:"0"}}>{character.job} - {character.location}</h4>
+                    <h4 style={{padding: "0", margin:"0"}}>{(character.job) ? character.job : "Unknown"} - {(character.location) ? character.location : "Unknown"}</h4>
                 </div>
                 <i>{(character.quote) ? character.quote :""}</i>
                 <div className='desc_wrapper'>
