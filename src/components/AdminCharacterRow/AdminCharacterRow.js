@@ -31,7 +31,6 @@ function AdminCharacterRow({character, reload}) {
   }
 
   const handleDelete = async (event) => {
-    console.log("herhe")
     event.preventDefault();
     var new_data = {"data": {"name" : character.name}}
     console.log(new_data)
