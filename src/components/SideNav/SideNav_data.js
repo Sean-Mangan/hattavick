@@ -19,7 +19,7 @@ export const SideNav_data = [
             },
             {
                 title: 'Backstory',
-                path: '/mycharacter/backstory',
+                path: '/mycharacter',
                 icon: <BiIcons.BiHistory/>,
             }
         ]
