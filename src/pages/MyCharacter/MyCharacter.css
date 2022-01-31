@@ -12,7 +12,8 @@
 .mycharacter_wrapper{
     text-align: center;
     align-items: center;
-    min-height: "100vh"
+    min-height: "100vh";
+    overflow: hidden;
 }
 
 .backstory_title{
@@ -23,17 +24,21 @@
     padding-bottom: 10px;
 }
 
+.description{
+    width:100%;
+    font-size: 18px;
+    border:none;
+    resize: none;
+    font-family: Verdana, Sans-serif;
+    text-align: center;
+    color: black;
+}
+
 .button2{
     margin: 30px;
 }
 
-.edit_button:hover{
-    background-color: black;
-    color: red;
-}
-
 .character_description{
-    padding-top: 30px;
     padding-left: calc(15px + 4vw);
     padding-right: calc(15px + 4vw);
     text-align: center;
@@ -41,22 +46,33 @@
 }
 
 .backstory_wrapper{
-    max-width: 600px;
+    max-width:  600px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px 30px 10px;
     font-size: 18px;
 }
 
+.char_title{
+    border: none;
+    resize: none;
+    font-weight: bold;
+    color: black;
+    font-family: 'Oswald', sans-serif;
+    width: 80%;
+}
+
 .backstory{
     border: none;
     width: 100%;
-    font-size: 16px;
+    font-size: 18px;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
     overflow: scroll;
     resize: none;
+    font-family: Verdana, Sans-serif;
+    color: black;
 }
 
 @media only screen and (max-width: 600px) {

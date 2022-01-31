@@ -25,6 +25,23 @@ export async function get_homepage_data(){
         return false
     }
 }
+export async function get_pc_data(){
+    try{
+        var response = await axios.get(uri+"api/player_character",
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+        if (response.data.player_name){
+            return response.data
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
 
 export async function get_npcpage_data(){
     try{
