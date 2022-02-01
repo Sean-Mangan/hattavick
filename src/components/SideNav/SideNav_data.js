@@ -13,14 +13,14 @@ export const SideNav_data = [
         iconOpened: <RiIcons.RiArrowUpSFill/>,
         subNav: [
             {
-                title: 'Stats',
-                path: '/mycharacter/stats',
-                icon: <IoIcons.IoIosStats/>,
-            },
-            {
                 title: 'Backstory',
                 path: '/mycharacter',
                 icon: <BiIcons.BiHistory/>,
+            },
+            {
+                title: 'My Notes',
+                path: '/mycharacter/notes',
+                icon: <IoIcons.IoIosStats/>,
             }
         ]
     },

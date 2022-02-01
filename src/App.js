@@ -4,6 +4,7 @@ import axios from 'axios';
 import SideNav from './components/SideNav/SideNav';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import NPCs from './pages/NPCs/NPCs';
+import MyNotes from './pages/MyNotes/MyNotes'
 import LoginPage from './pages/Login/login';
 import MyCharacter from './pages/MyCharacter/MyCharacter';
 import HomePage from './pages/HomePage/HomePage'
@@ -50,6 +51,7 @@ function App() {
           <Routes>
             <Route path='/' exact element={<HomePage/>}/>
             <Route path='/mycharacter' exact element={<MyCharacter/>}/>
+            <Route path='/mycharacter/notes' exact element={<MyNotes/>}/>
             <Route path='/characters/npcs' exact element={<NPCs/>}/>
             <Route path='/character/:name' exact element={<NPC_Page/>}/>
             <Route path='/admin' exact element={<AdminPage/>}/>

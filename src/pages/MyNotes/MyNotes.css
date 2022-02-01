@@ -1,0 +1,38 @@
+.notes_title{
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    margin-bottom: 3vh;
+    margin-top: 3vh;
+}
+
+.notes_wrapper{
+    display:block;
+    margin: auto;
+    padding-top: 0;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 800px;
+    text-align: justify;
+}
+
+.notes_description{
+    display:block;
+    margin: auto;
+    padding-top: 30px;
+    padding-left: 2vw;
+    padding-bottom: 30px;
+    padding-right: 2vw;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    max-width: 800px;
+}

@@ -11,7 +11,9 @@ function Content_Wrapper({children}) {
                 <Grid className='side' item  md={3} sm={2} xs={0}/>
             </Hidden>
             <Grid item md={6} sm={8} xs={12}>
+                <div style={{minHeight:"100vh"}}>
                 {children}
+                </div>
             </Grid>
             <Hidden only="xs">
                 <Grid item className='side' md={3} sm={2} xs={0}/>

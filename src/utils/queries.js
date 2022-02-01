@@ -25,6 +25,67 @@ export async function get_homepage_data(){
         return false
     }
 }
+
+export async function create_note(){
+    try{
+        var response = await axios.post(uri+"api/notes",{"title": "New Note","content":"New Note"},
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data.overview){
+            return response.data
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
+
+export async function get_notespage_data(){
+    try{
+        var response = await axios.post(uri+"api/page",
+        {
+            page : "mynotes"
+        },
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data.overview){
+            return response.data.overview
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
+
+export async function get_player_notes(){
+    try{
+        var response = await axios.get(uri+"api/notes",
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data){
+            return response.data
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
+
 export async function get_pc_data(){
     try{
         var response = await axios.get(uri+"api/player_character",
