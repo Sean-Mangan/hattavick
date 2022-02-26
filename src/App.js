@@ -12,6 +12,7 @@ import Example from "./pages/Example/Example";
 import AdminPage from './pages/AdminPage/AdminPage';
 import NPC_Page from './pages/NPC_Page/NPC_Page';
 import AdminPagePage from './pages/AdminPagePage/AdminPagePage';
+import Party from './pages/Party/Party'
 
 axios.defaults.withCredentials = true;
 
@@ -54,6 +55,7 @@ function App() {
             <Route path='/mycharacter/notes' exact element={<MyNotes/>}/>
             <Route path='/characters/npcs' exact element={<NPCs/>}/>
             <Route path='/character/:name' exact element={<NPC_Page/>}/>
+            <Route path='/characters/party' exact element={<Party/>}/>
             <Route path='/admin' exact element={<AdminPage/>}/>
             <Route path='/adminpage' exact element={<AdminPagePage/>}/>
           </Routes>

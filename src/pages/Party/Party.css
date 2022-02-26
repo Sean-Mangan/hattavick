@@ -1,0 +1,30 @@
+.party_title{
+    display: inline-block;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    margin-bottom: 3vh;
+    margin-top: 3vh;
+}
+
+.party_wrapper{
+    text-align: center;
+    align-items: center;
+}
+
+.party_overview{
+    display:block;
+    margin: auto;
+    padding-top: 0;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 800px;
+    text-align: center;
+}

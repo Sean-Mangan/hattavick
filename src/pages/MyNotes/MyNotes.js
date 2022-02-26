@@ -28,7 +28,13 @@ function MyNotes() {
         }
         var notes = await get_player_notes()
         if(notes){
-            setNotes(notes)
+            var new_notes = notes.sort(function(a,b){
+                return new Date(b.last_edit).getTime()  - new Date(a.last_edit).getTime() ;
+              });
+              if(new_notes){
+                setNotes(new_notes);
+              }
+            
         }else{
              console.log("Couldn't get notes")
         }

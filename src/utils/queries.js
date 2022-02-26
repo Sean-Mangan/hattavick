@@ -125,3 +125,26 @@ export async function get_npcpage_data(){
         return false
     }
 }
+
+
+export async function get_party_data(){
+    try{
+        var response = await axios.post(uri+"api/page",
+        {
+            page : "party"
+        },
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data.overview){
+            return response.data.overview
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}

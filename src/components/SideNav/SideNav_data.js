@@ -40,11 +40,6 @@ export const SideNav_data = [
                 title: 'NPC\'s',
                 path: '/characters/npcs',
                 icon: <RiIcons.RiFileTextFill/>,
-            },
-            {
-                title: 'All',
-                path: '/characters/all',
-                icon: <BiIcons.BiAperture/>,
             }
         ]
     },

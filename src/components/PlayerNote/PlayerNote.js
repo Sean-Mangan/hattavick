@@ -89,14 +89,15 @@ function PlayerNote({note, reload}) {
                 key={uuid()}
                 disabled={!editable}/>
                 <Button type="submit" size="small" variant="contained" color="error" style={{marginTop:'20px', textAlign:"right"}}>
-                  {(editable) ? "Save Changes" : "Edit Notes"}
+                  {(editable) ? "Save Changes" : "Edit Note"}
                 </Button>
                 <Button 
                 size="small" 
                 variant="contained" 
                 color="error" 
                 style={{margin:'20px 15px 0px', textAlign:"right"}}
-                onClick={handleDelete}>
+                onClick={handleDelete}
+                disabled={editable}>
                   Delete Note
                 </Button>
           </AccordionDetails>
