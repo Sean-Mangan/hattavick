@@ -7,7 +7,6 @@ import { uuid } from 'uuidv4';
 
 import { Typography, Button } from '@mui/material';
 import PlayerNote from '../../components/PlayerNote/PlayerNote';
-import { textAlign } from '@mui/system';
 
 axios.defaults.withCredentials = true;
 

@@ -1,0 +1,24 @@
+.admin_session_title{
+    display: inline-block;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    margin-bottom: 3vh;
+    margin-top: 3vh;
+}
+.admin_session_wrapper{
+    text-align: center;
+    align-items: center;
+}
+
+.admin_session_row_wrapper{
+    max-width: 600px;
+    align-items: left;
+    margin: auto;
+    margin-top: 3vh;
+}

@@ -148,3 +148,44 @@ export async function get_party_data(){
         return false
     }
 }
+
+export async function get_session_data(){
+    try{
+        var response = await axios.post(uri+"api/page",
+        {
+            page : "sessions"
+        },
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data.overview){
+            return response.data.overview
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
+
+export async function get_sessions(){
+    try{
+        var response = await axios.get(uri+"api/sessions",
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data){
+            return response.data
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}

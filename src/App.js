@@ -9,10 +9,12 @@ import LoginPage from './pages/Login/login';
 import MyCharacter from './pages/MyCharacter/MyCharacter';
 import HomePage from './pages/HomePage/HomePage'
 import Example from "./pages/Example/Example";
+import AdminSessionsPage from './pages/AdminSessions/AdminSessionsPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import NPC_Page from './pages/NPC_Page/NPC_Page';
 import AdminPagePage from './pages/AdminPagePage/AdminPagePage';
 import Party from './pages/Party/Party'
+import SessionPage from './pages/SessionPage/SessionPage';
 
 axios.defaults.withCredentials = true;
 
@@ -58,6 +60,9 @@ function App() {
             <Route path='/characters/party' exact element={<Party/>}/>
             <Route path='/admin' exact element={<AdminPage/>}/>
             <Route path='/adminpage' exact element={<AdminPagePage/>}/>
+            <Route path='/adminpage' exact element={<AdminPagePage/>}/>
+            <Route path='/sessions' exact element={<SessionPage/>}/>
+            <Route path='/adminsessions' exact element={<AdminSessionsPage/>}/>
           </Routes>
         </Router>
       </div>
