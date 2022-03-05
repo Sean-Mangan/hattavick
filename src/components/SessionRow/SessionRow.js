@@ -31,6 +31,7 @@ function SessionRow({session}) {
         </h3>
     </AccordionSummary>
     <AccordionDetails>
+        {(session.date) ? session.date : "no date"}
          {(session.data)
         ? (session.data).map((paragraph) => <p>{paragraph}</p>)
         : <p>Could not find data</p>
