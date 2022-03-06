@@ -26,7 +26,8 @@ function AdminPageRow({reload, page}) {
         event.preventDefault();
         var new_data = {
                 "data": debreaker(event.target.page_data.value),
-                "page" : page.page
+                "page" : page.page,
+                "img" : event.target.image.value
         }
         console.log(new_data)
         try{
@@ -55,7 +56,10 @@ function AdminPageRow({reload, page}) {
         </AccordionSummary>
         <AccordionDetails>
             <form onSubmit={handle_submit}>
+              <h3>Overview:</h3>
                 <textarea  className="text_area" type="text" defaultValue={(page.data) ? breaker(page.data) : ""} name="page_data"/>
+              <h3>Image</h3>
+                <textarea  className="text_area" style={{height:'15px', marginBottom:'10px'}} type="text" defaultValue={(page.img) ? page.img : ""} name="image"/>
                 <button type="submit" value="Submit"> Submit </button>
             </form>
         </AccordionDetails>

@@ -11,24 +11,29 @@ import { uuid } from 'uuidv4';
 function WorldLorePage() {
 
     const [overview, setOverview] = useState(false)
+    const [Image, setImage] = useState(false)
 
     useEffect(async () => {
         var data = await get_worldlore_data()
-        if (data){
-            setOverview(data.data)
+        if (data.overview.data){
+            setOverview(data.overview.data)
         }else{
-            console.log("Can't get homepage data")
+            console.log("Can't get World lore data")
+        }
+        if (data.overview.img){
+            setImage(data.overview.img)
+        }else{
+            console.log("Can't get world lore image")
         }
     }, [])
 
   return (
         <Content_Wrapper>
+            <div style={{textAlign:"center", alignItems:"center"}}>
             <div style={{alignItems:"center", textAlign:'center'}}>
                 <h3 className='lore_title'>World Lore</h3>
             </div>
-            <div className='img_wrapper'>
-                <img className='world_map' src="https://i.imgur.com/usELjfM.png"/>
-            </div>
+            {(Image) ? <div className='img_wrapper'> <img className='h_image' src={Image}/></div> : <></>}
             {(overview) 
                     ?  overview.map((p) => {
                         if (p === overview[overview.length -1]){
@@ -38,6 +43,7 @@ function WorldLorePage() {
                         }
                     })
                     : <></>}
+            </div>
       </Content_Wrapper>
   )
 }

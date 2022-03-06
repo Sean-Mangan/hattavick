@@ -13,8 +13,15 @@
     font-variant: small-caps;
     text-transform: none;
     text-decoration: none;
-    margin-bottom: 3vh;
     margin-top: 3vh;
+}
+
+.img_wrapper {
+    margin: auto;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    max-width: 800px;
+    align-items: center;
 }
 
 .homepage_overview{

@@ -1,5 +1,7 @@
-.world_map {
-    max-width: 800px;
+.h_image {
+    max-width: 90%;
+    margin: auto;
+    align-items: center;
 }
 
 .img_wrapper {
@@ -8,6 +10,7 @@
     margin-bottom: 3vh;
     max-width: 800px;
     align-items: center;
+    height: auto;
 }
 
 .lore_title{

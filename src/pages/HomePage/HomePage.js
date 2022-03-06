@@ -8,11 +8,17 @@ import './HomePage.css';
 
 function HomePage() {
     const [overview, setOverview] = useState(false)
+    const [image, setImage] = useState(false)
 
     useEffect(async () => {
         var data = await get_homepage_data()
-        if (data){
-            setOverview(data.data)
+        if (data.overview.data){
+            setOverview(data.overview.data)
+        }else{
+            console.log("Can't get homepage data")
+        }
+        if (data.overview.img){
+            setImage(data.overview.img)
         }else{
             console.log("Can't get homepage data")
         }
@@ -22,6 +28,7 @@ function HomePage() {
         <Content_Wrapper>
             <div className='homepage_wrapper'>
                 <h3 className='homepage_title'>Welcome to Hattavick</h3>
+                {(image) ? <div className='img_wrapper'><img className='h_image' src={image} /></div> : <></>}
                 {(overview) 
                     ?  overview.map((p) => {
                         if (p === overview[overview.length -1]){

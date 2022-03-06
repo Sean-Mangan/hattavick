@@ -16,7 +16,7 @@ export async function get_homepage_data(){
         })
 
         if (response.data.overview){
-            return response.data.overview
+            return response.data
         }else{
             return false
         }
@@ -38,7 +38,7 @@ export async function get_worldlore_data(){
         })
 
         if (response.data.overview){
-            return response.data.overview
+            return response.data
         }else{
             return false
         }
