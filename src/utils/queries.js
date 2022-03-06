@@ -26,6 +26,28 @@ export async function get_homepage_data(){
     }
 }
 
+export async function get_worldlore_data(){
+    try{
+        var response = await axios.post(uri+"api/page",
+        {
+            page : "world_lore"
+        },
+        {
+            withCredentials: true,
+            headers: { crossDomain: true, 'Content-Type': 'application/json' }
+        })
+
+        if (response.data.overview){
+            return response.data.overview
+        }else{
+            return false
+        }
+    }catch (err){
+        console.log(err)
+        return false
+    }
+}
+
 export async function create_note(){
     try{
         var response = await axios.post(uri+"api/notes",{"title": "New Note","content":"New Note"},

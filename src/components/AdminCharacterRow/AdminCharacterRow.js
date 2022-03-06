@@ -14,7 +14,7 @@ function AdminCharacterRow({character, reload}) {
 
   function breaker(text){
     var result =""
-    for (let i = 0; i < text.length; i++){
+    for (let i = 0; i < text.lengthz; i++){
       result+=text[i]+"\n\n"
     }
     return result

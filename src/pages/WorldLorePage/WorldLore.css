@@ -1,0 +1,24 @@
+.world_map {
+    max-width: 800px;
+}
+
+.img_wrapper {
+    margin: auto;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    max-width: 800px;
+    align-items: center;
+}
+
+.lore_title{
+    display: inline-block;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    margin-top: 3vh;
+}
