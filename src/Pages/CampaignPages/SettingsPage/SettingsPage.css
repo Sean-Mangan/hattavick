@@ -1,0 +1,31 @@
+.settings-wrapper{
+    max-width:1000px;
+    margin: auto;
+    text-align: center;
+    display: block;
+}
+
+.settings-title{
+    margin:auto;
+    width: 80%;
+    display: block;
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.settings-option-label{
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 700;
+    font-size: 24px;
+    padding-top: 2em;
+}
+
+.settings-del-btn-wrap{
+    margin-top: 1em;
+}

@@ -17,6 +17,8 @@ import MyCharacterPage from './Pages/CampaignPages/MyCharacterPage/MyCharacterPa
 import PartyPage from './Pages/CampaignPages/PartyPage/PartyPage';
 import CharacterPage from './Pages/CampaignPages/CharacterPage/CharacterPage';
 import NPCsPage from './Pages/CampaignPages/NPCsPage/NPCsPage';
+import { Settings } from '@mui/icons-material';
+import SettingsPage from './Pages/CampaignPages/SettingsPage/SettingsPage';
 
 
 function App() {
@@ -68,6 +70,7 @@ function App() {
                   <Route element={<ValidateCampaignUser />}>
                     <Route exact element={<CampaignNavBarWrapper campaigns={campaigns} loggedIn={auth?.accessToken}/>} >
                       <Route path="/campaign/:campaignId" exact element={<CampaignHomePage/>}/>
+                      <Route path="/campaign/:campaignId/settings" exact element={<SettingsPage/>}/>
                       <Route path="/campaign/:campaignId/characters/npcs" exact element={<NPCsPage />}/>
                       <Route path="/campaign/:campaignId/characters/mycharacter" exact element={<MyCharacterPage />}/>
                       <Route path="/campaign/:campaignId/characters/party" exact element={<PartyPage />}/>

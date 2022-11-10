@@ -87,7 +87,7 @@ export const Nav_data = [
     },
     {
         title: 'Settings',
-        path: '/settings',
+        path: 'settings',
         icon: <FaIcons.FaGlobeAmericas/>,
         iconClosed: <RiIcons.RiArrowDownSFill/>,
         iconOpened: <RiIcons.RiArrowUpSFill/>,
