@@ -36,7 +36,7 @@ function SettingsPage() {
         if (delCount == 0 ){
             setDelCount(1)
         }else{
-            axiosPrivate.delete(`leave/${campaignId}`)
+            axiosPrivate.post(`campaign/leave/${campaignId}`)
             .then(() => {window.location.href="/"})
             .catch((err) => setErr(err?.response?.data?.error))
         }
