@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import "./JoinPage.css"
 
-function JoinPage() {
+function JoinPage({reload}) {
 
     const {campaign_id} = useParams();
     const axiosPrivate = useAxiosPrivate();
@@ -24,9 +24,8 @@ function JoinPage() {
     const join_campaign = () => {
       axiosPrivate.post(`/campaign/join/${campaign_id}`).then((resp) => {
           setCampaign (resp.data)
-          console.log(resp)
+          window.location.href="/"
       }).catch((err) => {
-          console.log(err)
           SetErr(err.response.data.error)
       })
   }

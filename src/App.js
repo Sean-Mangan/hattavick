@@ -55,7 +55,7 @@ function App() {
                 <Route path="*" exact element={<HomePage/>}/>
                 <Route exact element={<PersistLogin/>}>
                   <Route element={<RequireAuth/>}>
-                    <Route path="/join/:campaign_id" exact element={<JoinPage/>}/>
+                    <Route path="/join/:campaign_id" exact element={<JoinPage reload={get_campaigns}/>}/>
                     <Route path="/create" exact element={<CreateCampaignPage campaign_refresh={get_campaigns}/>}/>
                   </Route>
                 </Route>
