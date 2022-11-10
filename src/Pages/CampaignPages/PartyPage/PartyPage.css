@@ -1,0 +1,94 @@
+.party-title{
+    margin:auto;
+    display: block;
+    text-align: center;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    margin-bottom: 3vh;
+}
+
+.character-party-wrapper{
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-bottom: 1em;
+    padding: 1em;
+    transition: all .5s;
+    height: 30vh;
+    overflow-y: scroll;
+}
+
+.character-party-wrapper:hover{
+    background-color: rgba(255,0,0,.1);
+    transition: all .5s;
+}
+
+.char-name-title{
+    display: block;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 24px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.title-img-wrapper{
+    text-align: center;
+}
+
+.title-desc-wrapper{
+    text-align: center;
+    height: calc(100% - 4em);
+    padding: 2em
+}
+
+.title-desc-text{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.char-img-wrapper{
+    height: calc(30vh - 3em);
+    margin-top: 0.5em;
+}
+
+.char-party-img{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 15px;
+    max-width: 100%;
+    display: block;
+    margin: auto;
+    height: 100%;
+    align-items: center;
+    object-fit: contain;
+}
+
+@media only screen and (max-width: 900px) {
+    .character-party-wrapper{
+        height: 60vh;
+        overflow: hidden;
+    }
+    .title-desc-wrapper{
+        height: 21.8vh;
+        padding-left: 5vw;
+        padding-right: 5vw;
+        padding-top: 1.5em;
+        padding-bottom: 1.5em;
+        overflow: hidden;
+    }
+    .title-desc-text{
+        position: relative;
+        display: block;
+        top: 0;
+        transform: none;
+    }
+}

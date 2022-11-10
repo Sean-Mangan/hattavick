@@ -1,0 +1,75 @@
+.home_wrapper{
+	margin: auto;
+	max-width: 80%;
+	text-align: center;
+}
+
+.home_image{
+	max-width: 40vw;
+	border-radius: 25px;
+	height: auto;
+	object-fit: contain;
+}
+
+.home_content{
+	text-align: left;
+	display: flex;
+}
+
+.home_outline_wrapper{
+	margin-left: 3rem;
+	margin-top: 20vh;
+	margin-bottom: 20vh;
+	width: 35vw;
+	padding-top: 2rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	text-align: center;
+	border-radius: 25px;
+}
+
+.home_outline_text{
+	font-size: 30px;
+}
+
+.main_changelog{
+	padding-top: 0.5rem;
+	padding-bottom: 2rem;
+	padding-right: 10vw;
+	padding-left: 10vw;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+
+@media only screen and (max-width: 1024px){
+	.home_content{
+		text-align: left;
+		display: block;
+	}
+	.home_wrapper{
+		width: 95%
+	}
+	.home_image{
+		max-width: 100%;
+	}
+	.home_outline_wrapper{
+		margin-left: 0;
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+		padding-bottom: 1rem;
+		padding-top: 2rem;
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+	}
+	.main_changelog{
+		margin-top: 0;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+	.home_outline_text{
+		font-size: 24px;
+	}
+}
+

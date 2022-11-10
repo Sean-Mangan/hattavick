@@ -1,0 +1,104 @@
+.nav-content {
+    background: black;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.nav-link{
+    margin-left: 2rem;
+    font-size: 2rem;
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    float: left;
+}
+
+.example::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+.example {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+.nav-sidebar{
+    display: none;
+    background-color: rgba(0,0,0,01);;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    transition: 350ms;
+    z-index: 10;
+    border-radius: 15px;
+    max-height:100vh;
+    overflow-y:scroll;
+}
+
+.nav-div-close-wrapper{
+    padding-left: 150px;
+    text-align: right;
+    justify-content: end;
+}
+
+.nav-div-sidebar{
+    width: 100%;
+}
+
+.title_wrapper{
+    width:80%;
+    text-align: left;
+}
+
+.red-title{
+    display: inline-block;
+    color: red;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 60px;
+    letter-spacing: -4px;
+    word-spacing: 0.2px;
+    font-weight: 700;
+    font-variant: small-caps;
+    text-transform: none;
+    text-decoration: none;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.red-title:hover{
+    color:#15171c;
+    transition: all .3s;
+    text-shadow: 5px -1px 3px #ff0000;
+}
+
+.red-icon{
+    color: red;
+    -webkit-transition: all .1s;
+    transition: all .1s;
+}
+
+.red-icon:hover{
+    transform: scale(1.3);
+    transition: all .1s;
+}
+
+.menu_wrapper {
+    padding-top: 80px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .nav-content{
+        padding: 0 1rem;
+    }
+    .red-title{
+        font-size: min(14vw, 60px);
+    }
+}
