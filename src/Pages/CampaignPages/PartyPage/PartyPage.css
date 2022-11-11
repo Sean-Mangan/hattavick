@@ -20,7 +20,7 @@
     padding: 1em;
     transition: all .5s;
     height: 30vh;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .character-party-wrapper:hover{
