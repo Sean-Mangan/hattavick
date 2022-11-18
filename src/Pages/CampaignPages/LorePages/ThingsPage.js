@@ -282,7 +282,7 @@ function ThingsPage() {
                                 <div className='selected-wrapper'>
                                     <img 
                                     className="selected-image" 
-                                    src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f22c124e-bb2d-4807-800c-ef4cac38b51e/dddq7o6-55b4b3f7-4331-46a2-b959-90c25434fec8.jpg/v1/fill/w_1024,h_1024,q_75,strp/dnd_inventory_update_by_oixxo_dddq7o6-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTAyNCIsInBhdGgiOiJcL2ZcL2YyMmMxMjRlLWJiMmQtNDgwNy04MDBjLWVmNGNhYzM4YjUxZVwvZGRkcTdvNi01NWI0YjNmNy00MzMxLTQ2YTItYjk1OS05MGMyNTQzNGZlYzguanBnIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.Fx2_gZVpZbwUP8IolBKcm3hIBA88KxcSY4LeToJMCt0"
+                                    src="http://2.bp.blogspot.com/-xO9D2WKjLLQ/UYIUEicQ-MI/AAAAAAAABPA/21NOtHcqqak/s1600/prophet+inventory.png"
                                     />
                                     <div className='lore-about'>
                                         Here be stored information on items of interest; magical items recently discovered, cursed items with an unknown effect, amongst other useful pieces of information.
