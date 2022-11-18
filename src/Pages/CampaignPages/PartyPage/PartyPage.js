@@ -35,7 +35,7 @@ function PartyPage() {
                         <Grid item xs={12} md={6}>
                             <div className='title-img-wrapper'>
                                 <div className='char-name-title'>
-                                    {character.character_name}
+                                    {character.name}
                                 </div>
                                 <div className='char-img-wrapper'>
                                     <img alt="" className="char-party-img" src={character.image} />
@@ -67,7 +67,7 @@ function PartyPage() {
                             <Grid item xs={12} md={6}>
                                 <div className='title-img-wrapper'>
                                     <div className='char-name-title'>
-                                    {character.character_name}
+                                    {character.name}
                                     </div>
                                     <div className='char-img-wrapper'>
                                         <img alt="" className="char-party-img" src={character.image} />
@@ -79,7 +79,7 @@ function PartyPage() {
                             <Grid item xs={12} md={6}>
                                 <div className='title-img-wrapper'>
                                     <div className='char-name-title'>
-                                        {character.character_name}
+                                        {character.name}
                                     </div>
                                     <div className='char-img-wrapper'>
                                         <img alt="" className="char-party-img" src={character.image} />
