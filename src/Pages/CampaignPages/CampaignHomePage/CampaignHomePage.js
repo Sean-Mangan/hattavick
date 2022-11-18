@@ -4,10 +4,9 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import "./CampaignHomePage.css"
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, TextField } from '@mui/material';
+import { Button} from '@mui/material';
 import { SaveOutlined } from '@mui/icons-material';
 import { TextareaAutosize } from '@mui/material';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 function CampaignHomePage() {
 
@@ -24,7 +23,7 @@ function CampaignHomePage() {
     const get_home_data = () => {
       axiosPrivate.get(`${campaignId}/pages/home`)
         .then((resp) => {setHomeData(resp?.data); setImg(resp?.data?.img)})
-        .catch((err) => {setErr(err?.response?.data?.error)})
+        .catch((err) => {setErr(err?.response?.data?.error); alert(err)})
     }
 
     const handleSubmit = (e) => {
@@ -52,7 +51,6 @@ function CampaignHomePage() {
     const handleChange = event => {
       const fileUploaded = event.target.files[0];
       setHomeData({...homeData, img: fileUploaded})
-      console.log(fileUploaded)
     };
 
     const handleClick = event => {
@@ -61,7 +59,6 @@ function CampaignHomePage() {
 
     useEffect((() => {
       get_home_data();
-
     }), [])
 
   return (

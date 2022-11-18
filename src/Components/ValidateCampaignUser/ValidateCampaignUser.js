@@ -1,6 +1,4 @@
-import { json, Outlet, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import useRefreshToken from "../../hooks/useRefreshToken";
+import { Outlet, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const ValidateCampaignUser = () => {

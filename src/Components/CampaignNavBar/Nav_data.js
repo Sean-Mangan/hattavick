@@ -66,24 +66,11 @@ export const Nav_data = [
         ]
     },
     {
-        title: 'Notes',
-        path: '#',
+        title: 'Sessions',
+        path: 'notes/sessions',
         icon: <FaIcons.FaBattleNet/>,
         iconClosed: <RiIcons.RiArrowDownSFill/>,
         iconOpened: <RiIcons.RiArrowUpSFill/>,
-        subNav: [
-            {
-                title: 'My Notes',
-                path: 'notes/mynotes',
-                icon: <IoIcons.IoIosStats/>,
-            },
-            {
-                title: 'Sessions',
-                path: 'notes/sessions',
-                icon: <FaIcons.FaStickyNote/>,
-            }
-
-        ]
     },
     {
         title: 'Settings',

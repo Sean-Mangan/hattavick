@@ -21,7 +21,6 @@
 
 .main_nav_wrapper{
     display: flex;
-    align-items: center;
     justify-content: space-between;
     height: 80px;
     padding: 0 2rem;

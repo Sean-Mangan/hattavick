@@ -46,7 +46,7 @@ function NPCsPage() {
       setName(keyword);
     };
 
-    useEffect(()=>{get_npcs()}, [])
+    useEffect(()=>{get_npcs()},[])
 
     const CharacterRow = ({char}) => {
         return(

@@ -19,6 +19,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.52.2",
+    "uuid": "^9.0.0",
     "uuid4": "^2.0.2",
     "uuidv4": "^6.2.13",
     "web-vitals": "^2.1.4"

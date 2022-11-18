@@ -6,31 +6,39 @@ import "./JoinPage.css"
 
 function JoinPage({reload}) {
 
-    const {campaign_id} = useParams();
-    const axiosPrivate = useAxiosPrivate();
-    const [campaign, setCampaign] = useState({});
-    const [err, SetErr] = useState("")
+  const {campaign_id, invite_id} = useParams();
+  const axiosPrivate = useAxiosPrivate();
+  const [campaign, setCampaign] = useState({});
+  const [err, SetErr] = useState("")
 
-    const get_campaign_data = () => {
-        axiosPrivate.get(`/campaign/${campaign_id}`).then((resp) => {
-            setCampaign (resp.data)
-            console.log(resp)
-        }).catch((err) => {
-            console.log(err)
-            SetErr(err.response.data.error)
-        })
-    }
-
-    const join_campaign = () => {
-      axiosPrivate.post(`/campaign/join/${campaign_id}`).then((resp) => {
+  const get_campaign_data = () => {
+      axiosPrivate.get(`/campaign/${campaign_id}`).then((resp) => {
           setCampaign (resp.data)
-          window.location.href="/"
       }).catch((err) => {
+          console.log(err)
           SetErr(err.response.data.error)
       })
   }
 
-    useEffect(() => get_campaign_data(),[])
+  const join_campaign_via_link = () => {
+    axiosPrivate.post(`/campaign/join/${campaign_id}/${invite_id}`).then((resp) => {
+      setCampaign (resp.data)
+      window.location.href="/"
+    }).catch((err) => {
+        SetErr(err.response.data.error)
+    })
+  }
+
+  const join_campaign = () => {
+    axiosPrivate.post(`/campaign/join/${campaign_id}`).then((resp) => {
+        setCampaign (resp.data)
+        window.location.href="/"
+    }).catch((err) => {
+        SetErr(err.response.data.error)
+    })
+  }
+
+  useEffect(() => {(invite_id) ? join_campaign_via_link() : get_campaign_data()},[])
 
   return (
     <>
@@ -44,7 +52,7 @@ function JoinPage({reload}) {
           <div className="join_wrapper">
             <h1>Oops, an error occured</h1>
             <h3>{err}</h3>
-            <a>Try again, or ask an admin to re-invite you to the campaign</a>
+            <div>Try again, or ask an admin to re-invite you to the campaign</div>
           </div>
       }
     </>

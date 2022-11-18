@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from "react";
 import {Link} from 'react-router-dom';
-import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import Nav_data from "./Nav_data";
 import SubMenu from "../SubMenu/SubMenu";

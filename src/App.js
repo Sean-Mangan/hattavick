@@ -17,9 +17,13 @@ import MyCharacterPage from './Pages/CampaignPages/MyCharacterPage/MyCharacterPa
 import PartyPage from './Pages/CampaignPages/PartyPage/PartyPage';
 import CharacterPage from './Pages/CampaignPages/CharacterPage/CharacterPage';
 import NPCsPage from './Pages/CampaignPages/NPCsPage/NPCsPage';
-import { Settings } from '@mui/icons-material';
 import SettingsPage from './Pages/CampaignPages/SettingsPage/SettingsPage';
 import WorldLorePage from './Pages/CampaignPages/WorldLorePage/WorldLorePage';
+import FactionsPage from './Pages/CampaignPages/LorePages/FactionsPage';
+import LocationsPage from './Pages/CampaignPages/LorePages/LocationsPage';
+import ThingsPage from './Pages/CampaignPages/LorePages/ThingsPage';
+import SessionsPage from './Pages/CampaignPages/SessionsPage/SessionsPage';
+import Contact from './Pages/ContactPage/contact';
 
 
 function App() {
@@ -31,7 +35,7 @@ function App() {
 
     useEffect(() => {
       get_campaigns()
-    },[])
+    }, [])
 
     const get_campaigns = () => {
         axiosPrivate.get("/campaign").then((resp) => {
@@ -53,10 +57,12 @@ function App() {
               <Route exact element={<HomeNavWrapper campaigns={campaigns} loggedIn={auth?.accessToken}/>} >
                 <Route path="/login" exact element={<LoginPage reload={get_campaigns}/>}/>
                 <Route path='/reset/:reset_id' exact element={<PasswordReset/>}/>
+                <Route path='/contact' exact element={<Contact />}/>
                 <Route path="*" exact element={<HomePage/>}/>
                 <Route exact element={<PersistLogin/>}>
                   <Route element={<RequireAuth/>}>
                     <Route path="/join/:campaign_id" exact element={<JoinPage reload={get_campaigns}/>}/>
+                    <Route path="/join/:campaign_id/:invite_id" exact element={<JoinPage reload={get_campaigns}/>}/>
                     <Route path="/create" exact element={<CreateCampaignPage campaign_refresh={get_campaigns}/>}/>
                   </Route>
                 </Route>
@@ -77,6 +83,10 @@ function App() {
                       <Route path="/campaign/:campaignId/characters/mycharacter" exact element={<MyCharacterPage />}/>
                       <Route path="/campaign/:campaignId/characters/party" exact element={<PartyPage />}/>
                       <Route path="/campaign/:campaignId/characters/:pc/:characterId" exact element={<CharacterPage />}/>
+                      <Route path="/campaign/:campaignId/lore/factions" exact element={<FactionsPage/>}/>
+                      <Route path="/campaign/:campaignId/lore/locations" exact element={<LocationsPage />}/>
+                      <Route path="/campaign/:campaignId/lore/things" exact element={<ThingsPage/>}/>
+                      <Route path="/campaign/:campaignId/notes/sessions" exact element={<SessionsPage />}/>
                     </Route>
                   </Route>
                 </Route>

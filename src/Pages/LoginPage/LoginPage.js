@@ -91,7 +91,6 @@ function LoginPage({reload}) {
             withCredentials: true,
             headers: {crossDomain: true}
           }).then((res) => {
-            console.log(res)
             const access_token = res?.data?.accessToken
             const email = loginData.email
             const pwd = loginData.password

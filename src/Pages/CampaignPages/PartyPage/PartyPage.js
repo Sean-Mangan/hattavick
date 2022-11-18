@@ -3,6 +3,7 @@ import "./PartyPage.css"
 import { Link, useParams } from 'react-router-dom';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { Grid, Hidden, Paper } from '@mui/material';
+import {v4} from "uuid";
 
 function PartyPage() {
 
@@ -22,13 +23,13 @@ function PartyPage() {
 
     useEffect(()=>{
         get_party_data();
-    },[])
+    }, [])
 
     const CharacterRow = ({character, idx}) =>{
         return (
         <Paper elevation={12} className="character-party-wrapper">
             <Grid container>
-                {(idx%2 == 0)
+                {(idx%2 === 0)
                 ?
                     <>
                         <Grid item xs={12} md={6}>
@@ -37,7 +38,7 @@ function PartyPage() {
                                     {character.character_name}
                                 </div>
                                 <div className='char-img-wrapper'>
-                                    <img className="char-party-img" src={character.image} />
+                                    <img alt="" className="char-party-img" src={character.image} />
                                 </div>
                             </div>
                         </Grid>
@@ -69,7 +70,7 @@ function PartyPage() {
                                     {character.character_name}
                                     </div>
                                     <div className='char-img-wrapper'>
-                                        <img className="char-party-img" src={character.image} />
+                                        <img alt="" className="char-party-img" src={character.image} />
                                     </div>
                                 </div>
                             </Grid>
@@ -81,7 +82,7 @@ function PartyPage() {
                                         {character.character_name}
                                     </div>
                                     <div className='char-img-wrapper'>
-                                        <img className="char-party-img" src={character.image} />
+                                        <img alt="" className="char-party-img" src={character.image} />
                                     </div>
                                 </div>
                             </Grid>
@@ -108,8 +109,8 @@ function PartyPage() {
             Party
         </div>
         {charData.map((char, idx) => 
-            <Link style={{textDecoration:"None"}} to={(char.character_id) ? `/campaign/${campaignId}/characters/pc/${char.character_id}` : "#"}>
-                <CharacterRow key={char.image} character={char} idx={idx}/>
+            <Link key={v4()} style={{textDecoration:"None"}} to={(char.character_id) ? `/campaign/${campaignId}/characters/pc/${char.character_id}` : "#"}>
+                <CharacterRow key={v4()} character={char} idx={idx}/>
             </Link>)
         }
     </div>

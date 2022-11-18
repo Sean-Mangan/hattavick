@@ -55,7 +55,6 @@ function MyCharacterPage() {
     const handleChange = event => {
       const fileUploaded = event.target.files[0];
       setCharData({...charData, image: fileUploaded})
-      console.log(fileUploaded)
     };
 
     const handleClick = event => {
@@ -64,7 +63,7 @@ function MyCharacterPage() {
 
     useEffect((() => {
       get_character_data();
-    }), [])
+    }),[])
 
   return (
     <div className='pc-wrapper'>

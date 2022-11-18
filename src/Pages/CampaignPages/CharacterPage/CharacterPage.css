@@ -181,6 +181,10 @@
     max-height: fit-content !important;
 }
 
+.close-btn-wrap{
+    display: none
+}
+
 
 @media only screen and (max-width: 900px) {
     .char-page-btn-wrapper{
@@ -207,5 +211,18 @@
         width: 100%;
         -ms-transform: none;
         transform: none;
+    }
+
+    .show-right{
+        left: 0 !important
+    }
+    .close-btn{
+        font-size: 1em !important;
+    }
+
+    .close-btn-wrap{
+        display: block;
+        width: 100%;
+        text-align: right;
     }
 }

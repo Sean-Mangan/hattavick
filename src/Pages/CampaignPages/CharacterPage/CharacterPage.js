@@ -65,7 +65,6 @@ function CharacterPage() {
     const handleChange = event => {
       const fileUploaded = event.target.files[0];
       setCharData({...charData, image: fileUploaded})
-      console.log(fileUploaded)
     };
 
     const handleClick = event => {

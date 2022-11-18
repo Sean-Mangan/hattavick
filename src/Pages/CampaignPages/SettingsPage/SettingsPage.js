@@ -10,6 +10,7 @@ function SettingsPage() {
     const [delCount, setDelCount] = useState(0)
     const [err, setErr] = useState("")
     const [inviteEmail, setInviteEmail] = useState("")
+    const [inviteLink, setInviteLink] = useState("")
 
     const {auth} = useAuth()
     const {campaignId} = useParams()
@@ -22,7 +23,7 @@ function SettingsPage() {
                             : "player"
 
     const handleDelete = () => {
-        if (delCount == 0 ){
+        if (delCount === 0 ){
             setDelCount(1)
         }else{
             axiosPrivate.delete(`campaign/${campaignId}`)
@@ -32,8 +33,14 @@ function SettingsPage() {
         }
     }
 
+    const get_invite_link = () => {
+        axiosPrivate.post(`campaign/invite/${campaignId}/link`)
+            .then((resp) => {setInviteLink(resp?.data?.url)})
+            .catch((err) => setErr(err?.response?.data?.error))
+    }
+
     const handleLeave = () => {
-        if (delCount == 0 ){
+        if (delCount === 0 ){
             setDelCount(1)
         }else{
             axiosPrivate.post(`campaign/leave/${campaignId}`)
@@ -56,7 +63,7 @@ function SettingsPage() {
             ? 
                 <div>
                     <form onSubmit={(e) => handleInvite(e)}>
-                        <div className='settings-option-label'>Player Invite:</div>
+                        <div className='settings-option-label'>Email Invite:</div>
                         <TextField 
                             sx={{width:"100%"}}
                             value={inviteEmail} 
@@ -70,28 +77,38 @@ function SettingsPage() {
                             style={{marginTop:"0.5em"}}
                             value="Send Invite">Send Invite</Button>
                     </form>
+                    <div className='settings-option-label'>Link Invite:</div>
+                    {(inviteLink !== "")
+                    ?
+                        <TextField 
+                        sx={{width:"100%"}}
+                        value={inviteLink} 
+                        onChange={(e) => null} 
+                        />
+                    : <></>}
+                    <Button variant="contained" onClick={()=>get_invite_link()}>Generate Invite Link</Button>
                 </div>
             : <></>
         }
-        {(permission == "owner")
+        {(permission === "owner")
             ? <div className='settings-del-btn-wrap'>
                 <div className='settings-option-label'>Delete Campaign:</div>
                 <Button onClick={() => handleDelete()}
                 variant="contained" 
                 style={{marginTop:"0.5em"}}
                 color="error">
-                    {(delCount == 0) ? "Delete Campaign" : "Are You Sure?"}
+                    {(delCount === 0) ? "Delete Campaign" : "Are You Sure?"}
                 </Button></div>
             : <></>
         }
-        {(permission == "player")
+        {(permission === "player")
             ? <div className='settings-del-btn-wrap'>
                 <div className='settings-option-label'>Leave Campaign:</div>
                 <Button onClick={() => handleLeave()}
                 variant="contained" 
                 style={{marginTop:"0.5em"}}
                 color="error">
-                    {(delCount == 0) ? "Leave Campaign" : "Are You Sure?"}
+                    {(delCount === 0) ? "Leave Campaign" : "Are You Sure?"}
                 </Button></div>
             : <></>
         }
