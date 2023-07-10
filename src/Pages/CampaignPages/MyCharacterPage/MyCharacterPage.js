@@ -1,38 +1,50 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import "./MyCharacterPage.css"
 import EditIcon from '@mui/icons-material/Edit';
 import { Button, Grid, Paper} from '@mui/material';
 import { SaveOutlined } from '@mui/icons-material';
 import { TextareaAutosize } from '@mui/material';
+import { useGetMyCharacterDataQuery, useUpdateMyCharacterMutation } from '../../../features/campaign/campaignApiSlice';
 
 function MyCharacterPage() {
 
-    const [charData, setCharData] = useState({image:"", backstory: "", description: "", public:"", name: ""})
-    const [img, setImg] = useState("")
-    const [err, setErr] = useState("")
+    // Grab dat campaign id and other info
+    const {campaignId} = useParams()
+
+    // Get all them datas
+    const {data: myChar, isLoading: myCharLoading, isSuccess: myCharSuccess , isError: myCharError} = useGetMyCharacterDataQuery(campaignId)
+    
+    // State Vars for character, img and editability
+    const [charData, setCharData] = useState(myChar)
+    const [img, setImg] = useState(charData?.image)
     const [editMode, setEditMode] = useState(false)
 
-    const {auth} = useAuth();
-    const {campaignId} = useParams()
-    const axiosPrivate = useAxiosPrivate()
+    // Mutation for handling character updates
+    const [updateMyCharacter] = useUpdateMyCharacterMutation({fixedCacheKey: 'update-my-char'})
 
-
+    // Button for selecting a character image
     const hiddenCharacterFileInput = React.useRef(null);
-    const get_character_data = () => {
-      axiosPrivate.get(`${campaignId}/characters/mycharacter`)
-        .then((resp) => {setCharData(resp?.data); setImg(resp?.data?.image)})
-        .catch((err) => {setErr(err?.response?.data?.error)})
+    const handleChange = event => {
+      const fileUploaded = event.target.files[0];
+      setCharData({...charData, image: fileUploaded})
+      setImg(URL.createObjectURL(fileUploaded))
+    };
+    const handleClick = event => {
+      hiddenCharacterFileInput.current.click();
     }
 
-    const handleSubmit = (e) => {
+    /**
+     * Will handle the update for the current character.
+     * @param {*} e 
+     */
+    const handleSubmit = async (e) => {
       e.preventDefault()
 
       // Add the new image to the form if it changed
       const form_data = new FormData()
-      if (charData.img !== img){
+      const updateImage = charData.image !== img
+      if (updateImage){
         form_data.append("image", charData.image)
       }
       form_data.append("campaign_name", charData.name)
@@ -41,29 +53,15 @@ function MyCharacterPage() {
       form_data.append("public", charData.public)
       form_data.append("name", charData.name)
 
-      // Send the new name, overview and image to the server
-      axiosPrivate.post(`${campaignId}/characters/mycharacter`, form_data)
-        .then((resp) => {
-          get_character_data();
-          setEditMode(!editMode)
-        })
-        .catch((err) => {
-          setErr(err?.response?.data?.error)
-        })
+
+      // Attempt to perform the update
+      try{
+        await updateMyCharacter({formData: form_data, id:campaignId}).unwrap()
+        setEditMode(!editMode)
+        if (updateImage) setImg(URL.createObjectURL(charData.image))
+      } catch (err){
+      }
     };
-
-    const handleChange = event => {
-      const fileUploaded = event.target.files[0];
-      setCharData({...charData, image: fileUploaded})
-    };
-
-    const handleClick = event => {
-      hiddenCharacterFileInput.current.click();
-    }
-
-    useEffect((() => {
-      get_character_data();
-    }),[])
 
   return (
     <div className='pc-wrapper'>

@@ -1,65 +1,91 @@
 import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { axiosPrivate } from '../../../api/axios'
-import useAuth from '../../../hooks/useAuth'
+import {useNavigate, useOutletContext} from 'react-router-dom'
 import "./SettingsPage.css"
+import { useDeleteCampaignMutation, useGetInviteLinkMutation, useLeaveCampaignMutation, useSendInviteMutation, } from '../../../features/campaign/campaignApiSlice'
 
 function SettingsPage() {
 
+    // Grab some perms from the context
+    const {campaignId, isOwner, isAdmin} = useOutletContext()
+
+    // Some RTK query hooks
+    const [deleteCampaign] = useDeleteCampaignMutation({fixedCacheKey: 'delete-campaign'})
+    const [getInviteLink] = useGetInviteLinkMutation({fixedCacheKey: 'get-invite'})
+    const [leaveCampaign] = useLeaveCampaignMutation({fixedCacheKey: 'leave-campaign'})
+    const [sendInvite] = useSendInviteMutation({fixedCacheKey: 'send-invite'})
+
+    // Navigation for successful deletion
+    const navigate = useNavigate()
+
+    // Some helpful state vars
     const [delCount, setDelCount] = useState(0)
-    const [err, setErr] = useState("")
     const [inviteEmail, setInviteEmail] = useState("")
     const [inviteLink, setInviteLink] = useState("")
 
-    const {auth} = useAuth()
-    const {campaignId} = useParams()
 
-    const perms = auth.permissions
-    const permission = (perms.owner.includes(campaignId)) 
-                        ? "owner" 
-                        : (perms.admin.includes(campaignId)) 
-                            ? "admin" 
-                            : "player"
-
-    const handleDelete = () => {
+    /**
+     * Will iterate the delete count or delete
+     * @returns 
+     */
+    const handleDelete = async () => {
         if (delCount === 0 ){
             setDelCount(1)
-        }else{
-            axiosPrivate.delete(`campaign/${campaignId}`)
-            .then(() => {window.location.href="/"})
-            .catch((err) => setErr(err?.response?.data?.error))
-            .finally(()=> setDelCount(0))
+            return
+        }
+
+        // Attempt to delete the campaign
+        try{
+            await deleteCampaign(campaignId).unwrap()
+            navigate("/")
+        }catch (e){
+            alert(e.data.error)
         }
     }
 
-    const get_invite_link = () => {
-        axiosPrivate.post(`campaign/invite/${campaignId}/link`)
-            .then((resp) => {setInviteLink(resp?.data?.url)})
-            .catch((err) => setErr(err?.response?.data?.error))
-    }
-
-    const handleLeave = () => {
-        if (delCount === 0 ){
-            setDelCount(1)
-        }else{
-            axiosPrivate.post(`campaign/leave/${campaignId}`)
-            .then(() => {window.location.href="/"})
-            .catch((err) => setErr(err?.response?.data?.error))
+    /**
+     * Will attempt to get an invite link to share
+     */
+    const get_invite_link = async () => {
+        try{
+            const result = await getInviteLink(campaignId).unwrap()
+            setInviteLink(result.url)
+        }catch (e){
         }
     }
 
-    const handleInvite = (e) => {
+    /**
+     * Will attempt to have the user leave the given campaign
+     */
+    const handleLeave = async() => {
+        if (delCount === 0 ){
+            setDelCount(1)
+            return
+        }
+        try{
+            await leaveCampaign(campaignId).unwrap()
+            navigate("/")
+        } catch (e) {
+        }
+    }
+
+    /**
+     * Will attempt to send a player invite
+     * @param {*} e 
+     */
+    const handleInvite = async(e) => {
         e.preventDefault()
-        axiosPrivate.post(`campaign/invite/${campaignId}`, {invite_address: inviteEmail})
-            .then(() => {alert("Successfully invited this player"); setInviteEmail("")})
-            .catch((err) => setErr(err?.response?.data?.error))
+        try{
+            await sendInvite({campaignId, formData: {invite_address: inviteEmail}}).unwrap()
+            alert("Successfully sent invite invite email")
+        }catch(e){
+        }
     }
 
   return (
     <div className='settings-wrapper'>
         <div className='settings-title'>Settings</div>
-        {(["owner", "admin"].includes(permission))
+        {(isAdmin)
             ? 
                 <div>
                     <form onSubmit={(e) => handleInvite(e)}>
@@ -90,7 +116,7 @@ function SettingsPage() {
                 </div>
             : <></>
         }
-        {(permission === "owner")
+        {(isOwner)
             ? <div className='settings-del-btn-wrap'>
                 <div className='settings-option-label'>Delete Campaign:</div>
                 <Button onClick={() => handleDelete()}
@@ -101,7 +127,7 @@ function SettingsPage() {
                 </Button></div>
             : <></>
         }
-        {(permission === "player")
+        {(!(isOwner || isAdmin))
             ? <div className='settings-del-btn-wrap'>
                 <div className='settings-option-label'>Leave Campaign:</div>
                 <Button onClick={() => handleLeave()}

@@ -1,37 +1,43 @@
 import { Button, Card, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import useAuth from '../../../hooks/useAuth'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
+import React, { useState } from 'react'
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add';
 import "./NPCsPage.css";
+import { useCreateNewNPCMutation, useGetNPCDataQuery } from '../../../features/campaign/campaignApiSlice'
 
 function NPCsPage() {
 
-    const axiosPrivate = useAxiosPrivate()
-    const {campaignId} = useParams()
-    const {auth} = useAuth()
+    // Some helpful hooks to get context and facilitate redirects
+    const {campaignId, isAdmin} = useOutletContext()
+    const navigate = useNavigate()
 
-    const [allChars, setAllChars] = useState([])
-    const [chars, setChars] = useState([])
-    const [err, setErr] = useState("")
-    const [name, setName] = useState('');
+    // Get all characters
+    const {data: allChars} = useGetNPCDataQuery(campaignId)
 
-    const isAdmin = auth.permissions.admin.concat(auth.permissions.owner).includes(campaignId)
+    // Handy mutation for creating a new character
+    const [createNewNPC] = useCreateNewNPCMutation({fixedCacheKey: 'create-npc'})
+
+    // Hold onto state for filtering of characters
+    const [chars, setChars] = useState(allChars)
+    const [name, setName] = useState('')
+
+    // If a image is not associated, use this as default
     const notGiven = "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png"
 
-    const get_npcs = () => {
-        axiosPrivate.get(`${campaignId}/characters/npcs`)
-        .then((resp) => {setAllChars(resp?.data?.npcs); setChars(resp?.data?.npcs)})
-        .catch((err) => {setErr(err?.response?.data?.error)})
+    /**
+     * Will attempt to query the backend to create a new npc
+     */
+    const create_npc = async() => {
+        try{
+            const result = await createNewNPC(campaignId).unwrap()
+            navigate(`/campaign/${campaignId}/characters/npc/${result.character_id}`)
+        }catch{}
     }
 
-    const create_npc = () => {
-        axiosPrivate.post(`${campaignId}/characters/npcs`)
-        .then((resp) => {window.location.href= `/campaign/${campaignId}/characters/npc/${resp.data.character_id}`})
-        .catch((err) => {setErr(err?.response?.data?.error)})
-    }
-
+    /**
+     * Will filter out names from the list of all npc based on event input
+     * @param {*} e 
+     */
     const filter = (e) => {
         const keyword = e.target.value;
         if (keyword !== '') {
@@ -41,13 +47,15 @@ function NPCsPage() {
             setChars(results);
         } else {
             setChars(allChars);
-            // If the text field is empty, show all users
         }
       setName(keyword);
     };
 
-    useEffect(()=>{get_npcs()},[])
-
+    /**
+     * A handy representation of character data in a row
+     * @param {*} param0 
+     * @returns 
+     */
     const CharacterRow = ({char}) => {
         return(
             <div >

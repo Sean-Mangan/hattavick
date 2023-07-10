@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { AuthProvider } from './context/AuthProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import App from './App';
+import { persistor, store } from './app/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
 
 const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <QueryClientProvider client={queryClient}>
-      <AuthProvider>
+<Provider store={store}>
+  <PersistGate loading={null} persistor={persistor}>
+    <QueryClientProvider client={queryClient}>
         <App />
-      </AuthProvider>
     </QueryClientProvider>
+  </PersistGate>
+</Provider>
 );

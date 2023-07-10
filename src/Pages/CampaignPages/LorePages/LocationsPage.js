@@ -1,35 +1,59 @@
-import { Button, Card, CardContent, CardMedia, Grid, Paper, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Button, Card, CardContent, CardMedia, Paper, TextareaAutosize, TextField, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import "./LoreStyle.css";
-import useAuth from '../../../hooks/useAuth';
-import { useParams } from 'react-router-dom';
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { useCreateLocationMutation, useDeleteLocationMutation, useGetLocationQuery, useUpdateLocationMutation } from '../../../features/campaign/campaignApiSlice';
+import { useOutletContext } from 'react-router-dom';
 
 
 function LocationsPage() {
 
-    const [lore, setLore] = useState([])
-    const [filteredLore, setFilteredLore] = useState([])
+    // Some helpful hooks to get data
+    const {isAdmin, campaignId, error, resetError} = useOutletContext()
+    const {data: lore, isLoading} = useGetLocationQuery(campaignId)
+    const [updateLocation] = useUpdateLocationMutation({fixedCacheKey: 'update-location'})
+    const [createLocation] = useCreateLocationMutation({fixedCacheKey: 'create-location'})
+    const [deleteLocation] = useDeleteLocationMutation({fixedCacheKey: 'delete-location'})
+
+    // Sate variables
+    const [filteredLore, setFilteredLore] = useState((isLoading) ? [] : lore)
     const [delCount, setDelCount] = useState(0)
     const [searchName, setSearchName] = useState("")
-    const [err, setErr] = useState("")
     const [selectedLore, setSelectedLore] = useState({})
     const [editMode, setEditMode] = useState(false)
     const [img, setImg] = useState("")
-    const hiddenCharacterFileInput = React.useRef(null);
 
+    // Will handle changing the image of the selected loew
+    const hiddenCharacterFileInput = React.useRef(null);
+    const handleChange = event => {
+        const fileUploaded = event.target.files[0];
+        setSelectedLore({...selectedLore, image: fileUploaded})
+        setImg(URL.createObjectURL(fileUploaded))
+    };
+    const handleClick = event => {
+        hiddenCharacterFileInput.current.click();
+    }
+
+    // Handle dynamic styling for selecting images
     const rightRef = useRef();
     const viewerRef = useRef();
     const bodyRef = useRef();
-    const {auth} = useAuth();
-    const {campaignId} = useParams()
-    const axiosPrivate = useAxiosPrivate()
-    const isAdmin = (auth?.permissions?.admin.includes(campaignId) || auth?.permissions?.owner.includes(campaignId))
+    const showRight = () =>{
+        rightRef.current.classList.toggle("show-right")
+    }
+    const closePreview = () =>{
+        viewerRef.current.classList.toggle("show-img")
+        bodyRef.current.classList.toggle("no-scroll")
+        bodyRef.current.classList.toggle("no-scroll")
+    }
 
     const DEFAULT_IMAGE = "https://gigcarshare.com/wp-content/plugins/complianz-gdpr-premium/core/assets/images/placeholder.jpg"
 
+    /**
+     * Small helper function to filter out all pieces of lore that do not match
+     * @param {*} e 
+     */
     const filter = (e) => {
         const keyword = e.target.value;
         if (keyword !== '') {
@@ -43,87 +67,80 @@ function LocationsPage() {
       setSearchName(keyword);
     };
 
-    const showRight = () =>{
-        rightRef.current.classList.toggle("show-right")
+    /**
+     * Will handle creating a new piece of lore
+     */
+    const createNewLore = async () =>{
+        try{
+            await createLocation(campaignId).unwrap()
+            setFilteredLore(lore)
+            setSearchName("")
+        } catch{
+        }
     }
 
-    const closePreview = () =>{
-        viewerRef.current.classList.toggle("show-img")
-        bodyRef.current.classList.toggle("no-scroll")
-        bodyRef.current.classList.toggle("no-scroll")
-    }
-
-    const handleChange = event => {
-        const fileUploaded = event.target.files[0];
-        setSelectedLore({...selectedLore, image: fileUploaded})
-    };
-  
-    const handleClick = event => {
-        hiddenCharacterFileInput.current.click();
-    }
-
-    const get_locations = () =>{
-        axiosPrivate.get(`${campaignId}/lore/location`)
-        .then((resp) => {
-            setLore(resp?.data);
-            setFilteredLore(resp?.data)
-        })
-        .catch((err) => {setErr(err?.response?.data?.error)})
-    }
-
-    const createNewLore = () =>{
-        axiosPrivate.post(`${campaignId}/lore/location`)
-        .then((resp) => {
-            get_locations()
-        })
-        .catch((err) => {setErr(err?.response?.data?.error)})
-    }
-
-    const handleDelete = (lore_id) => {
+    /**
+     * Will handle deleting the selected piece of lore
+     * @param {*} lore_id 
+     */
+    const handleDelete = async (lore_id) => {
         if (delCount === 0){
             setDelCount(1)
         }else{
-            axiosPrivate.delete(`${campaignId}/lore/location/${selectedLore.lore_id}`)
-            .then((resp) => {
-                get_locations();
+            try{
+                await deleteLocation({campaignId, lore_id}).unwrap()
                 setSelectedLore({})
                 setDelCount(0)
                 setEditMode(!editMode)
                 showRight()
-            })
-            .catch((err) => {setErr(err?.response?.data?.error)})
+            }catch{
+            }
         }
     }
 
-    const handleSubmit = (e) => {
+    /**
+     * Will handle updating the slected piece of lore
+     * @param {*} e 
+     */
+    const handleSubmit = async(e) => {
         e.preventDefault()
   
         // Add the new image to the form if it changed
         const form_data = new FormData()
-        if (selectedLore.img !== img){
+        const updatedImage = selectedLore.image !== img
+        if (selectedLore.image !== img){
           form_data.append("image", selectedLore.image)
         }
         form_data.append("name", selectedLore.name)
         form_data.append("private", selectedLore.private)
         form_data.append("about", selectedLore.about)
         form_data.append("visible", selectedLore.visible)
-  
-        // Send the new name, overview and image to the server
-        axiosPrivate.post(`${campaignId}/lore/location/${selectedLore.lore_id}`, form_data)
-          .then((resp) => {
-            get_locations();
-            setSelectedLore({})
-            setDelCount(0);
+
+        // Attempt to perform the locations update
+        try{
+            await updateLocation({campaignId, formData: form_data, lore_id: selectedLore.lore_id}).unwrap()
+            if (updatedImage) {
+                setImg(URL.createObjectURL(selectedLore.image))
+
+                // Attempt to copy the lore and update the image of the selected lore
+                let newLore = []
+                lore.forEach((elem) => {
+                    if (elem.lore_id === selectedLore.lore_id) {
+                        elem = {...elem, image: URL.createObjectURL(selectedLore.image)}
+                    }
+                    newLore.push(elem)
+                })
+            }
             setEditMode(!editMode)
-          })
-          .catch((err) => {
-            setErr(err?.response?.data?.error)
-          })
+        } catch (e) {
+        }
     };
 
-    useEffect(()=>{
-        get_locations()
-    },[])
+    // In the event of a lore change, reset the filtered data
+    useEffect(() => {
+        setFilteredLore(lore)
+        setSearchName("")
+    }, [lore])
 
   return (
     <div className='lore-wrapper' ref={bodyRef}>
@@ -202,6 +219,19 @@ function LocationsPage() {
                     <div className='close-btn-wrap'>
                         <Button onClick={()=>showRight()} className="close-btn"><CloseIcon style={{fontSize: 'min(10vw, 48px)', fontWeight:"bold"}}/></Button>
                     </div>
+                    {
+                        (error) ?
+                            <Alert
+                            className='campaign_create_err lore-err'
+                            onClose={() => {resetError()}}
+                            style={(error) ? {textAlign:"left"} : {display: "none"}} 
+                            severity="error"
+                            >
+                                <AlertTitle>Error</AlertTitle>
+                                <strong>Oops, an error occured</strong> — {error}
+                            </Alert> 
+                            : <></>
+                    }
                 {(isAdmin && selectedLore?.lore_id)
                 ? <div className='lore-btn-wrap'>
                     <Button 

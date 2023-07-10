@@ -3,25 +3,46 @@ import React, {useState} from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import "./CreateCampaignPage.css";
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useCreateCampaignMutation } from '../../features/campaign/campaignApiSlice';
+import LoadingScreen from '../../Components/Loading/LoadingScreen';
+import { useRefreshMutation } from '../../features/auth/authApiSlice';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../features/auth/authSlice';
 
 
-function CreateCampaignPage({campaign_refresh}) {
+function CreateCampaignPage() {
 
+  // Some helpful mutations
+  const [createCampaign, {isLoading}] = useCreateCampaignMutation()
+  const [refresh] = useRefreshMutation()
+
+  // setting the state for a refresh
+  const dispatch = useDispatch()
+
+  // Using some state vars to keep track of inputs and responses
   const [campaignName, setCampaignName] = useState("")
   const [err, setErr] = useState("")
   const [success, setSuccess] = useState(false)
-  const axiosPrivate = useAxiosPrivate()
 
-  const handle_submit = (e) => {
+  /**
+   * Attempt to create the campaign
+   * @param {*} e 
+   */
+  const handle_submit =  async(e) => {
     e.preventDefault()
-    axiosPrivate.post("/campaign", {name: campaignName})
-      .then(() => {setSuccess(true); campaign_refresh()})
-      .catch((err) => setErr(err?.response?.data?.error))
+    try{
+      await createCampaign({name: campaignName}).unwrap()
+      const data = await refresh().unwrap()
+      dispatch(setCredentials(data))
+      setSuccess(true)
+    } catch (e){
+      setErr(e.data?.error)
+    }
   }
 
   return (
     <>
+      {(isLoading) ? <LoadingScreen background={"transparent"}/> : <></>}
       <Alert 
         className='campaign_create_err'
         onClose={() => {setErr("")}} style={(err !== "") ? {textAlign:"left"} : {display: "none"}} 

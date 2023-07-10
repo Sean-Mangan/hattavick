@@ -1,29 +1,19 @@
 import React, {useState, useEffect} from 'react'
 import "./PartyPage.css"
 import { Link, useParams } from 'react-router-dom';
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import { Grid, Hidden, Paper } from '@mui/material';
 import {v4} from "uuid";
+import { useGetPartyDataQuery } from '../../../features/campaign/campaignApiSlice';
 
 function PartyPage() {
 
-    // Set state variables for characters and error
-    const [charData, setCharData] = useState([])
-    const [err, setErr] = useState("")
-
-    // Get hooks and url params
+    // Get all them datas
     const {campaignId} = useParams()
-    const axiosPrivate = useAxiosPrivate()
+    const {data: party, isLoading: partyLoading, isSuccess: partySuccess , isError: partyError} = useGetPartyDataQuery(campaignId)
 
-    const get_party_data = () => {
-        axiosPrivate.get(`${campaignId}/characters/party`)
-        .then((resp) => {setCharData(resp?.data?.characters)})
-        .catch((err) => {setErr(err?.response?.data?.error)})
-    }
-
-    useEffect(()=>{
-        get_party_data();
-    }, [])
+    // Set state variables for characters and error
+    const [charData, setCharData] = useState(party)
+    const [err, setErr] = useState("")
 
     const CharacterRow = ({character, idx}) =>{
         return (

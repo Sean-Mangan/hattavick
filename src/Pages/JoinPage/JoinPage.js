@@ -1,61 +1,67 @@
 import { Button } from '@mui/material';
 import React, {useEffect, useState} from 'react'
-import { useParams } from 'react-router-dom';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import "./JoinPage.css"
+import { useGetCampaignQuery, useJoinCampaignMutation } from '../../features/campaign/campaignApiSlice';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../features/auth/authSlice';
+import { useRefreshMutation } from '../../features/auth/authApiSlice';
 
-function JoinPage({reload}) {
+function JoinPage() {
 
-  const {campaign_id, invite_id} = useParams();
-  const axiosPrivate = useAxiosPrivate();
+  // helpful navigation things
+  const navigate = useNavigate()
+
+  // Some helpful state things
+  const {campaign_id} = useParams();
   const [campaign, setCampaign] = useState({});
   const [err, SetErr] = useState("")
 
-  const get_campaign_data = () => {
-      axiosPrivate.get(`/campaign/${campaign_id}`).then((resp) => {
-          setCampaign (resp.data)
-      }).catch((err) => {
-          console.log(err)
-          SetErr(err.response.data.error)
-      })
+  // Get the new permissions after joining
+  const dispatch = useDispatch()
+  const [refresh] = useRefreshMutation()
+
+  // RTK query stuff
+  const {data, isLoading, isSuccess} = useGetCampaignQuery(campaign_id)
+  const [joinCampaign, {isLoading: joinLoad}] = useJoinCampaignMutation()
+
+  const join_campaign = async () => {
+    try{
+      await joinCampaign(campaign_id).unwrap()
+      const data = await refresh().unwrap()
+      dispatch(setCredentials(data))
+      navigate(`/campaign/${campaign_id}`)
+    } catch (e) {
+      SetErr(e.data.error)
+    }
   }
 
-  const join_campaign_via_link = () => {
-    axiosPrivate.post(`/campaign/join/${campaign_id}/${invite_id}`).then((resp) => {
-      setCampaign (resp.data)
-      window.location.href="/"
-    }).catch((err) => {
-        SetErr(err.response.data.error)
-    })
-  }
-
-  const join_campaign = () => {
-    axiosPrivate.post(`/campaign/join/${campaign_id}`).then((resp) => {
-        setCampaign (resp.data)
-        window.location.href="/"
-    }).catch((err) => {
-        SetErr(err.response.data.error)
-    })
-  }
-
-  useEffect(() => {(invite_id) ? join_campaign_via_link() : get_campaign_data()},[])
+  // On Campaign change, set that data
+  useEffect(() => {setCampaign(data)},[data])
 
   return (
     <>
-      {(err === "") 
-        ?
-          <div className="join_wrapper">
-            <h1>You have been invited to join {campaign.name}</h1>
-            <Button variant="contained" color="error" onClick={() => join_campaign()}>Join Campaign</Button>
-          </div>
-        : 
-          <div className="join_wrapper">
-            <h1>Oops, an error occured</h1>
-            <h3>{err}</h3>
-            <div>Try again, or ask an admin to re-invite you to the campaign</div>
-          </div>
-      }
-    </>
+    {((!isLoading) || (!joinLoad))
+      ?
+      <>
+        {(isSuccess) 
+          ?
+            <div className="join_wrapper">
+              <h1>You have been invited to join {campaign?.name ?? "Unkown Campaign"}</h1>
+              <Button variant="contained" color="error" onClick={() => join_campaign()}>Join Campaign</Button>
+            </div>
+          : 
+            <div className="join_wrapper">
+              <h1>Oops, an error occured</h1>
+              <h3>{err}</h3>
+              <div>Try again, or ask an admin to re-invite you to the campaign</div>
+            </div>
+        }</> 
+          :
+          <>Loading</>
+        }
+      </>
   )
 }
 

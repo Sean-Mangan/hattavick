@@ -7,23 +7,42 @@ function HomePage() {
 
     return (
         <div className='home_wrapper'>
-            <h1>Hattavick Initial Launch!</h1>
+            <h1>Hattavick Info and Updates</h1>
             <div>
                 <div className="home_content">
-                    <img className="home_image" src="https://i.pinimg.com/originals/db/b6/a4/dbb6a4485cd2b9d570a83fa6bf3a5cda.gif"/>
+                    <img className="home_image" alt="" src="https://i.pinimg.com/originals/db/b6/a4/dbb6a4485cd2b9d570a83fa6bf3a5cda.gif"/>
                     <Paper className="home_outline_wrapper" elevation={6}>
-                        <a className='home_outline_text'>
+                        <div className='home_outline_text'>
                             <strong>
                                 One stop shop for all things lore for your new Table Top RPG game!
                             </strong>
-                        </a>
+                        </div>
                         <p>Login to get started writing your first campaign</p>
                     </Paper>
                 </div>
                 <Paper elevation={6} className="main_changelog">
-                    <h1>Changelog</h1>
-                    <p style={{textAlign:"center"}}>
-                        <strong><i>10-30-2022:</i></strong>
+                    <h1 style={{textAlign:"center"}}>Changelog</h1>
+                    <p style={{textAlign:"left", paddingTop: "1em", fontSize: "18px"}}>
+                        <strong>Backend Changes and Caching: <i>July 10, 2023</i></strong>
+                    </p>
+                    <p>
+                        Hey there! It's been a while. I have admittedly been a bit preoccupied with some other things, but am back at it!
+                        This most recent batch of changes included a bunch of backend stuff that you will not likely notice. This includes client-side
+                        caching. The benefit of this caching results in minimal loading times and having the most current data at all times.
+                        Other improvements include better error messages and loading screens. Any update/creation/deletion that fails will 
+                        now result in a loading screen while the update is happening, and an error message if it fails. Finally the last 
+                        update includes some form validation so that the maximum size of any item (npc, lore item, etc) cannot be have more
+                        than 16kb in text and 30mb in images.
+                    </p>
+                    <p>
+                        Super happy to get these changes in place, but there is still a lot more work to be done. After these caching
+                        changes I think the backend should be set for a while but there is still much to do in terms of making the user
+                        interface a bit better. I am hoping to make some color changes, font changes, etc, soon. Super excited to
+                        get back to work! -Sean
+                    </p>
+
+                    <p style={{textAlign:"left", paddingTop: "1em", fontSize: "18px"}}>
+                        <strong>Initial Functionality: <i>October 30, 2022</i></strong>
                     </p>
                     <p>
                         We just had our initial launch! A bunch of 'initial' stuff was added including login functionality, 

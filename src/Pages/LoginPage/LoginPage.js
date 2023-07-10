@@ -8,11 +8,12 @@ import Paper from '@mui/material/Paper';
 import LockIcon from '@mui/icons-material/Lock';
 import {Button} from '@mui/material';
 import Grid from '@mui/material/Grid';
-import axios from '../../api/axios';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import useAuth from '../../hooks/useAuth';
 import {useNavigate, useLocation } from 'react-router-dom';
+import { useLoginMutation, useRegisterMutation, useResetPasswordMutation } from '../../features/auth/authApiSlice';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../features/auth/authSlice';
 
 const LOGIN_URL = "/login"
 const REGISTER_URL = "/register"
@@ -21,7 +22,11 @@ const RESET_URL = "/resetPassword"
 
 function LoginPage({reload}) {
 
-  const {auth, setAuth} = useAuth();
+  // New Login functionality
+  const [register] = useRegisterMutation()
+  const [login] = useLoginMutation()
+  const [resetPassword] = useResetPasswordMutation()
+  const dispatch = useDispatch()
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,79 +40,43 @@ function LoginPage({reload}) {
   const [passReset, setPassReset] = useState(false)
   const [resetSent, setResetSent] = useState(false)
 
-
-  function handle_login(e) {
+  /**
+   * Function that will handle login/registering functionality
+   */
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (passReset){
 
-      const payload = {email : loginData.email}
-      axios.post(RESET_URL, 
-        payload,
-        {
-          withCredentials: true,
-          headers: {crossDomain: true}
-        }).then(()=> {
-          setResetSent(true)
-        }).catch(()=>{
-          setResetSent(true)
-        })
-
-    }else{
-      if (isRegister){
-        if (loginData.password.length < 8){
-          setPassError("Password must have 8 characters")
-          return
-        }else if (loginData.password !== confPass){
-          setPassError("Password must match")
-          return
-        }
-        else{
-          const payload = {email : loginData.email, password: loginData.password}
-          axios.post(REGISTER_URL, 
-            payload,
-            {
-              withCredentials: true,
-              headers: {crossDomain: true}
-            }).then((res) => {
-              const access_token = res?.data?.accessToken
-              const email = loginData.email
-              const pwd = loginData.password
-              setAuth({access_token})
-              reload()
-              navigate(from, {replace: true});
-          }).catch((err) => {
-              if (err?.response?.status === 407){
-                setError("Account already exists")
-              }else{
-              setError("Failed to register")
-            }
-          })
-        }
-      }else{
-        const payload = {email : loginData.email, password: loginData.password}
-        axios.post(LOGIN_URL, 
-          payload, 
-          {
-            withCredentials: true,
-            headers: {crossDomain: true}
-          }).then((res) => {
-            const access_token = res?.data?.accessToken
-            const email = loginData.email
-            const pwd = loginData.password
-            setAuth({access_token})
-            reload()
-            navigate(from, {replace: true});
-          }).catch((err) => {
-            console.log(err)
-            if (err?.response?.status === 429){
-              setError("Too many failed attempts. Reset your password")
-            }else{
-              setError("Failed to login")
-            }
-          }
-        )
+    try{
+      // Handle the password reset request
+      if (passReset) {
+        const email = loginData.email
+        await resetPassword(email).unwrap()
+        setResetSent(true)
+        return
       }
+
+      // Handle registering functionality
+      if (isRegister){
+        const payload = {email : loginData.email, password: loginData.password}
+        const userData = await register(payload).unwrap()
+        const email = loginData.email
+        dispatch(setCredentials({ ...userData, email}))
+        navigate(from, {replace: true});
+        return
+      }
+
+      // Otherwise it must be a login function
+      const payload = {email : loginData.email, password: loginData.password}
+      const userData = await login(payload).unwrap()
+      const email = loginData.email
+      dispatch(setCredentials({ ...userData, email}))
+      navigate(from, {replace: true});
+
+    }catch (err){
+      const errMsg = (err?.data?.error) ? err?.data?.error : "An unkown error occured, try again or contact support"
+      setError(errMsg)
     }
+
   }
 
   function handleSwitch(){
@@ -155,7 +124,7 @@ function LoginPage({reload}) {
   return (
     <div className='login_wrapper'>
       <div className="login_form_wrapper">
-        <form onSubmit={(e) => handle_login(e)}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <CloseIcon 
             sx={{fontSize: "5vh"}} 
             className="close_icon" 

@@ -3,20 +3,27 @@ import React, {useState} from 'react'
 import {useParams} from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import TextField from '@mui/material/TextField';
-
-import './PasswordReset.css'
-import axios from '../../api/axios';
+import './PasswordReset.css';
+import { useResetPasswordMutation } from '../../features/auth/authApiSlice';
 
 function PasswordReset() {
-    const {reset_id} = useParams();
+
+    // rtk query hooks
+    const [resetPassword] = useResetPasswordMutation()
+    const {reset_id} = useParams()
+
+    // Some helpful state
     const [psw, setPsw] = useState("")
     const [pswConfirm, setPswConfirm] = useState("")
     const [passError, setPassError] = useState("")
     const [Error, setError] = useState("")
     const [succ, setSucc] = useState(false)
 
-    const RESET_URL = "/setPassword"
-
+    /**
+     * Will handle the new password
+     * @param {*} e 
+     * @param {*} type 
+     */
     const handleChange = (e, type) => {
         if (type === "psw"){
             setPsw(e.target.value)
@@ -40,18 +47,22 @@ function PasswordReset() {
 
     }
 
-    const handleSubmit = (e) => {
+    /**
+     * Will attempt to perform the password update
+     * @param {*} e 
+     * @returns 
+     */
+    const handleSubmit = async (e) => {
         e.preventDefault()
         if (passError !== ""){
             return null
-        }else{
-            axios.post(RESET_URL, 
-                {"password": psw, "reset_id": reset_id}
-            ).then(() => setSucc(true)).catch(() => {
-                setError("Some error occured when reseting, this link maybe expired. Try again!")
-            })
         }
-        
+        try{
+            await resetPassword({"password": psw, "reset_id": reset_id}).unwrap()
+            setSucc(true)
+        }catch(e){
+            setError("Some error occured when reseting, this link maybe expired. Try again!")
+        }
     }
 
   return (

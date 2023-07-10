@@ -1,59 +1,73 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './HomeNav.css';
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import useAuth from "../../hooks/useAuth";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logOut, selectCurrentToken } from "../../features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogOutQueryMutation } from "../../features/auth/authApiSlice";
+import { useGetCampaignsQuery } from "../../features/campaign/campaignApiSlice";
 
 
-function HomeNav({campaigns, loggedIn}) {
+function HomeNav() {
 
+    // Get campaign related datas
+    const {data: campaigns} = useGetCampaignsQuery()
+    const [campaignList, setCampaignList] = useState([])
+
+    // Get the current token should it exist
+    const token = useSelector(selectCurrentToken)
+
+    // Get the logout functionality
+    const [logOutQuery] = useLogOutQueryMutation()
+
+    // Some helpful hooks
     const navRef = useRef();
-    const axiosPrivate = useAxiosPrivate()
-    const {auth, setAuth} = useAuth();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    // Functionality for mobile opening and closing the menu
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const campaign_list = campaigns["owner"].concat(campaigns["admin"], campaigns["player"]).filter((value, index, self) =>
-        index === self.findIndex((t) => (
-            t.id === value.id && t.name === value.name
-        ))
-    )
+    const showNavBar = () =>{navRef.current.classList.toggle("responsive_nav")}
+    const handleClick = (event) => {setAnchorEl(event.currentTarget);};
+    const handleClose = () => {setAnchorEl(null);};
 
-    const showNavBar = () =>{
-        navRef.current.classList.toggle("responsive_nav")
-    }
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    function logout() {
-        axiosPrivate.get("/logout").then(() => {
-            setAuth({access_token: null})
-            window.location.href= "/"
+    // Small helper function that will wipe auth data
+    const handleLogout = async () => {
+        try{
+            // TODO Figure out why this does not navigate to home
+            await logOutQuery().unwrap()
+            dispatch(logOut())
+            navigate("/")
+        } catch {
+            // TODO render an error message
+            alert("Logout Failed")
         }
-        ).catch((err) =>
-            console.log(err)
-        )
     }
+
+    // On any change to the campiagns, set the list of campaigns
+    useEffect(()=> {
+        var campList = []
+        if (campaigns) {
+            campList = campaigns["owner"].concat(campaigns["admin"], campaigns["player"])
+        }
+        setCampaignList(campList)
+    },[campaigns])
 
     return (
         <div className="main_nav_wrapper">
             <div className="red_title">Hattavick</div>
             <nav ref={navRef}>
-                <Link to='/' style={{textDecoration:"None", color: "white"}}><div className="nav_link" >Home</div></Link>
+                <Link to='/' style={{textDecoration:"None", color: "white"}} onClick={showNavBar}><div className="nav_link" >Home</div></Link>
                 <br/>
-                <Link to='/contact' style={{textDecoration:"None", color: "white"}}><div className="nav_link" >Contact</div></Link>
+                <Link to='/contact' style={{textDecoration:"None", color: "white"}} onClick={showNavBar}><div className="nav_link" >Contact</div></Link>
                 <br/>
-                {(loggedIn)
+                {(token)
                     ? <>
-                        <a className="nav_link" onClick={() => {logout()}}>Logout</a>
+                        <div className="nav_link" onClick={() => {handleLogout(); showNavBar()}}>Logout</div>
                         &nbsp;
                         <Button
                         id="demo-positioned-button"
@@ -84,14 +98,14 @@ function HomeNav({campaigns, loggedIn}) {
                             horizontal: 'left',
                         }}
                         >
-                        {campaign_list.map((campaign) => { return (
+                        {campaignList.map((campaign) => { return (
                             <Link style={{textDecoration:"None", color: "black"}} key={campaign.id} to={`/campaign/${campaign.id}`} >
                                 <MenuItem>
                                     {campaign.name}
                                 </MenuItem>
                             </Link>
                         )})}
-                            <Link to='/create' style={{textDecoration:"None", color: "black"}}>
+                            <Link onClick={showNavBar} to='/create' style={{textDecoration:"None", color: "black"}}>
                                 <MenuItem >
                                     <strong>+ New Campaign</strong>
                                 </MenuItem>
@@ -99,7 +113,7 @@ function HomeNav({campaigns, loggedIn}) {
                         </Menu>
                     </>
                     :<Button 
-                        onClick={() => window.location.href="/login"}
+                        onClick={() => {navigate("/login"); showNavBar()}}
                         variant="contained"
                         color="error"
                         style={{fontFamily: '"Times New Roman", Times, serif', fontSize: "1.2rem", textDecoration:"None"}}

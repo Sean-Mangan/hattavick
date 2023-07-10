@@ -1,32 +1,36 @@
-import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
-import useAuth from '../../../hooks/useAuth';
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
+import React, {useState} from 'react';
+import { useOutletContext} from 'react-router-dom';
 import "./CampaignHomePage.css"
 import EditIcon from '@mui/icons-material/Edit';
 import { Button} from '@mui/material';
 import { SaveOutlined } from '@mui/icons-material';
 import { TextareaAutosize } from '@mui/material';
+import { useGetCampaignHomeDataQuery, useUpdateHomePageMutation } from '../../../features/campaign/campaignApiSlice';
+
 
 function CampaignHomePage() {
 
-    const [homeData, setHomeData] = useState({img:"", data: "", campaign_name: ""})
-    const [img, setImg] = useState("")
+    // Get homepage data
+    const {campaignId, isAdmin} = useOutletContext()
+    const {data, isLoading, isSuccess, isError} = useGetCampaignHomeDataQuery(campaignId)
+
+    // Set the data in state to make it editable
+    const [homeData, setHomeData] = useState(data)
+    const [img, setImg] = useState(homeData?.img)
+
+    // Hooks for updating the data
+    const [updateHomeData] = useUpdateHomePageMutation({fixedCacheKey: 'update-home'})
+
+    // Some helpful state vars
     const [err, setErr] = useState("")
     const [editMode, setEditMode] = useState(false)
-    const {auth} = useAuth();
-    const {campaignId} = useParams()
-    const axiosPrivate = useAxiosPrivate()
     const hiddenFileInput = React.useRef(null);
-    const isAdmin = (auth?.permissions?.admin.includes(campaignId) || auth?.permissions?.owner.includes(campaignId))
 
-    const get_home_data = () => {
-      axiosPrivate.get(`${campaignId}/pages/home`)
-        .then((resp) => {setHomeData(resp?.data); setImg(resp?.data?.img)})
-        .catch((err) => {setErr(err?.response?.data?.error); alert(err)})
-    }
-
-    const handleSubmit = (e) => {
+    /**
+     * Will attempt to send an update request for the campaign
+     * @param {*} e the click event, dummy
+     */
+    const handleSubmit = async (e) => {
       e.preventDefault()
 
       // Add the new image to the form if it changed
@@ -37,29 +41,27 @@ function CampaignHomePage() {
       form_data.append("campaign_name", homeData.campaign_name)
       form_data.append("data", homeData.data)
 
-      // Send the new name, overview and image to the server
-      axiosPrivate.post(`${campaignId}/pages/home`, form_data)
-        .then((resp) => {
-          get_home_data()
-          setEditMode(!editMode)
-        })
-        .catch((err) => {
-          setErr(err?.response?.data?.error)
-        })
+      // Attempt to perform the update
+      try{
+        await updateHomeData({formData: form_data, id:campaignId}).unwrap()
+        setEditMode(!editMode)
+        setImg(URL.createObjectURL(homeData.img))
+      } catch (err){
+        setErr(err?.response?.data?.error)
+      }
     };
 
+    // Extract the file, and set the image as src
     const handleChange = event => {
       const fileUploaded = event.target.files[0];
       setHomeData({...homeData, img: fileUploaded})
+      setImg(URL.createObjectURL(fileUploaded))
     };
 
+    // Lets hecking prompt a image to upload
     const handleClick = event => {
       hiddenFileInput.current.click();
     }
-
-    useEffect((() => {
-      get_home_data();
-    }), [])
 
   return (
     <div className='campaign-home-wrapper'>

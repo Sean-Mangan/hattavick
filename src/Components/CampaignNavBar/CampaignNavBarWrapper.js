@@ -1,12 +1,12 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useOutletContext } from 'react-router-dom'
 import CampaignNavBar from './CampaignNavBar'
 
 function CampaignNavBarWrapper() {
   return (
     <div>
         <CampaignNavBar/>
-        <Outlet/>
+        <Outlet context={useOutletContext()}/>
     </div>
   )
 }

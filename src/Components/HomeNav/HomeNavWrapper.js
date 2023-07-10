@@ -2,10 +2,10 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import HomeNav from './HomeNav'
 
-function HomeNavWrapper({campaigns, loggedIn, children}) {
+function HomeNavWrapper() {
   return (
     <div>
-        <HomeNav campaigns={campaigns} loggedIn={loggedIn}/>
+        <HomeNav/>
         <Outlet/>
     </div>
   )

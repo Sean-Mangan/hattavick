@@ -202,7 +202,15 @@
     padding: 1em;
 }
 
+.lore-err {
+    display: none !important;
+}
+
 @media only screen and (max-width: 900px) {
+
+    .lore-err{
+        display: flex !important;
+    }
 
     .lore-body-wrap{
         height: auto;
@@ -213,7 +221,7 @@
     }
 
     .lore-right{
-        position: absolute;
+        position: fixed;
         left:-100vw;
         z-index: 50;
         width: 100%;

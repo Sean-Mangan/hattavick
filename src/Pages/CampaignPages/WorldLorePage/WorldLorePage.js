@@ -1,61 +1,57 @@
 import { SaveOutlined } from '@mui/icons-material'
 import { Button, TextareaAutosize } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useOutletContext} from 'react-router-dom'
 import EditIcon from '@mui/icons-material/Edit';
-import useAuth from '../../../hooks/useAuth'
-import useAxiosPrivate from '../../../hooks/useAxiosPrivate'
+import { useGetWorldLoreQuery, useUpdateWorldLoreMutation } from '../../../features/campaign/campaignApiSlice';
 
 function WorldLorePage() {
 
-    const [worldData, setWorldData] = useState({img:"", data: ""})
-    const [img, setImg] = useState("")
-    const [err, setErr] = useState("")
-    const [editMode, setEditMode] = useState(false)
-    const {auth} = useAuth();
-    const {campaignId} = useParams()
-    const axiosPrivate = useAxiosPrivate()
-    const hiddenFileInput = React.useRef(null);
-    const isAdmin = (auth?.permissions?.admin.includes(campaignId) || auth?.permissions?.owner.includes(campaignId))
+  // GSome helpful hooks to get world data and manipulation mutations
+  const {campaignId, isAdmin} = useOutletContext()
+  const {data: world} = useGetWorldLoreQuery(campaignId)
+  const [updateWorldLore] = useUpdateWorldLoreMutation({fixedCacheKey: 'update-world-lore'})
 
-    const get_world_data = () => {
-      axiosPrivate.get(`${campaignId}/pages/world`)
-        .then((resp) => {setWorldData(resp?.data); setImg(resp?.data?.img)})
-        .catch((err) => {setErr(err?.response?.data?.error)})
+  // Some helpful state content
+  const [worldData, setWorldData] = useState(world)
+  const [img, setImg] = useState(world?.img)
+  const [editMode, setEditMode] = useState(false)
+
+  // Some helpful utils for handling file changes 
+  const hiddenFileInput = React.useRef(null);
+  const handleChange = event => {
+    const fileUploaded = event.target.files[0];
+    setWorldData({...worldData, img: fileUploaded})
+    setImg(URL.createObjectURL(fileUploaded))
+  };
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  }
+
+  /**
+   * Will handle formating the payload to send the updated world lore data to the backend
+   * @param {*} e 
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    // Add the new image to the form if it changed
+    const form_data = new FormData()
+    const updateImage = worldData.img !== img
+    if (updateImage){
+      form_data.append("image", worldData.img)
     }
+    form_data.append("campaign_name", worldData.campaign_name)
+    form_data.append("data", worldData.data)
 
-    useEffect(()=>{get_world_data()},[])
-
-    const handleSubmit = (e) => {
-      e.preventDefault()
-
-      // Add the new image to the form if it changed
-      const form_data = new FormData()
-      if (worldData.img !== img){
-        form_data.append("image", worldData.img)
-      }
-      form_data.append("campaign_name", worldData.campaign_name)
-      form_data.append("data", worldData.data)
-
-      // Send the new name, overview and image to the server
-      axiosPrivate.post(`${campaignId}/pages/world`, form_data)
-        .then((resp) => {
-          get_world_data()
-          setEditMode(!editMode)
-        })
-        .catch((err) => {
-          setErr(err?.response?.data?.error)
-        })
-    };
-
-    const handleChange = event => {
-      const fileUploaded = event.target.files[0];
-      setWorldData({...worldData, img: fileUploaded})
-    };
-
-    const handleClick = event => {
-      hiddenFileInput.current.click();
+    // Attempt to send the new world lore data to the backend
+    try {
+      await updateWorldLore({campaignId, formData:form_data}).unwrap()
+      if (updateImage) setImg(URL.createObjectURL(worldData.img))
+      setEditMode(!editMode)
+    } catch{
     }
+  };
 
   return (
     <div className='campaign-home-wrapper'>
