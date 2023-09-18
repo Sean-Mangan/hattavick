@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Divider, Menu, MenuItem } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -105,9 +105,15 @@ function HomeNav() {
                                 </MenuItem>
                             </Link>
                         )})}
+                            <Divider />
                             <Link onClick={showNavBar} to='/create' style={{textDecoration:"None", color: "black"}}>
                                 <MenuItem >
                                     <strong>+ New Campaign</strong>
+                                </MenuItem>
+                            </Link>
+                            <Link onClick={showNavBar} to='/campaigns' style={{textDecoration:"None", color: "black"}}>
+                                <MenuItem >
+                                    <strong>Manage Campaigns</strong>
                                 </MenuItem>
                             </Link>
                         </Menu>

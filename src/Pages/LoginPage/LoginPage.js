@@ -15,15 +15,11 @@ import { useLoginMutation, useRegisterMutation, useResetPasswordMutation } from 
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
 
-const LOGIN_URL = "/login"
-const REGISTER_URL = "/register"
-const RESET_URL = "/resetPassword"
-
 
 function LoginPage({reload}) {
 
   // New Login functionality
-  const [register] = useRegisterMutation()
+  const [register, {isSuccess: registerSuccess}] = useRegisterMutation()
   const [login] = useLoginMutation()
   const [resetPassword] = useResetPasswordMutation()
   const dispatch = useDispatch()
@@ -60,8 +56,6 @@ function LoginPage({reload}) {
         const payload = {email : loginData.email, password: loginData.password}
         const userData = await register(payload).unwrap()
         const email = loginData.email
-        dispatch(setCredentials({ ...userData, email}))
-        navigate(from, {replace: true});
         return
       }
 
@@ -139,122 +133,145 @@ function LoginPage({reload}) {
                 <AlertTitle>Error</AlertTitle>
                 <strong>Oops, an error occured</strong> — {Error}
             </Alert>
-            {(!passReset) ?
-            <>
-              <h2 className="login_title" style={{display: (!isRegister) ? "block": "none", marginTop: (Error !== "") ? "none": "auto"}}>Login</h2>
-              <h2 className="login_title" style={{display: (isRegister) ? "block": "none", marginTop: (Error !== "") ? "none": "auto"}}>Register</h2>
-              <Box className='icon_box'>
-                <EmailIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
-                <TextField 
-                value={loginData.email} 
-                className="login_text_box" 
-                size='large' 
-                type="email" 
-                label="Email" 
-                variant="filled" 
-                onChange={(event) => handleInputChange(event, "email")}
-                required />
-              </Box>
-              <Box className='icon_box'>
-                <LockIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
-                <TextField 
-                value={loginData.password} 
-                className="login_text_box" 
-                type="password" 
-                label="Password" 
-                variant="filled" 
-                onChange={(event) => handleInputChange(event, "password")}
-                required />
-              </Box>
-              <Box className='icon_box' 
-              style={{display: (isRegister) ? "block": "none"}}
-              >
-                <LockIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
-                <TextField 
-                className="login_text_box" 
-                type="password" 
-                label="Confirm Password" 
-                variant="filled" 
-                value={confPass}
-                onChange={(event)=> {setConfPass(event.target.value); handleConfPassChange(event)}}
-                required={isRegister} 
-                />
-              </Box>
-              <Box>
-                <a style={{color:"red", display: (passError)}}>{passError}</a>
-              </Box>
-
-              <Grid container className="password_control">
-                <Grid item xs={6}>
-                  <a 
-                  style={{color:"darkblue"}} 
-                  className='login_password_reset' 
-                  onClick={handleSwitch}
-                  >
-                    {(isRegister) ? "Login now" : "Register now"}
-                  </a>                
-                </Grid>
-                <Grid item xs={6}>
-                  <a style={{color: "rgba(0, 0, 0, 0.80)"}} 
-                  className='login_password_reset' 
-                  onClick={() => setPassReset(!passReset)}
-                  >Forgot password?</a>
-                </Grid>
-              </Grid>
-              <br/>
-              <Button 
-              type="submit" 
-              variant='contained'
-              style={{backgroundColor:"cyan", color:"#3b3b3b", marginBottom:"2em"}} 
-              > <strong>Submit</strong></Button>
-              </> 
-              : 
+            {!(registerSuccess) ?
               <>
-                <h2 className="login_title" style={{marginTop: (Error !== "") ? "none": "auto"}}>Reset Password</h2>
-                {(!resetSent) ?
-                <> 
-                  <Box className='icon_box'>
-                    <EmailIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
-                    <TextField 
-                    value={loginData.email} 
-                    className="login_text_box" 
-                    size='large' 
-                    type="email" 
-                    label="Email" 
-                    variant="filled" 
-                    onChange={(event) => handleInputChange(event, "email")}
-                    required />
-                  </Box>
-                  <Grid container className="password_control">
-                    <Grid item xs={12}>
-                      <a style={{color: "rgba(0, 0, 0, 0.80)", color:"darkblue"}} 
-                      className='login_password_reset' 
-                      onClick={() => {setPassReset(!passReset); setIsRegister(false)}}
-                      >Back to login</a>
-                    </Grid>
+              {(!passReset) ?
+              <>
+                <h2 className="login_title" style={{display: (!isRegister) ? "block": "none", marginTop: (Error !== "") ? "none": "auto"}}>Login</h2>
+                <h2 className="login_title" style={{display: (isRegister) ? "block": "none", marginTop: (Error !== "") ? "none": "auto"}}>Register</h2>
+                <Box className='icon_box'>
+                  <EmailIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
+                  <TextField 
+                  value={loginData.email} 
+                  className="login_text_box" 
+                  size='large' 
+                  type="email" 
+                  label="Email" 
+                  variant="filled" 
+                  onChange={(event) => handleInputChange(event, "email")}
+                  required />
+                </Box>
+                <Box className='icon_box'>
+                  <LockIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
+                  <TextField 
+                  value={loginData.password} 
+                  className="login_text_box" 
+                  type="password" 
+                  label="Password" 
+                  variant="filled" 
+                  onChange={(event) => handleInputChange(event, "password")}
+                  required />
+                </Box>
+                <Box className='icon_box' 
+                style={{display: (isRegister) ? "block": "none"}}
+                >
+                  <LockIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
+                  <TextField 
+                  className="login_text_box" 
+                  type="password" 
+                  label="Confirm Password" 
+                  variant="filled" 
+                  value={confPass}
+                  onChange={(event)=> {setConfPass(event.target.value); handleConfPassChange(event)}}
+                  required={isRegister} 
+                  />
+                </Box>
+                <Box>
+                  <a style={{color:"red", display: (passError)}}>{passError}</a>
+                </Box>
+
+                <Grid container className="password_control">
+                  <Grid item xs={6}>
+                    <a 
+                    style={{color:"darkblue"}} 
+                    className='login_password_reset' 
+                    onClick={handleSwitch}
+                    >
+                      {(isRegister) ? "Login now" : "Register now"}
+                    </a>                
                   </Grid>
-                  <br/>
-                  <Button 
-                  type="submit" 
-                  variant='contained'
-                  style={{backgroundColor:"cyan", color:"#3b3b3b", marginBottom:"2em"}} 
-                  > <strong>Submit</strong></Button>
-                </> : 
+                  <Grid item xs={6}>
+                    <a style={{color: "rgba(0, 0, 0, 0.80)"}} 
+                    className='login_password_reset' 
+                    onClick={() => setPassReset(!passReset)}
+                    >Forgot password?</a>
+                  </Grid>
+                </Grid>
+                <br/>
+                <Button 
+                type="submit" 
+                variant='contained'
+                style={{backgroundColor:"cyan", color:"#3b3b3b", marginBottom:"2em"}} 
+                > <strong>Submit</strong></Button>
+                </> 
+                : 
                 <>
-                <Box className='icon_box' style={{paddingBottom: "2em"}}>
+                  <h2 className="login_title" style={{marginTop: (Error !== "") ? "none": "auto"}}>Reset Password</h2>
+                  {(!resetSent) ?
+                  <> 
+                    <Box className='icon_box'>
+                      <EmailIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
+                      <TextField 
+                      value={loginData.email} 
+                      className="login_text_box" 
+                      size='large' 
+                      type="email" 
+                      label="Email" 
+                      variant="filled" 
+                      onChange={(event) => handleInputChange(event, "email")}
+                      required />
+                    </Box>
+                    <Grid container className="password_control">
+                      <Grid item xs={12}>
+                        <a style={{color: "rgba(0, 0, 0, 0.80)", color:"darkblue"}} 
+                        className='login_password_reset' 
+                        onClick={() => {setPassReset(!passReset); setIsRegister(false)}}
+                        >Back to login</a>
+                      </Grid>
+                    </Grid>
+                    <br/>
+                    <Button 
+                    type="submit" 
+                    variant='contained'
+                    style={{backgroundColor:"cyan", color:"#3b3b3b", marginBottom:"2em"}} 
+                    > <strong>Submit</strong></Button>
+                  </> : 
+                  <>
+                  <Box className='icon_box' style={{paddingBottom: "2em"}}>
+                  <a style={{color: "rgba(0, 0, 0, 0.80)"}} 
+                    className='login_password_reset'>
+                    If a user with that email exists in our system, a password reset email will be sent to them.
+                  </a>
+                  <br/><br/>
+                  <a style={{color: "rgba(0, 0, 0, 0.80)"}} 
+                    className='login_password_reset'>
+                    <strong>Make sure to check your spam folder!</strong>
+                  </a>
+                  </Box>
+                  </>
+                }
+                </>
+              }
+              </>
+              :
+              <>
+              <Box className='icon_box' style={{padding: "1em"}}>
+                <img
+                style={{maxWidth: "100%", margin:"auto"}}
+                src="https://i.pinimg.com/originals/6e/34/f0/6e34f0027ae54a25873e2e07cf0aafb2.gif"/>
+                <br/><br/>
                 <a style={{color: "rgba(0, 0, 0, 0.80)"}} 
-                  className='login_password_reset'>
-                  If a user with that email exists in our system, a password reset email will be sent to them.
+                      className='login_password_reset'>
+                      You have been registered, please check your email for a verification email to get started.
                 </a>
                 <br/><br/>
                 <a style={{color: "rgba(0, 0, 0, 0.80)"}} 
                   className='login_password_reset'>
                   <strong>Make sure to check your spam folder!</strong>
                 </a>
-                </Box>
-                </>
-              }
-              </>}
+              </Box>
+              </>
+            }
             </Paper>
         </form>
       </div>

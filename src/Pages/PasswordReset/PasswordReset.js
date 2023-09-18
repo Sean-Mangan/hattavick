@@ -4,12 +4,12 @@ import {useParams} from "react-router-dom";
 import LockIcon from '@mui/icons-material/Lock';
 import TextField from '@mui/material/TextField';
 import './PasswordReset.css';
-import { useResetPasswordMutation } from '../../features/auth/authApiSlice';
+import { useSetPasswordMutation } from '../../features/auth/authApiSlice';
 
 function PasswordReset() {
 
     // rtk query hooks
-    const [resetPassword] = useResetPasswordMutation()
+    const [resetPassword] = useSetPasswordMutation()
     const {reset_id} = useParams()
 
     // Some helpful state

@@ -8,6 +8,7 @@ import LoadingScreen from '../../Components/Loading/LoadingScreen';
 import { useRefreshMutation } from '../../features/auth/authApiSlice';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 function CreateCampaignPage() {
@@ -18,6 +19,7 @@ function CreateCampaignPage() {
 
   // setting the state for a refresh
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // Using some state vars to keep track of inputs and responses
   const [campaignName, setCampaignName] = useState("")
@@ -31,10 +33,10 @@ function CreateCampaignPage() {
   const handle_submit =  async(e) => {
     e.preventDefault()
     try{
-      await createCampaign({name: campaignName}).unwrap()
+      const newCampaign = await createCampaign({name: campaignName}).unwrap()
       const data = await refresh().unwrap()
       dispatch(setCredentials(data))
-      setSuccess(true)
+      navigate(`/campaign/${newCampaign.campaign_id}`)
     } catch (e){
       setErr(e.data?.error)
     }

@@ -23,6 +23,8 @@ import SessionsPage from './Pages/CampaignPages/SessionsPage/SessionsPage';
 import Contact from './Pages/ContactPage/contact';
 import NPCPage from './Pages/CampaignPages/NPCPage/NPCPage';
 import CampaignErrorLoadingWindow from './Components/CampaignErrorLoadingWindow/CampaignErrorLoadinWindow';
+import VerifyEmailPage from './Pages/VerifyEmailPage/VerifyEmailPage';
+import CampaignManagementPage from './Pages/CampaignManagmentPage/CampaignManagementPage';
 
 
 
@@ -34,12 +36,14 @@ function App() {
           <Route exact element={<HomeNavWrapper/>} >
             <Route path="/login" exact element={<LoginPage/>}/>
             <Route path='/reset/:reset_id' exact element={<PasswordReset/>}/>
+            <Route path='/verify/:verificationId' exact element={<VerifyEmailPage/>}/>
             <Route path='/contact' exact element={<Contact />}/>
             <Route path="*" exact element={<HomePage/>}/>
             <Route element={<RequireAuth/>}>
               <Route path="/join/:campaign_id" exact element={<JoinPage/>}/>
               <Route path="/join/:campaign_id/:invite_id" exact element={<JoinPage/>}/>
               <Route path="/create" exact element={<CreateCampaignPage/>}/>
+              <Route path="/campaigns" exact element={<CampaignManagementPage/>}/>
             </Route>
         </Route>
 

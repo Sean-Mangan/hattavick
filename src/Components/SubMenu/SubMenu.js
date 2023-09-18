@@ -6,7 +6,7 @@ import './SubMenu.css';
 function SubMenu({item, onclick}) {
 
     const [subnav, setSubnav] = useState(false);
-    const showSubnav=()=> setSubnav(!subnav);
+    const showSubnav = () => setSubnav(!subnav);
     const {campaignId} = useParams()
 
     const {isAdmin} = useOutletContext()

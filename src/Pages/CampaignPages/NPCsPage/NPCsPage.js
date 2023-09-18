@@ -1,5 +1,5 @@
 import { Button, Card, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add';
 import "./NPCsPage.css";
@@ -76,6 +76,9 @@ function NPCsPage() {
         </div>
         )
     }
+
+    // If there are any character updates, reset the filter
+    useEffect(()=>{setChars(allChars); setName("")}, [allChars])
 
   return (
     <div className='npcs-wrapper'>
