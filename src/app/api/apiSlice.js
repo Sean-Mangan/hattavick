@@ -2,14 +2,14 @@ import { createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import { setCredentials, logOut } from '../../features/auth/authSlice'
 
 // Depending on the ENV, set the url to point to a local server or the remote
-const BASE_URL = "https://api.hattavick.com"
-//const BASE_URL = "http://127.0.0.1:5001"
+//const BASE_URL = "https://api.hattavick.com"
+const BASE_URL = "http://127.0.0.1:5001"
 
 // Define a base query for all requests
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: "include",
-    tagTypes: ['Campaigns', "CampaignHome", "MyCharacter", "Party", "NPC", "WorldLore", "Factions", "Sessions", "Locations", "Things"],
+    tagTypes: ['Campaigns', 'Campaign', "CampaignHome", "MyCharacter", "Party", "NPC", "WorldLore", "Factions", "Sessions", "Locations", "Things", "Players"],
 
     // If auth heders are stored in state, include the Auth header
     prepareHeaders: (headers, {getState}) => {

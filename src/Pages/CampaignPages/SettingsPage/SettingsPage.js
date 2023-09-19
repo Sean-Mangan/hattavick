@@ -2,7 +2,8 @@ import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import {useNavigate, useOutletContext} from 'react-router-dom'
 import "./SettingsPage.css"
-import { useDeleteCampaignMutation, useGetInviteLinkMutation, useLeaveCampaignMutation, useSendInviteMutation, } from '../../../features/campaign/campaignApiSlice'
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { useDeleteCampaignMutation, useGetCampaignQuery, useGetInviteLinkMutation, useKickPlayerMutation, useLeaveCampaignMutation, useSendInviteMutation, } from '../../../features/campaign/campaignApiSlice'
 
 function SettingsPage() {
 
@@ -14,6 +15,8 @@ function SettingsPage() {
     const [getInviteLink] = useGetInviteLinkMutation({fixedCacheKey: 'get-invite'})
     const [leaveCampaign] = useLeaveCampaignMutation({fixedCacheKey: 'leave-campaign'})
     const [sendInvite] = useSendInviteMutation({fixedCacheKey: 'send-invite'})
+    const [kickPlayer] = useKickPlayerMutation({fixedCacheKey: 'kick-player'})
+    const {data: campaign} = useGetCampaignQuery(campaignId, campaignId, {skip: !isAdmin})
 
     // Navigation for successful deletion
     const navigate = useNavigate()
@@ -42,6 +45,22 @@ function SettingsPage() {
             alert(e.data.error)
         }
     }
+
+
+    /**
+     * Will attempt to kick the given player
+     * @returns 
+     */
+    const handleKickPlayer = async (playerEmail) => {
+        // Attempt to delete the campaign
+        try{
+            await kickPlayer({campaignId, formData : {email: playerEmail}}).unwrap()
+            alert(`Successfully kicked ${playerEmail}`)
+        }catch (e){
+            alert(e.data.error)
+        }
+    }
+
 
     /**
      * Will attempt to get an invite link to share
@@ -113,6 +132,19 @@ function SettingsPage() {
                         />
                     : <></>}
                     <Button variant="contained" onClick={()=>get_invite_link()}>Generate Invite Link</Button>
+
+                    {/* Handle Removing players */}
+                    <div className='settings-option-label'>Remove Players:</div>
+                    {campaign.players.map((item) => {
+                        return (
+                            <div key={{item}} className='kick-player-box'>
+                                <Button variant="outlined" color="error" endIcon={<PersonRemoveIcon />} onClick={() => handleKickPlayer(item)}>
+                                    {item}
+                                </Button>
+                            </div>
+                        )
+                        })
+                    }
                 </div>
             : <></>
         }

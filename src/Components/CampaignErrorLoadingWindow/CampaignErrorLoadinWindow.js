@@ -1,5 +1,5 @@
 import { Outlet, useOutletContext} from "react-router-dom";
-import {useCreateFactionMutation, useCreateLocationMutation, useCreateNewNPCMutation, useCreateSessionMutation, useCreateThingMutation, useDeleteCampaignMutation, useDeleteFactionMutation, useDeleteLocationMutation, useDeleteNPCMutation, useDeleteSessionMutation, useDeleteThingMutation, useGetCampaignHomeDataQuery, useGetFactionsQuery, useGetInviteLinkMutation, useGetLocationQuery, useGetMyCharacterDataQuery, useGetNPCDataQuery, useGetPartyDataQuery, useGetSessionsQuery, useGetThingQuery, useGetWorldLoreQuery, useLeaveCampaignMutation, useSendInviteMutation, useUpdateFactionMutation, useUpdateHomePageMutation, useUpdateLocationMutation, useUpdateMyCharacterMutation, useUpdateNPCMutation, useUpdateSessionMutation, useUpdateThingMutation, useUpdateWorldLoreMutation } from "../../features/campaign/campaignApiSlice";
+import {useCreateFactionMutation, useCreateLocationMutation, useCreateNewNPCMutation, useCreateSessionMutation, useCreateThingMutation, useDeleteCampaignMutation, useDeleteFactionMutation, useDeleteLocationMutation, useDeleteNPCMutation, useDeleteSessionMutation, useDeleteThingMutation, useGetCampaignHomeDataQuery, useGetCampaignQuery, useGetFactionsQuery, useGetInviteLinkMutation, useGetLocationQuery, useGetMyCharacterDataQuery, useGetNPCDataQuery, useGetPartyDataQuery, useGetSessionsQuery, useGetThingQuery, useGetWorldLoreQuery, useKickPlayerMutation, useLeaveCampaignMutation, useSendInviteMutation, useUpdateFactionMutation, useUpdateHomePageMutation, useUpdateLocationMutation, useUpdateMyCharacterMutation, useUpdateNPCMutation, useUpdateSessionMutation, useUpdateThingMutation, useUpdateWorldLoreMutation } from "../../features/campaign/campaignApiSlice";
 import React, { useEffect, useState } from "react";
 import LoadingScreen from "../Loading/LoadingScreen";
 import { Alert, AlertTitle } from "@mui/material";
@@ -18,6 +18,7 @@ const CampaignErrorLoadingWindow = () => {
     const {isFetching: thingsFetching, error: thingsError} = useGetThingQuery(campaignId)
     const {isFetching: sessionFetching, error: sessionsError} = useGetSessionsQuery(campaignId)
     const {isFetching: myCharFetching, error: myCharError} = useGetMyCharacterDataQuery(campaignId, {skip: isAdmin})
+    const {isFetching: campaignFetching, error: campaignError} = useGetCampaignQuery(campaignId, {skip: !isAdmin})
 
     // Also get the Mutations loading status
     const [, {isLoading: updateHomeLoading, error: updateHomeError, reset: updateHomeReset}] = useUpdateHomePageMutation({fixedCacheKey: 'update-home'})
@@ -42,6 +43,7 @@ const CampaignErrorLoadingWindow = () => {
     const [, {isLoading: getInviteLoading, error: getInviteError, reset: getInviteReset}] = useGetInviteLinkMutation({fixedCacheKey: 'get-invite'})
     const [, {isLoading: leaveCampaignLoading, error: leaveCampaignError, reset: leaveCampaignReset}] = useLeaveCampaignMutation({fixedCacheKey: 'leave-campaign'})
     const [, {isLoading: sendInviteLoading, error: sendInviteError, reset: sendInviteReset}] = useSendInviteMutation({fixedCacheKey: 'send-invite'})
+    const [, {isLoading: kickPayerLoading, error: kickPayerError, reset: kickPayerReset}] = useKickPlayerMutation({fixedCacheKey: 'kick-player'})
 
 
     // Create some arrays for Fetching data
@@ -76,7 +78,9 @@ const CampaignErrorLoadingWindow = () => {
         deleteCampaignLoading,
         sendInviteLoading,
         getInviteLoading,
-        leaveCampaignLoading
+        leaveCampaignLoading,
+        campaignFetching,
+        kickPayerLoading
     ]
 
     // Create some arrays for errors
@@ -111,7 +115,9 @@ const CampaignErrorLoadingWindow = () => {
         deleteCampaignError,
         getInviteError,
         sendInviteError,
-        leaveCampaignError
+        leaveCampaignError,
+        campaignError,
+        kickPayerError
     ]
 
     // helpful arr for reseting all mutations
@@ -137,7 +143,8 @@ const CampaignErrorLoadingWindow = () => {
         deleteCampaignReset,
         getInviteReset,
         sendInviteReset,
-        leaveCampaignReset
+        leaveCampaignReset,
+        kickPayerReset
     ]
 
     /* Small helper function to ensure that the client has permission to view the given campaign */

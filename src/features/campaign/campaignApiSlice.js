@@ -65,6 +65,7 @@ export const campaignApiSlice = apiSlice.injectEndpoints({
                 "url": `/campaign/${id}`,
                 method: "GET",
             }),
+            providesTags: ["Campaign"]
         }),
 
         // Will get the Campaigns main data
@@ -333,6 +334,17 @@ export const campaignApiSlice = apiSlice.injectEndpoints({
                 method: "DELETE"
             })),
             invalidatesTags: ["Sessions"]
+        }),
+
+        // Kick Player
+        kickPlayer: builder.mutation({
+            query: ((playerData)=>({
+                url: `campaign/${playerData.campaignId}/players`,
+                method: "DELETE",
+                body: playerData.formData,
+                formData: true
+            })),
+            invalidatesTags: ["Campaign"]
         })
 
     })
@@ -373,5 +385,6 @@ export const {
     useGetSessionsQuery,
     useCreateSessionMutation,
     useUpdateSessionMutation,
-    useDeleteSessionMutation
+    useDeleteSessionMutation,
+    useKickPlayerMutation,
 } = campaignApiSlice

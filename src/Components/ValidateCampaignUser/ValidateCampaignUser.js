@@ -1,5 +1,5 @@
 import { Outlet, useParams } from "react-router-dom";
-import {campaignApiSlice, useGetCampaignHomeDataQuery, useGetCampaignsQuery, useGetFactionsQuery, useGetLocationQuery, useGetMyCharacterDataQuery, useGetNPCDataQuery, useGetPartyDataQuery, useGetSessionsQuery, useGetThingQuery, useGetWorldLoreQuery } from "../../features/campaign/campaignApiSlice";
+import {campaignApiSlice, useGetCampaignHomeDataQuery, useGetCampaignQuery, useGetCampaignsQuery, useGetFactionsQuery, useGetLocationQuery, useGetMyCharacterDataQuery, useGetNPCDataQuery, useGetPartyDataQuery, useGetSessionsQuery, useGetThingQuery, useGetWorldLoreQuery } from "../../features/campaign/campaignApiSlice";
 import React, { useEffect, useState } from "react";
 import LoadingScreen from "../Loading/LoadingScreen";
 export const CampaignContext = React.createContext();
@@ -30,6 +30,7 @@ const ValidateCampaignUser = () => {
     const {data: things, isLoading: thingsLoading, isSuccess: thingsSuccess, isError: thingsError} = useGetThingQuery(campaignId, {skip: !campaignsSuccess})
     const {data: sessions, isLoading: sessionsLoading, isSuccess: sessionsSuccess, isError: sessionsError} = useGetSessionsQuery(campaignId, {skip: !campaignsSuccess})
     const {data: myChar, isLoading: myCharLoading, isSuccess: myCharSuccess , isError: myCharError} = useGetMyCharacterDataQuery(campaignId, {skip: !campaignsSuccess || isAdmin})
+    const {data: campaign, isLoading: campaignLoading, isSuccess: campaignSuccess , isError:campaignError} = useGetCampaignQuery(campaignId, {skip: !campaignsSuccess || !isAdmin})
 
     /* Small helper function to ensure that the client has permission to view the given campaign */
     const [allCampaignIds, setAllCampaignIds] = useState([])
@@ -46,7 +47,8 @@ const ValidateCampaignUser = () => {
         factionsLoading,
         locationsLoading,
         thingsLoading,
-        sessionsLoading
+        sessionsLoading,
+        campaignLoading
     ]
 
 
