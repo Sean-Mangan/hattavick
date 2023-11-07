@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material'
+import { Button, Paper } from '@mui/material'
 import React from 'react'
 import "./HomePage.css"
 
@@ -17,8 +17,13 @@ function HomePage() {
                                 One stop shop for all things lore for your new Table Top RPG game!
                             </strong>
                         </div>
-                        <p>Login to get started writing your first campaign</p>
-                    </Paper>
+                        <br/>
+                        <Button 
+                        variant='contained'
+                        href="https://discord.gg/nUcFjPY6s2" 
+                        target="_blank"
+                        ><strong>Join the Discord!</strong></Button>
+                   </Paper>
                 </div>
                 <Paper elevation={6} className="main_changelog">
                     <h1 style={{textAlign:"center"}}>Changelog</h1>

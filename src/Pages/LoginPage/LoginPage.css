@@ -9,6 +9,13 @@
     z-index: 200;
 }
 
+.capchta{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
 .close_icon{
     margin-top: 0.5em;
     margin-left: 0.5em;

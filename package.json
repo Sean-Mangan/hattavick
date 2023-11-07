@@ -15,6 +15,7 @@
     "npm": "^8.12.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-google-recaptcha": "^3.1.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.39.2",
     "react-redux": "^8.1.1",

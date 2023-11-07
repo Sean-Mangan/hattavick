@@ -105,12 +105,12 @@ function HomeNav() {
                                 </MenuItem>
                             </Link>
                         )})}
-                            <Divider />
                             <Link onClick={showNavBar} to='/create' style={{textDecoration:"None", color: "black"}}>
                                 <MenuItem >
                                     <strong>+ New Campaign</strong>
                                 </MenuItem>
                             </Link>
+                            <Divider />
                             <Link onClick={showNavBar} to='/campaigns' style={{textDecoration:"None", color: "black"}}>
                                 <MenuItem >
                                     <strong>Manage Campaigns</strong>

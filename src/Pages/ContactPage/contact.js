@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import React from 'react'
 
 import "./contact.css"
@@ -11,8 +11,13 @@ function Contact() {
         Contact Us
       </p>
       <p className='contact_text'>
-        Hey there! My name is Sean Mangan. I am a software engineer and primary developer for Hattavick. I'm always looking to improve the site so if you are experiencing any technical difficulties please reach out!
+        Hey there! My name is Sean Mangan. I am a software engineer and primary developer for Hattavick. I'm always looking to improve the site so if you are experiencing any technical difficulties please reach out to me either via my personal website or the discord channel!
       </p>
+      <Button
+        variant='contained'
+        href="https://discord.gg/nUcFjPY6s2" 
+        target="_blank"
+        ><strong>Join the Discord!</strong></Button>
       <div className='desc_stuff contact_center'>
         <p className='contact_text'>
           Hattavick is just a small utility site for hosting lore information for role playing campaigns. I hope you and your group gets some use out of it!

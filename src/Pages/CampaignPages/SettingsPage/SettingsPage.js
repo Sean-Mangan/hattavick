@@ -134,17 +134,21 @@ function SettingsPage() {
                     <Button variant="contained" onClick={()=>get_invite_link()}>Generate Invite Link</Button>
 
                     {/* Handle Removing players */}
-                    <div className='settings-option-label'>Remove Players:</div>
-                    {campaign.players.map((item) => {
-                        return (
-                            <div key={{item}} className='kick-player-box'>
-                                <Button variant="outlined" color="error" endIcon={<PersonRemoveIcon />} onClick={() => handleKickPlayer(item)}>
-                                    {item}
-                                </Button>
-                            </div>
-                        )
-                        })
-                    }
+                    {(campaign.players.length !== 0) 
+                    ? <>
+                        <div className='settings-option-label'>Remove Players:</div>
+                        {campaign.players.map((item) => {
+                            return (
+                                <div key={{item}} className='kick-player-box'>
+                                    <Button variant="outlined" color="error" endIcon={<PersonRemoveIcon />} onClick={() => handleKickPlayer(item)}>
+                                        {item}
+                                    </Button>
+                                </div>
+                            )
+                            })
+                        }
+                    </>
+                    : <></>}
                 </div>
             : <></>
         }

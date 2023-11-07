@@ -14,6 +14,10 @@ import {useNavigate, useLocation } from 'react-router-dom';
 import { useLoginMutation, useRegisterMutation, useResetPasswordMutation } from '../../features/auth/authApiSlice';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+const siteKey = "6Lels_8oAAAAAGys3yrJlITLx27kKvt9VVhOp1Ag"
 
 
 function LoginPage({reload}) {
@@ -28,13 +32,16 @@ function LoginPage({reload}) {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/"
 
-  const [loginData, setLoginData] = useState({"email": "", "password": ""})
+  const recaptchaRef = React.createRef();
+
+  const [loginData, setLoginData] = useState({"email": "", "password": "", "username": ""})
   const [passError, setPassError] = useState("")
   const [Error, setError] = useState("")
   const [confPass, setConfPass] = useState("")
   const [isRegister, setIsRegister] = useState(false)
   const [passReset, setPassReset] = useState(false)
   const [resetSent, setResetSent] = useState(false)
+  const [captchaVerified, setCaptchaVerified] = useState(false)
 
   /**
    * Function that will handle login/registering functionality
@@ -43,6 +50,11 @@ function LoginPage({reload}) {
     e.preventDefault()
 
     try{
+      if (!captchaVerified){
+        setError("Please complete the CAPTCHA")
+        return
+      }
+
       // Handle the password reset request
       if (passReset) {
         const email = loginData.email
@@ -53,20 +65,20 @@ function LoginPage({reload}) {
 
       // Handle registering functionality
       if (isRegister){
-        const payload = {email : loginData.email, password: loginData.password}
+        const payload = {email : loginData.email, password: loginData.password, name: loginData.username, captcha: recaptchaRef.current.getValue()}
         const userData = await register(payload).unwrap()
-        const email = loginData.email
         return
       }
 
       // Otherwise it must be a login function
-      const payload = {email : loginData.email, password: loginData.password}
+      const payload = {email : loginData.email, password: loginData.password, captcha: recaptchaRef.current.getValue()}
       const userData = await login(payload).unwrap()
       const email = loginData.email
       dispatch(setCredentials({ ...userData, email}))
       navigate(from, {replace: true});
 
     }catch (err){
+      console.log(err)
       const errMsg = (err?.data?.error) ? err?.data?.error : "An unkown error occured, try again or contact support"
       setError(errMsg)
     }
@@ -92,6 +104,12 @@ function LoginPage({reload}) {
 
   function handleInputChange(event, name){
     if (name === "email"){
+      setLoginData(prevState => ({
+        ...prevState,
+        [name]: event.target.value
+      }));
+    }
+    if (name === "username"){
       setLoginData(prevState => ({
         ...prevState,
         [name]: event.target.value
@@ -149,7 +167,22 @@ function LoginPage({reload}) {
                   label="Email" 
                   variant="filled" 
                   onChange={(event) => handleInputChange(event, "email")}
-                  required />
+                  required
+                  inputProps={{ maxLength: 64 }}
+                  />
+                </Box>
+                <Box className='icon_box' style={{display: (isRegister) ? "block": "none"}}>
+                  <PersonOutlineIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
+                  <TextField 
+                    value={loginData.username} 
+                    className="login_text_box" 
+                    type="text" 
+                    label="Username" 
+                    variant="filled" 
+                    onChange={(event) => handleInputChange(event, "username")}
+                    required={isRegister} 
+                    inputProps={{ maxLength: 36 }}
+                  />
                 </Box>
                 <Box className='icon_box'>
                   <LockIcon fontSize="large" className='login_form_icon' sx={{ color: 'action.active', mr: 1}}/>
@@ -160,7 +193,8 @@ function LoginPage({reload}) {
                   label="Password" 
                   variant="filled" 
                   onChange={(event) => handleInputChange(event, "password")}
-                  required />
+                  required 
+                  inputProps={{ maxLength: 36 }}/>
                 </Box>
                 <Box className='icon_box' 
                 style={{display: (isRegister) ? "block": "none"}}
@@ -173,7 +207,8 @@ function LoginPage({reload}) {
                   variant="filled" 
                   value={confPass}
                   onChange={(event)=> {setConfPass(event.target.value); handleConfPassChange(event)}}
-                  required={isRegister} 
+                  required={isRegister}
+                  inputProps={{ maxLength: 36 }}
                   />
                 </Box>
                 <Box>
@@ -197,6 +232,14 @@ function LoginPage({reload}) {
                     >Forgot password?</a>
                   </Grid>
                 </Grid>
+                <div className='capchta'>
+                  <ReCAPTCHA 
+                  style={{display: "flex"}}
+                  sitekey={siteKey}
+                  ref={recaptchaRef}
+                  onChange={() => setCaptchaVerified(true)}
+                  />
+                </div>
                 <br/>
                 <Button 
                 type="submit" 

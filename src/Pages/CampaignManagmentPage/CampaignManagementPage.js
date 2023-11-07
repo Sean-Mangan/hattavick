@@ -46,9 +46,9 @@ const CampaignManagementPage = () => {
   /**
    * Handles the request to leave a campaign
    */
-  const handleLeave = async () => {
+  const handleLeave = async (campaignId) => {
     try{
-      await leaveCampaign(delCampaignId).unwrap()
+      await leaveCampaign(campaignId).unwrap()
       setDelCampaignId("")
       setDelCampaignName("")
       setDelVerify("")

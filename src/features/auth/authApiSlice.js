@@ -10,7 +10,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: {
                     "email": userData.email,
-                    "password": userData.password
+                    "password": userData.password,
+                    "captcha": userData.captcha
                 }
             }),
             invalidatesTags: ["Campaigns"]
@@ -32,7 +33,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: {
                     "email": userData.email,
-                    "password": userData.password
+                    "password": userData.password,
+                    "name": userData.name,
+                    "captcha": userData.captcha
                 }
             }),
             invalidatesTags: ["Campaigns"]
