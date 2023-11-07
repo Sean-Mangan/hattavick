@@ -6,16 +6,17 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import LockIcon from '@mui/icons-material/Lock';
-import {Button} from '@mui/material';
+import {Button, Checkbox, FormControlLabel} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import {useNavigate, useLocation } from 'react-router-dom';
+import {useNavigate, useLocation, Link } from 'react-router-dom';
 import { useLoginMutation, useRegisterMutation, useResetPasswordMutation } from '../../features/auth/authApiSlice';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { CheckBox } from '@mui/icons-material';
 
 const siteKey = "6Lels_8oAAAAAGys3yrJlITLx27kKvt9VVhOp1Ag"
 
@@ -214,7 +215,36 @@ function LoginPage({reload}) {
                 <Box>
                   <a style={{color:"red", display: (passError)}}>{passError}</a>
                 </Box>
-
+                <br/>
+                <div className='capchta'>
+                  <ReCAPTCHA 
+                  style={{display: "flex"}}
+                  sitekey={siteKey}
+                  ref={recaptchaRef}
+                  onChange={() => setCaptchaVerified(true)}
+                  />
+                </div>
+                <br/>
+                <FormControlLabel
+                labelPlacement="end"
+                  style={{display: (isRegister) ? "block": "none"}}
+                  control={(isRegister) ? <Checkbox required={isRegister}/>  : <></> }
+                  label={
+                          <>
+                              <span>I accept the </span>
+                              <Link to={'/https://hattavick.s3.amazonaws.com/terms_of_service.html'}>terms of use</Link>
+                              <span> and </span>
+                              <Link to={'https://hattavick.s3.amazonaws.com/privacy_policy.html'}>privacy policy</Link>
+                              <span> and am 13 or older</span>
+                          </>
+                        }
+                  />
+                <br/>
+                <Button 
+                type="submit" 
+                variant='contained'
+                style={{backgroundColor:"cyan", color:"#3b3b3b", marginBottom:"2em"}} 
+                > <strong>Submit</strong></Button>
                 <Grid container className="password_control">
                   <Grid item xs={6}>
                     <a 
@@ -232,20 +262,6 @@ function LoginPage({reload}) {
                     >Forgot password?</a>
                   </Grid>
                 </Grid>
-                <div className='capchta'>
-                  <ReCAPTCHA 
-                  style={{display: "flex"}}
-                  sitekey={siteKey}
-                  ref={recaptchaRef}
-                  onChange={() => setCaptchaVerified(true)}
-                  />
-                </div>
-                <br/>
-                <Button 
-                type="submit" 
-                variant='contained'
-                style={{backgroundColor:"cyan", color:"#3b3b3b", marginBottom:"2em"}} 
-                > <strong>Submit</strong></Button>
                 </> 
                 : 
                 <>
