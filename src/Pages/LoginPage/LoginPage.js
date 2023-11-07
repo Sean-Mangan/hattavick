@@ -227,6 +227,7 @@ function LoginPage({reload}) {
                 <br/>
                 {(isRegister) ? 
                 <FormControlLabel
+                style={{maxWidth: "90%", paddingBottom: "1em"}}
                   labelPlacement="end"
                   control={<Checkbox required={isRegister}/>}
                   label={
