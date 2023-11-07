@@ -225,20 +225,23 @@ function LoginPage({reload}) {
                   />
                 </div>
                 <br/>
+                {(isRegister) ? 
                 <FormControlLabel
-                labelPlacement="end"
+                  labelPlacement="end"
                   style={{display: (isRegister) ? "block": "none"}}
-                  control={(isRegister) ? <Checkbox required={isRegister}/>  : <></> }
+                  control={<Checkbox required={isRegister}/>}
                   label={
                           <>
                               <span>I accept the </span>
-                              <Link to={'/https://hattavick.s3.amazonaws.com/terms_of_service.html'}>terms of use</Link>
+                              <a href={'https://hattavick.s3.amazonaws.com/terms_of_service.html'} target='_blank'>terms of use</a>
                               <span> and </span>
-                              <Link to={'https://hattavick.s3.amazonaws.com/privacy_policy.html'}>privacy policy</Link>
+                              <a href={'https://hattavick.s3.amazonaws.com/privacy_policy.html'} target='_blank'>privacy policy</a>
                               <span> and am 13 or older</span>
                           </>
                         }
                   />
+                  : <></>
+                }
                 <br/>
                 <Button 
                 type="submit" 
