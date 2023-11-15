@@ -17,6 +17,10 @@ function HomePage() {
                                 One stop shop for all things lore for your new Table Top RPG game!
                             </strong>
                         </div>
+                        <p>
+                            To get started with your first campaign, first login or create an account and click on the campaign menu!
+                            From there you can start to create your campaign and invite your friends to join once its complete! 
+                        </p>
                         <br/>
                         <Button 
                         variant='contained'
@@ -27,6 +31,28 @@ function HomePage() {
                 </div>
                 <Paper elevation={6} className="main_changelog">
                     <h1 style={{textAlign:"center"}}>Changelog</h1>
+
+                    <p style={{textAlign:"left", paddingTop: "1em", fontSize: "18px"}}>
+                        <strong>Email Automation and Security: <i>November 15, 2023</i></strong>
+                    </p>
+                    <p>
+                        Hey there! Its been a busy couple of months and some change to design philosophy! To get to a workable product I have spent more
+                        time working on functionality other than style. This has mainly been to the registration and login pages. Now we have a terms of 
+                        service and a privacy policy as well as some bot protection. Lastly we have some email automation to ensure that the owner of the
+                        email is the one registering for the account.
+                    </p>
+                    <p>
+                        Finally we have some game launch changes. Now you can kick people from your game and manage players much easier! I am also working 
+                        on a new 'marketplace' feature which should allow you to duplicate your campaign so other parties can use the lore you have already
+                        written! This may take some time however since this will involve a good amount of work on the backend. That said, I should hopefully 
+                        have that up on the next release!
+                    </p>
+                    <p>
+                        I've also settled on delaying some of the style and design changes for a while. It doesn't seem of use at the moment since I 
+                        am constantly adding new pages and features. So I figured a style update would be more beneficial after the core functionality is
+                        done! -Sean
+                    </p>
+
                     <p style={{textAlign:"left", paddingTop: "1em", fontSize: "18px"}}>
                         <strong>Backend Changes and Caching: <i>July 10, 2023</i></strong>
                     </p>

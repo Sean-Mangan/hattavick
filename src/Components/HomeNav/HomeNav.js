@@ -65,10 +65,14 @@ function HomeNav() {
                 <br/>
                 <Link to='/contact' style={{textDecoration:"None", color: "white"}} onClick={showNavBar}><div className="nav_link" >Contact</div></Link>
                 <br/>
-                {(token)
-                    ? <>
-                        <div className="nav_link" onClick={() => {handleLogout(); showNavBar()}}>Logout</div>
+                
+                        <div className="nav_link" onClick={() => {if (token) {handleLogout(); showNavBar()} else{navigate("/login")}}}>
+                            {(token) ? "Logout": "Login"}
+                        </div>
                         &nbsp;
+                    {(token)
+                    ?
+                    <>
                         <Button
                         id="demo-positioned-button"
                         aria-controls={open ? 'demo-positioned-menu' : undefined}
@@ -119,12 +123,12 @@ function HomeNav() {
                         </Menu>
                     </>
                     :<Button 
-                        onClick={() => {navigate("/login"); showNavBar()}}
+                        onClick={() => {navigate('/campaigns'); showNavBar()}}
                         variant="contained"
                         color="error"
                         style={{fontFamily: '"Times New Roman", Times, serif', fontSize: "1.2rem", textDecoration:"None"}}
                         >
-                        Login
+                        Campaigns
                     </Button>
                 }
                 <Button 
