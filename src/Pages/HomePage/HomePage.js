@@ -77,7 +77,7 @@ function HomePage() {
                     </p>
                     <p>
                         We just had our initial launch! A bunch of 'initial' stuff was added including login functionality, 
-                        email utilties and basic campaign functionality (create/invite/join/etc). We are still working on defining our style
+                        email utilities and basic campaign functionality (create/invite/join/etc). We are still working on defining our style
                         so things like font and color are subject to change. Admittedly There is a bunch left to do. Not all of the main 
                         pages have been created (see the contact page). Most of the main application to show campaign data is already implemented
                         but still requires a bit of work due to changes in the database.
