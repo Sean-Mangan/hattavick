@@ -51,10 +51,6 @@ function LoginPage({reload}) {
     e.preventDefault()
 
     try{
-      if (!captchaVerified){
-        setError("Please complete the CAPTCHA")
-        return
-      }
 
       // Handle the password reset request
       if (passReset) {
@@ -215,15 +211,6 @@ function LoginPage({reload}) {
                 <Box>
                   <a style={{color:"red", display: (passError)}}>{passError}</a>
                 </Box>
-                <br/>
-                <div className='capchta'>
-                  <ReCAPTCHA 
-                  style={{display: "flex"}}
-                  sitekey={siteKey}
-                  ref={recaptchaRef}
-                  onChange={() => setCaptchaVerified(true)}
-                  />
-                </div>
                 <br/>
                 {(isRegister) ? 
                 <FormControlLabel
