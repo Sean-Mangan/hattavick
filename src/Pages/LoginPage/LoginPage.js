@@ -15,8 +15,6 @@ import { useLoginMutation, useRegisterMutation, useResetPasswordMutation } from 
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { CheckBox } from '@mui/icons-material';
 
 const siteKey = "6Lels_8oAAAAAGys3yrJlITLx27kKvt9VVhOp1Ag"
 
@@ -33,8 +31,8 @@ function LoginPage({reload}) {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/"
 
-  const recaptchaRef = React.createRef();
 
+  // Handle state
   const [loginData, setLoginData] = useState({"email": "", "password": "", "username": ""})
   const [passError, setPassError] = useState("")
   const [Error, setError] = useState("")
@@ -42,7 +40,6 @@ function LoginPage({reload}) {
   const [isRegister, setIsRegister] = useState(false)
   const [passReset, setPassReset] = useState(false)
   const [resetSent, setResetSent] = useState(false)
-  const [captchaVerified, setCaptchaVerified] = useState(false)
 
   /**
    * Function that will handle login/registering functionality
@@ -62,13 +59,13 @@ function LoginPage({reload}) {
 
       // Handle registering functionality
       if (isRegister){
-        const payload = {email : loginData.email, password: loginData.password, name: loginData.username, captcha: recaptchaRef.current.getValue()}
+        const payload = {email : loginData.email, password: loginData.password, name: loginData.username}
         const userData = await register(payload).unwrap()
         return
       }
 
       // Otherwise it must be a login function
-      const payload = {email : loginData.email, password: loginData.password, captcha: recaptchaRef.current.getValue()}
+      const payload = {email : loginData.email, password: loginData.password}
       const userData = await login(payload).unwrap()
       const email = loginData.email
       dispatch(setCredentials({ ...userData, email}))
