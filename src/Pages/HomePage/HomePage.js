@@ -1,5 +1,6 @@
 import { Button, Paper } from '@mui/material';
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link for internal navigation
 import "./HomePage.css";
 
 function HomePage() {
@@ -22,7 +23,11 @@ function HomePage() {
                         </strong>
                     </div>
                     <p>
-                        To get started with your first campaign, log in or create an account. Then, click on the campaign menu to begin creating your campaign. Once complete, invite your friends to join and collaborate!
+                        To get started with your first campaign, 
+                        <Link to="/login" style={{ textDecoration: "underline", color: "inherit" }}>log in</Link> 
+                        {" "}or{" "} 
+                        <Link to="/login" style={{ textDecoration: "underline", color: "inherit" }}>create an account</Link>. 
+                        Then, click on the campaign menu to begin creating your campaign. Once complete, invite your friends to join and collaborate!
                     </p>
                     <Button 
                         variant="contained" 

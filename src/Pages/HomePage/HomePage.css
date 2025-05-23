@@ -6,6 +6,11 @@
     color: #333;
 }
 
+.underline_link {
+    text-decoration: underline;
+    color: inherit;
+}
+
 .home_header {
     margin-bottom: 2rem;
 }
