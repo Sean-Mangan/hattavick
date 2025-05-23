@@ -1,3 +1,13 @@
-# https://www.robotstxt.org/robotstxt.html
+# Allow all search engines to crawl the site
 User-agent: *
-Disallow:
+Allow: /
+
+# Disallow access to sensitive or irrelevant directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /login/
+Disallow: /register/
+
+# Specify the location of the sitemap
+Sitemap: https://hattavick.com/sitemap.xml
