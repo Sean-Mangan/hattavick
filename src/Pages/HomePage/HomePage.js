@@ -1,4 +1,4 @@
-import { Button, Paper } from '@mui/material';
+import { Button, Paper, Alert } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for internal navigation
 import "./HomePage.css";
@@ -6,6 +6,11 @@ import "./HomePage.css";
 function HomePage() {
     return (
         <main className="home_wrapper">
+            {/* Alpha Testing Banner */}
+            <Alert severity="info" className="alpha_banner">
+                <strong>Welcome to Hattavick Alpha Testing!</strong> Please note that this platform is in its early stages. Your feedback is invaluable in shaping its future.
+            </Alert>
+
             <header className="home_header">
                 <h1>Hattavick - D&D and TTRPG Campaign Manager</h1>
                 <p>Your ultimate tool for managing lore, campaigns, and party collaboration in tabletop RPGs.</p>
@@ -23,11 +28,11 @@ function HomePage() {
                         </strong>
                     </div>
                     <p>
-                        To get started with your first campaign, 
-                        <Link to="/login" style={{ textDecoration: "underline", color: "inherit" }}>log in</Link> 
-                        {" "}or{" "} 
+                        <strong>Getting Started:</strong> 
+                        <br />
+                        To begin, <Link to="/login" style={{ textDecoration: "underline", color: "inherit" }}>log in</Link> or{" "}
                         <Link to="/login" style={{ textDecoration: "underline", color: "inherit" }}>create an account</Link>. 
-                        Then, click on the campaign menu to begin creating your campaign. Once complete, invite your friends to join and collaborate!
+                        Once logged in, navigate to the campaign menu to create your first campaign. Invite your friends to join and collaborate!
                     </p>
                     <Button 
                         variant="contained" 

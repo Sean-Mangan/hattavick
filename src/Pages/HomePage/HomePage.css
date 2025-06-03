@@ -6,6 +6,12 @@
     color: #333;
 }
 
+.alpha_banner {
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: 1.2em;
+}
+
 .underline_link {
     text-decoration: underline;
     color: inherit;
