@@ -175,6 +175,7 @@ function NPCPage() {
                     </strong>
                   </div>
                   <img
+                    key={img}
                     className="char-page-pc-img"
                     src={img ? img : notGiven}
                   />
@@ -241,6 +242,7 @@ function NPCPage() {
                   />
                   <div className="char-page-editable-container">
                     <img
+                      key={img}
                       className="char-page-img blur"
                       src={img ? img : notGiven}
                     />
@@ -352,6 +354,7 @@ function NPCPage() {
                   </strong>
                 </div>
                 <img
+                  key={charData?.image}
                   className="char-page-pc-img"
                   src={charData?.image ? charData.image : notGiven}
                 />
@@ -369,9 +372,7 @@ function NPCPage() {
                     <div className="char-page-title char-page-subtitle">
                       Public backstory
                     </div>
-                    <div className="char-page-paper-wrapper">
-                      {charData?.public}
-                    </div>
+                    <MultiLineTextDisplay text={charData?.public} className="char-page-paper-wrapper"/>
                   </Paper>
                 </div>
               </Grid>
