@@ -108,6 +108,7 @@ function NPCPage() {
   // Reset the char when their are edits made
   useEffect(() => {
     setCharData(npc);
+    setImg(npc.image); // Update the img state when the npc changes
   }, [npc, characterId]);
 
   return (
