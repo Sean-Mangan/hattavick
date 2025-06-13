@@ -12,6 +12,8 @@ import {
 import { useOutletContext } from "react-router-dom";
 
 const MultiLineTextDisplay = ({ text }) => {
+  text = text || ""; // Ensure text is a string
+
   const { campaignId, isAdmin } = useOutletContext();
   const { data: allChars } = useGetNPCDataQuery(campaignId);
   const { data: allFactions } = useGetFactionsQuery(campaignId);
@@ -75,6 +77,7 @@ const MultiLineTextDisplay = ({ text }) => {
             href={id}
             target="_blank"
             rel="noopener noreferrer"
+            className="link-external"
           >
             {type}
           </a>,
@@ -84,7 +87,11 @@ const MultiLineTextDisplay = ({ text }) => {
         const linkData = createLink[id];
         if (linkData) {
           parts.push(
-            <Link key={startIndex} to={linkData.endpoint}>
+            <Link
+              key={startIndex}
+              to={linkData.endpoint}
+              className={`link-${type}`}
+            >
               {linkData.name}
             </Link>,
           );

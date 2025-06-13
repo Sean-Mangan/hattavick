@@ -1,112 +1,111 @@
-.campaign-home-wrapper{
-    text-align: center;
-    margin: auto;
-    max-width: 800px;
-    display: block;
+.campaign-home-wrapper {
+  text-align: center;
+  margin: auto;
+  max-width: 800px;
+  display: block;
 }
 
-.text-field{
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: groove;
+.text-field {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
 }
 
-.blur{
-    filter: blur(5px)
+.blur {
+  filter: blur(5px);
 }
 
-.homepage-title{
-    margin:auto;
-    display: block;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 60px;
-    letter-spacing: -4px;
-    word-spacing: 0.2px;
-    font-weight: 700;
-    font-variant: small-caps;
-    text-transform: none;
-    text-decoration: none;
-    margin-bottom: 3vh;
+.homepage-title {
+  margin: auto;
+  display: block;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 60px;
+  letter-spacing: -4px;
+  word-spacing: 0.2px;
+  font-weight: 700;
+  font-variant: small-caps;
+  text-transform: none;
+  text-decoration: none;
+  margin-bottom: 3vh;
 }
 
-.edit-btn{
-    margin-top: 2em;
+.edit-btn {
+  margin-top: 2em;
 }
 
-.home-button-wrapper{
-    width: 100%;
-    text-align: right;
-    padding-top: 1em;
+.home-button-wrapper {
+  width: 100%;
+  text-align: right;
+  padding-top: 1em;
 }
 
-.editable-container{
-    position: relative;
-    width: 100%;
+.editable-container {
+  position: relative;
+  width: 100%;
 }
 
-.micro-text{
-    font-size: 12px;
-    word-break: break-all;
+.micro-text {
+  font-size: 12px;
+  word-break: break-all;
 }
 
-.upload-btn{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    background-color: #1976d2;
-    color: white;
-    font-size: 20px;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 60%;
+.upload-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #1976d2;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 60%;
 }
 
-.upload-btn:hover{
-    background-color: #1566b6;
+.upload-btn:hover {
+  background-color: #1566b6;
 }
 
 .img-wrapper {
-    margin: auto;
-    max-width: 800px;
-    align-items: center;
-    max-height: 50vh;
+  margin: auto;
+  max-width: 800px;
+  align-items: center;
+  max-height: 50vh;
 }
 
-.homepage-overview{
-    display:block;
-    margin: auto;
-    padding-top: 0;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    font-size: 18px;
-    line-height: 24px;
-    max-width: 800px;
-    text-align: justify;
-    white-space: pre-line;
-    margin-bottom: 2em;
-    max-height: fit-content !important;
-    resize: "none";
-    margin-top: 3vh;
+.homepage-overview {
+  display: block;
+  margin: auto;
+  padding-top: 0;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  font-size: 18px;
+  line-height: 24px;
+  max-width: 800px;
+  text-align: justify;
+  white-space: pre-line;
+  margin-bottom: 2em;
+  max-height: fit-content !important;
+  resize: "none";
+  margin-top: 3vh;
 }
 
 .auto_resize_text {
-    width: 100%;
-    padding: 0;
-    resize: none;
+  width: 100%;
+  padding: 0;
+  resize: none;
 }
 
-
 @media only screen and (max-width: 1024px) {
-    .img-wrapper{
-        max-width: 100%;
-    }
-    .home-button-wrapper{
-        text-align: center
-    }
+  .img-wrapper {
+    max-width: 100%;
+  }
+  .home-button-wrapper {
+    text-align: center;
+  }
 }

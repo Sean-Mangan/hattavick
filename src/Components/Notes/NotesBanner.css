@@ -1,259 +1,259 @@
 /* NotesBanner.css */
 
 .notes-banner {
-    background-color: #f5f5f5;
-    padding: 20px;
-    margin: 20px auto;
-    border-radius: 8px;
-    text-align: left;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .notes-banner h1 {
-    font-size: 24px;
-    color: #333;
-    margin: 0;
+  font-size: 24px;
+  color: #333;
+  margin: 0;
 }
 
 .notes-banner p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 0px;
-    margin-block-start: 0;
-    margin-block-end: 0;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0px;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
-.notes-banner h3{
-    font-size: 1.2rem;
-    color: #333;
-    margin-top: 0px;
-    margin-block-start: 0;
-    margin-block-end: 0;
+.notes-banner h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 0px;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .fullscreen-wrap {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
 }
 
 .fullscreen-wrap.show {
-    display: flex;
+  display: flex;
 }
 
 .large-img-wrap {
-    position: relative;
-    max-width: 90%;
-    max-height: 90%;
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
 }
 
 .preview-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .close-img-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: white;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  cursor: pointer;
 }
 
 .note-audio {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .audio-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .note-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .note-actions button {
-    min-width: 100px;
+  min-width: 100px;
 }
 
 .note-switch {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .asset-edit-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center; /* Centers items horizontally */
-    justify-content: center; /* Centers items vertically */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center; /* Centers items horizontally */
+  justify-content: center; /* Centers items vertically */
 }
 
 .file-item {
-    display: flex;
-    align-items: center; /* Centers image and button vertically */
-    gap: 10px;
-    padding: 5px;
+  display: flex;
+  align-items: center; /* Centers image and button vertically */
+  gap: 10px;
+  padding: 5px;
 }
 
 .audio-item p {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 /* General styling for the note display wrapper */
 .note-display-wrapper {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 1rem;
 }
 
 .note-edit-wrapper {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-bottom: 1rem;
 }
 
 /* Styling for the note header */
 .note-display-header {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Top row: title and edit button */
 .note-header-top {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Bottom row: author, created date, and public/private flag aligned to the left */
 .note-header-bottom {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align items to the left */
-    gap: 0; /* Add spacing between items */
-    font-size: 0.2rem;
-    color: #555;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-start; /* Align items to the left */
+  gap: 0; /* Add spacing between items */
+  font-size: 0.2rem;
+  color: #555;
 }
 
 /* Title, author, and created date on the same line */
 .note-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-right: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 1rem;
 }
 
 .note-author,
 .note-date {
-    color: #555;
+  color: #555;
 }
 
 /* Styling for the note content */
 .note-content {
-    text-align: left;
-    font-size: 1rem !important;
-    line-height: 1.5;
-    color: #333;
-    margin-top: 1rem;
-    width: auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    background-color: #fff;
-    word-break: break-word;
-    overflow-wrap: break-all;
+  text-align: left;
+  font-size: 1rem !important;
+  line-height: 1.5;
+  color: #333;
+  margin-top: 1rem;
+  width: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff;
+  word-break: break-word;
+  overflow-wrap: break-all;
 }
 
 /* Styling for assets */
 .note-assets {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .note-assets h4 {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .note-images img {
-    max-width: 100px;
-    margin: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  max-width: 100px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .note-audio .audio-item {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 
 .note-audio audio {
-    width: 100%;
+  width: 100%;
 }
 
 .note-assets ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .note-assets ul li a {
-    color: #007bff;
-    text-decoration: none;
+  color: #007bff;
+  text-decoration: none;
 }
 
 .note-assets ul li a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .notes-banner-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
-.block-item{
-    display: none;
+.block-item {
+  display: none;
 }
 
 /* Styling for small screens */
 @media (max-width: 900px) {
-    .note-header-top {
-        flex-direction: column-reverse;
-        align-items: flex-end;
-        gap: 0;
-    }
+  .note-header-top {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 0;
+  }
 
-    .note-title {
-        margin-bottom: 0.5rem;
-    }
+  .note-title {
+    margin-bottom: 0.5rem;
+  }
 
-    .note-actions{
-        flex-direction: column;
-        align-items: flex-end;
-    }
+  .note-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
-    .block-item{
-        display: flex;
-    }
+  .block-item {
+    display: flex;
+  }
 }

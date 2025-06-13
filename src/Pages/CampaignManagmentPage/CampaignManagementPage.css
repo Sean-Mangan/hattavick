@@ -1,77 +1,77 @@
-.campaign-management-wrap{
-	margin: auto;
-	max-width: 80%;
-	text-align: center;
+.campaign-management-wrap {
+  margin: auto;
+  max-width: 80%;
+  text-align: center;
 }
 
-.campaign-management-box-wrap{
-    width: 100%;
-    min-height: 2em;
-    border-radius: 1em !important;
+.campaign-management-box-wrap {
+  width: 100%;
+  min-height: 2em;
+  border-radius: 1em !important;
 }
 
-.campaign-management-box-title{
-    padding: 1em;
-    font-size: 1.5em;
-    font-weight: 500;
-    text-align: left;
+.campaign-management-box-title {
+  padding: 1em;
+  font-size: 1.5em;
+  font-weight: 500;
+  text-align: left;
 }
 
-.owner-title-wrap{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
+.owner-title-wrap {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
-.add-btn{
-    margin: 1em !important
+.add-btn {
+  margin: 1em !important;
 }
 
-.add-icon{
-    transform: scale(1.8);
+.add-icon {
+  transform: scale(1.8);
 }
 
-.owner-row{
-    display: flex;
-    text-align: left;
-    justify-content: space-evenly;
-    max-width: 1000px;
-    margin: auto;
-    padding: 1em;
-    align-items: center;
+.owner-row {
+  display: flex;
+  text-align: left;
+  justify-content: space-evenly;
+  max-width: 1000px;
+  margin: auto;
+  padding: 1em;
+  align-items: center;
 }
 
-.delete-campaign-wrap{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    backdrop-filter: blur(5px);
+.delete-campaign-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  backdrop-filter: blur(5px);
 }
 
-.delete-campaign-box{
-    padding: 2em;
-    min-width: 400px;
-    background: white;
-    border-radius: 2em !important;
+.delete-campaign-box {
+  padding: 2em;
+  min-width: 400px;
+  background: white;
+  border-radius: 2em !important;
 }
 
-.close-icon-wrap{
-    margin-right: -2em;
-    margin-top: -1em;
-    position: relative;
-    text-align: right;
-    padding: 0;
+.close-icon-wrap {
+  margin-right: -2em;
+  margin-top: -1em;
+  position: relative;
+  text-align: right;
+  padding: 0;
 }
 
-.campaign-name-title{
-    width: 30%;
-    text-align: center;
-    overflow: hidden;
-    font-size: 1.5em;
+.campaign-name-title {
+  width: 30%;
+  text-align: center;
+  overflow: hidden;
+  font-size: 1.5em;
 }

@@ -1,126 +1,126 @@
 .home_wrapper {
-    margin: auto;
-    max-width: 80%;
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-    color: #333;
+  margin: auto;
+  max-width: 80%;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+  color: #333;
 }
 
 .alpha_banner {
-    margin-bottom: 1em;
-    text-align: center;
-    font-size: 1.2em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 1.2em;
 }
 
 .underline_link {
-    text-decoration: underline;
-    color: inherit;
+  text-decoration: underline;
+  color: inherit;
 }
 
 .home_header {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .home_header h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
+  font-size: 2.5rem;
+  color: #2c3e50;
 }
 
 .home_header p {
-    font-size: 1.2rem;
-    color: #7f8c8d;
+  font-size: 1.2rem;
+  color: #7f8c8d;
 }
 
 .home_image {
-    max-width: 40vw;
-    border-radius: 15px;
-    height: auto;
-    object-fit: contain;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 40vw;
+  border-radius: 15px;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .home_content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 3rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 3rem 0;
 }
 
 .home_outline_wrapper {
-    margin-left: 3rem;
-    padding: 2rem;
-    text-align: center;
-    border-radius: 15px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 3rem;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .home_outline_text {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #34495e;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #34495e;
 }
 
 .home_button {
-    margin-top: 1rem;
-    background-color: #3498db;
-    color: #fff;
-    font-size: 1rem;
-    padding: 0.5rem 1.5rem;
-    border-radius: 5px;
-    text-transform: none;
+  margin-top: 1rem;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  text-transform: none;
 }
 
 .home_button:hover {
-    background-color: #2980b9;
+  background-color: #2980b9;
 }
 
 .main_changelog {
-    padding: 2rem 10vw;
-    background-color: #f4f4f4;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem 10vw;
+  background-color: #f4f4f4;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .changelog_title {
-    text-align: center;
-    font-size: 2rem;
-    color: #2c3e50;
-    margin-bottom: 2rem;
+  text-align: center;
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
 }
 
 .changelog_entry {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .changelog_entry h3 {
-    font-size: 1.5rem;
-    color: #34495e;
+  font-size: 1.5rem;
+  color: #34495e;
 }
 
 .changelog_entry p {
-    font-size: 1rem;
-    color: #7f8c8d;
-    line-height: 1.6;
+  font-size: 1rem;
+  color: #7f8c8d;
+  line-height: 1.6;
 }
 
 @media only screen and (max-width: 1024px) {
-    .home_content {
-        display: block;
-        text-align: center;
-    }
+  .home_content {
+    display: block;
+    text-align: center;
+  }
 
-    .home_image {
-        max-width: 100%;
-        margin-bottom: 2rem;
-    }
+  .home_image {
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
 
-    .home_outline_wrapper {
-        margin: 0 auto;
-        width: 90%;
-    }
+  .home_outline_wrapper {
+    margin: 0 auto;
+    width: 90%;
+  }
 
-    .main_changelog {
-        padding: 1rem;
-    }
+  .main_changelog {
+    padding: 1rem;
+  }
 }

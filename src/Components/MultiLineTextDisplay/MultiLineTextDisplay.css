@@ -1,30 +1,93 @@
 .multi-line-p-content {
-    text-align: left;
-    font-size: 1rem !important;
-    line-height: 1.5;
-    color: #333;
-    margin-top: 1rem;
-    width: auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    background-color: #fff;
-    word-break: break-word;
-    overflow-wrap: break-all;
+  text-align: left;
+  font-size: 1rem !important;
+  line-height: 1.5;
+  margin-top: 1rem;
+  width: auto;
+  border-radius: 8px;
+  padding: 1rem;
+  word-break: break-word;
+  overflow-wrap: break-all;
 }
 
 .multi-line-p-content a,
 .multi-line-p-content a:visited {
-    text-decoration: none; /* Remove underline */
-    color: #007bff; /* Set link color */
-    padding: 0.2rem 0.4rem; /* Add padding for the box */
-    border: 1px solid #007bff; /* Add border around the link */
-    border-radius: 4px; /* Make the box rounded */
-    background-color: #f0f8ff; /* Light background color */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+  text-decoration: none; /* Remove underline */
+  padding: 0.2rem 0.4rem; /* Add padding for the box */
+  border-radius: 4px; /* Make the box rounded */
+  transition:
+    background-color 0.3s,
+    color 0.3s; /* Smooth transition for hover effects */
 }
 
-.multi-line-p-content a:hover {
-    background-color: #007bff; /* Change background color on hover */
-    color: #fff; /* Change text color on hover */
+/* External links */
+.link-external {
+  color: #007bff;
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.link-external:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Thing links */
+.link-thing {
+  color: #28a745;
+  border-color: #28a745;
+  background-color: #e9f7ef;
+}
+
+.link-thing:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+/* Location links */
+.link-location {
+  color: #17a2b8;
+  border-color: #17a2b8;
+  background-color: #e3f7fc;
+}
+
+.link-location:hover {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+/* PC links */
+.link-pc {
+  color: #ffc107;
+  border-color: #ffc107;
+  background-color: #fff8e1;
+}
+
+.link-pc:hover {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+/* Faction links */
+.link-faction {
+  color: #6f42c1;
+  border-color: #6f42c1;
+  background-color: #f5f0ff;
+}
+
+.link-faction:hover {
+  background-color: #6f42c1;
+  color: #fff;
+}
+
+/* NPC links */
+.link-npc {
+  color: #dc3545;
+  border-color: #dc3545;
+  background-color: #f8d7da;
+}
+
+.link-npc:hover {
+  background-color: #dc3545;
+  color: #fff;
 }

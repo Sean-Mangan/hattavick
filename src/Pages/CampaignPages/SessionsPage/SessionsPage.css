@@ -1,43 +1,43 @@
-.sessions-wrapper{
-    max-width: 1000px;
-    text-align: center;
-    margin: auto;
+.sessions-wrapper {
+  max-width: 1000px;
+  text-align: center;
+  margin: auto;
 }
 
-.session-resizer{
-    margin: auto;
-    padding: 1em;
-    width: calc(100% - 2em);
+.session-resizer {
+  margin: auto;
+  padding: 1em;
+  width: calc(100% - 2em);
 }
 
-.sessions-title{
-    margin:auto;
-    display: block;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 60px;
-    word-spacing: 0.2px;
-    font-weight: 700;
-    font-variant: small-caps;
-    text-transform: none;
-    text-decoration: none;
-    padding-bottom: 0.5em;
+.sessions-title {
+  margin: auto;
+  display: block;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 60px;
+  word-spacing: 0.2px;
+  font-weight: 700;
+  font-variant: small-caps;
+  text-transform: none;
+  text-decoration: none;
+  padding-bottom: 0.5em;
 }
 
-.session-date{
-    display: block;
-    padding-bottom: 1em;
+.session-date {
+  display: block;
+  padding-bottom: 1em;
 }
 
-.accordian-data-wrap{
-    white-space: pre-line;
+.accordian-data-wrap {
+  white-space: pre-line;
 }
 
-.edit-btn-wrap{
-    width:100%;
-    text-align: right;
+.edit-btn-wrap {
+  width: 100%;
+  text-align: right;
 }
 
-.session-accordian-wrap{
-    text-align: left;
+.session-accordian-wrap {
+  text-align: left;
 }

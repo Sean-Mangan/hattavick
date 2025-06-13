@@ -1,182 +1,182 @@
-.mychar-page-wrapper{
-    display: flex;
-    margin: auto;
-    display: block;
+.mychar-page-wrapper {
+  display: flex;
+  margin: auto;
+  display: block;
 }
 
-.text-field{
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: groove;
+.text-field {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
 }
 
-.my-char-subtitle{
-    padding-top: 1em !important;
+.my-char-subtitle {
+  padding-top: 1em !important;
 }
 
-.my-char-title{
-    margin:auto;
-    width: 80%;
-    display: block;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 24px;
-    word-spacing: 0.2px;
-    font-weight: 700;
-    font-variant: small-caps;
-    text-transform: none;
-    text-decoration: none;
-    margin-bottom: 1em;
+.my-char-title {
+  margin: auto;
+  width: 80%;
+  display: block;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 24px;
+  word-spacing: 0.2px;
+  font-weight: 700;
+  font-variant: small-caps;
+  text-transform: none;
+  text-decoration: none;
+  margin-bottom: 1em;
 }
 
-.desc-wrapper{
-    text-align: center;
-    padding: 2em;
+.desc-wrapper {
+  text-align: center;
+  padding: 2em;
 }
 
-.text-field{
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: groove;
+.text-field {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: groove;
 }
 
-.paper-wrappper{
-    margin-left: 2em;
-    margin-right: 1em;
-    padding-right: 1em;
-    padding-bottom: 2em;
-    height: calc(100vh - (80px + 16rem));
-    overflow-y: scroll;
-    white-space: pre-line;
+.paper-wrappper {
+  margin-left: 2em;
+  margin-right: 1em;
+  padding-right: 1em;
+  padding-bottom: 2em;
+  height: calc(100vh - (80px + 16rem));
+  overflow-y: scroll;
+  white-space: pre-line;
 }
 
-.pc-wrapper{
-    padding-left: 2em;
-    padding-right: 2em;
+.pc-wrapper {
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
-.blur{
-    filter: blur(5px)
+.blur {
+  filter: blur(5px);
 }
 
-.btn-wrapper{
-    width: 100%;
-    text-align: right;
-    padding-top: 1em;
-    padding-bottom: 1em;
+.btn-wrapper {
+  width: 100%;
+  text-align: right;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
-.char-edit-btn{
-    margin-right: 2em !important;
+.char-edit-btn {
+  margin-right: 2em !important;
 }
 
-.homepage-title{
-    margin:auto;
-    display: block;
-    text-align: center;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 60px;
-    letter-spacing: -4px;
-    word-spacing: 0.2px;
-    font-weight: 700;
-    font-variant: small-caps;
-    text-transform: none;
-    text-decoration: none;
-    margin-bottom: 3vh;
+.homepage-title {
+  margin: auto;
+  display: block;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 60px;
+  letter-spacing: -4px;
+  word-spacing: 0.2px;
+  font-weight: 700;
+  font-variant: small-caps;
+  text-transform: none;
+  text-decoration: none;
+  margin-bottom: 3vh;
 }
 
-.char-img{
-    display: block;
-    margin: auto;
-    width: min(100%, 400px);
-    align-items: center;
-    max-height: 40vh;
-    object-fit: contain;
+.char-img {
+  display: block;
+  margin: auto;
+  width: min(100%, 400px);
+  align-items: center;
+  max-height: 40vh;
+  object-fit: contain;
 }
 
-
-.editable-container{
-    position: relative;
-    width: 100%;
+.editable-container {
+  position: relative;
+  width: 100%;
 }
 
-.micro-text{
-    font-size: 12px;
-    word-break: break-all;
-}
-
-.auto_resize_text {
-    width: 100%;
-    padding: 0;
-    resize: none;
-    font-family: Arial, Helvetica, sans-serif;;
-    font-size: 16px !important;
-}
-
-.upload-btn{
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    background-color: #1976d2;
-    color: white;
-    font-size: 20px;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 80%;
-}
-
-.upload-btn:hover{
-    background-color: #1566b6;
-}
-
-.mychar-overview{
-    display:block;
-    margin: auto;
-    padding-top: 0;
-    padding-left: 2vw;
-    padding-right: 2vw;
-    font-size: 12px;
-    white-space: pre-line;
-    max-height: fit-content !important;
-}
-
-.editable-container{
-    position: relative;
-    width: 100%;
+.micro-text {
+  font-size: 12px;
+  word-break: break-all;
 }
 
 .auto_resize_text {
-    width: 100%;
-    padding: 0;
-    resize: none;
+  width: 100%;
+  padding: 0;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px !important;
 }
 
+.upload-btn {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #1976d2;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 80%;
+}
+
+.upload-btn:hover {
+  background-color: #1566b6;
+}
+
+.mychar-overview {
+  display: block;
+  margin: auto;
+  padding-top: 0;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  font-size: 12px;
+  white-space: pre-line;
+  max-height: fit-content !important;
+}
+
+.editable-container {
+  position: relative;
+  width: 100%;
+}
+
+.auto_resize_text {
+  width: 100%;
+  padding: 0;
+  resize: none;
+}
 
 @media only screen and (max-width: 900px) {
-    .btn-wrapper{
-        text-align: center;
-        padding-bottom: 0;
-        padding-top: 0;
-    }
-    .char-edit-btn{
-        margin-right: 0 !important;
-    }
-    .my-char-title{
-        margin: 0; 
-        margin-top: 0 !important;
-        margin-bottom: 0.5em;
-        width: 100%;
-    }.pc-wrapper{
-        padding: 1em;
-    }.desc-wrapper{
-        padding-left: 10vw;
-        padding-right: 10vw;
-    }
+  .btn-wrapper {
+    text-align: center;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+  .char-edit-btn {
+    margin-right: 0 !important;
+  }
+  .my-char-title {
+    margin: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0.5em;
+    width: 100%;
+  }
+  .pc-wrapper {
+    padding: 1em;
+  }
+  .desc-wrapper {
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
 }
