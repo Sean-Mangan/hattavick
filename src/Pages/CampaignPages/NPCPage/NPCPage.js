@@ -372,7 +372,10 @@ function NPCPage() {
                     <div className="char-page-title char-page-subtitle">
                       Public backstory
                     </div>
-                    <MultiLineTextDisplay text={charData?.public} className="char-page-paper-wrapper"/>
+                    <MultiLineTextDisplay
+                      text={charData?.public}
+                      className="char-page-paper-wrapper"
+                    />
                   </Paper>
                 </div>
               </Grid>
