@@ -108,7 +108,7 @@ function NPCPage() {
   // Reset the char when their are edits made
   useEffect(() => {
     setCharData(npc);
-  }, [npc]);
+  }, [npc, characterId]);
 
   return (
     <div className="pc-wrapper">
