@@ -1,0 +1,30 @@
+.multi-line-p-content {
+    text-align: left;
+    font-size: 1rem !important;
+    line-height: 1.5;
+    color: #333;
+    margin-top: 1rem;
+    width: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #fff;
+    word-break: break-word;
+    overflow-wrap: break-all;
+}
+
+.multi-line-p-content a,
+.multi-line-p-content a:visited {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Set link color */
+    padding: 0.2rem 0.4rem; /* Add padding for the box */
+    border: 1px solid #007bff; /* Add border around the link */
+    border-radius: 4px; /* Make the box rounded */
+    background-color: #f0f8ff; /* Light background color */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+.multi-line-p-content a:hover {
+    background-color: #007bff; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
+}

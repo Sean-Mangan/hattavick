@@ -2,6 +2,7 @@
     display: flex;
     margin: auto;
     display: block;
+    overflow-y:visible
 }
 
 .char-page-text-field{
@@ -41,16 +42,11 @@
 }
 
 .char-page-paper-center{
-    position: absolute;
-    top: calc(50% + 1em);
-    left: 50%;
-    width: calc(50vw - 5em);
-    transform: translate(1.5em, -50%);
-    -ms-transform: translate(-50%, -50%);
+    margin-top: 2em;
 }
 
 .char-page-public-centered-wrap{
-    height: calc(100vh - (80px + 5rem));
+    height: calc(60vh - (80px + 5rem));
 }
 
 .char-page-paper-wrapper{
@@ -58,8 +54,7 @@
     margin-right: 1em;
     padding-right: 1em;
     padding-bottom: 2em;
-    max-height: calc(100vh - (80px + 16rem));
-    overflow-y: scroll;
+    overflow-y: visible;
     white-space: pre-line;
 }
 

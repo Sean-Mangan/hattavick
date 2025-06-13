@@ -1,14 +1,14 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import HomeNav from './HomeNav'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import HomeNav from "./HomeNav";
 
 function HomeNavWrapper() {
   return (
     <div>
-        <HomeNav/>
-        <Outlet/>
+      <HomeNav />
+      <Outlet />
     </div>
-  )
+  );
 }
 
-export default HomeNavWrapper
+export default HomeNavWrapper;

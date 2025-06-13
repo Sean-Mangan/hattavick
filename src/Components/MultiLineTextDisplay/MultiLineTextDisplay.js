@@ -1,0 +1,124 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import "./MultiLineTextDisplay.css"; // Optional: Add styles if needed
+import {
+  useGetFactionsQuery,
+  useGetLocationQuery,
+  useGetNPCDataQuery,
+  useGetPartyDataQuery,
+  useGetThingQuery,
+} from "../../features/campaign/campaignApiSlice";
+import { useOutletContext } from "react-router-dom";
+
+const MultiLineTextDisplay = ({ text }) => {
+  const { campaignId, isAdmin } = useOutletContext();
+  const { data: allChars } = useGetNPCDataQuery(campaignId);
+  const { data: allFactions } = useGetFactionsQuery(campaignId);
+  const { data: allThings } = useGetThingQuery(campaignId);
+  const { data: allLocations } = useGetLocationQuery(campaignId);
+  const { data: allPartyMembers } = useGetPartyDataQuery(campaignId);
+
+  // Create a mapping from the id of the lore item to a url to create a link to it
+  const createLink = {};
+  allChars?.forEach((char) => {
+    createLink[char.character_id] = {
+      endpoint: `/campaign/${campaignId}/characters/npc/${char.character_id}`,
+      name: char.name,
+    };
+  });
+  allFactions?.forEach((faction) => {
+    createLink[faction.lore_id] = {
+      endpoint: `/campaign/${campaignId}/lore/factions/?loreId=${faction.lore_id}`,
+      name: faction.name,
+    };
+  });
+  allThings?.forEach((thing) => {
+    createLink[thing.lore_id] = {
+      endpoint: `/campaign/${campaignId}/lore/things/?loreId=${thing.lore_id}`,
+      name: thing.name,
+    };
+  });
+  allLocations?.forEach((location) => {
+    createLink[location.lore_id] = {
+      endpoint: `/campaign/${campaignId}/lore/locations/?loreId=${location.lore_id}`,
+      name: location.name,
+    };
+  });
+  allPartyMembers?.forEach((partyMember) => {
+    createLink[partyMember.character_id] = {
+      endpoint: `/campaign/${campaignId}/characters/pc/${partyMember.character_id}`,
+      name: partyMember.name,
+    };
+  });
+
+  const parseTextToLinks = (text) => {
+    const regex = /\[\s*([a-zA-Z0-9_ ]+)\s*\|\s*([^\]]+)\s*\]/g; // Match [ <type> | <id> ] with optional whitespace
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      const [fullMatch, type, id] = match;
+      const startIndex = match.index;
+
+      // Add text before the match
+      if (startIndex > lastIndex) {
+        parts.push(text.slice(lastIndex, startIndex));
+      }
+
+      if (id.startsWith("http") || id.startsWith("www")) {
+        // Create an external link
+        parts.push(
+          <a
+            key={startIndex}
+            href={id}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {type}
+          </a>,
+        );
+      } else if (["thing", "location", "pc", "faction", "npc"].includes(type)) {
+        // Create an internal link using the createLink mapping
+        const linkData = createLink[id];
+        if (linkData) {
+          parts.push(
+            <Link key={startIndex} to={linkData.endpoint}>
+              {linkData.name}
+            </Link>,
+          );
+        } else {
+          // If no mapping is found, display the raw text
+          parts.push(
+            `<Deleted ${type.charAt(0).toUpperCase() + type.slice(1)}>`,
+          );
+        }
+      } else {
+        // If the type is invalid, display the raw text
+        parts.push("<Deleted Item>");
+      }
+
+      lastIndex = regex.lastIndex;
+    }
+
+    // Add remaining text after the last match
+    if (lastIndex < text.length) {
+      parts.push(text.slice(lastIndex));
+    }
+
+    return parts;
+  };
+
+  return (
+    <div className="multi-line-text-display">
+      <p className="multi-line-p-content">{parseTextToLinks(text)}</p>
+    </div>
+  );
+};
+
+MultiLineTextDisplay.propTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+export default MultiLineTextDisplay;
