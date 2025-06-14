@@ -60,6 +60,27 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
     adjustHeight(); // Adjust height whenever value changes
   }, [value]);
 
+  const isValidLink = (text) => {
+    const linkRegex = /^(https?:\/\/|www\.)[^\s]+$/i;
+    return linkRegex.test(text);
+  };
+
+  const extractDomainName = (url) => {
+    // Remove protocol (http, https, www) and .com/.org/.net etc.
+    const domainRegex = /^(?:https?:\/\/)?(?:www\.)?([^\/\s]+)(?:\/.*)?$/i;
+    const match = url.match(domainRegex);
+
+    // get the index of the first dot in the domain name
+    if (match && match[1]) {
+      const domain = match[1];
+      const firstDotIndex = domain.indexOf(".");
+      return firstDotIndex !== -1 ? domain.substring(0, firstDotIndex) : domain;
+    }
+
+    // Return the original URL if no match is found
+    return url;
+  };
+
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     const caretPosition = e.target.selectionStart;
@@ -76,6 +97,12 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
       const filtered = suggestionList.filter((item) =>
         item.toLowerCase().startsWith(query),
       );
+
+      // Check if the query is a valid link and add it to suggestions
+      if (isValidLink(query)) {
+        filtered.push(query);
+      }
+
       setFilteredSuggestions(filtered);
       setShowDropdown(filtered.length > 0);
       setActiveSuggestionIndex(-1); // Reset active suggestion index
@@ -111,7 +138,17 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
     const lastAtIndex = inputValue.lastIndexOf("@", cursorPosition - 1);
     const beforeAt = inputValue.slice(0, lastAtIndex);
     const afterAt = inputValue.slice(cursorPosition);
-    let dynamicLink = createLink[suggestion];
+
+    let dynamicLink;
+    if (isValidLink(suggestion)) {
+      dynamicLink = { type: extractDomainName(suggestion), id: suggestion };
+    } else {
+      dynamicLink = createLink?.[suggestion] || {
+        type: suggestion,
+        id: suggestion,
+      };
+    }
+
     // Generate a link to the suggestion using the form [<suggestion> | link]
     const newValue = `${beforeAt}[${dynamicLink.type}|${dynamicLink.id}]${afterAt}`;
     onChange(newValue);
