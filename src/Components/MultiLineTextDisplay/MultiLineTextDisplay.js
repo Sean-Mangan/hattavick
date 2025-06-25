@@ -66,7 +66,13 @@ const MultiLineTextDisplay = ({ text }) => {
 
       // Add text before the match
       if (startIndex > lastIndex) {
-        parts.push(text.slice(lastIndex, startIndex));
+        const textBeforeMatch = text.slice(lastIndex, startIndex);
+        textBeforeMatch.split("\n").forEach((line, index) => {
+          parts.push(line);
+          if (index < textBeforeMatch.split("\n").length - 1) {
+            parts.push(<br key={`br-${startIndex}-${index}`} />);
+          }
+        });
       }
 
       if (id.startsWith("http") || id.startsWith("www")) {
@@ -111,7 +117,13 @@ const MultiLineTextDisplay = ({ text }) => {
 
     // Add remaining text after the last match
     if (lastIndex < text.length) {
-      parts.push(text.slice(lastIndex));
+      const remainingText = text.slice(lastIndex);
+      remainingText.split("\n").forEach((line, index) => {
+        parts.push(line);
+        if (index < remainingText.split("\n").length - 1) {
+          parts.push(<br key={`br-${lastIndex}-${index}`} />);
+        }
+      });
     }
 
     return parts;
