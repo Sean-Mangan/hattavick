@@ -19,6 +19,9 @@ import {
   useUpdateSessionMutation,
 } from "../../../features/campaign/campaignApiSlice";
 
+import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
+import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
+
 function SessionsPage() {
   // Get the outlet context
   const { isAdmin, campaignId } = useOutletContext();
@@ -39,7 +42,7 @@ function SessionsPage() {
   const [sessions, setSessions] = useState([]);
 
   /**
-   * Will attemtp to delete the given session
+   * Will attempt to delete the given session
    * @param {*} idx The index of the session to delete
    * @returns
    */
@@ -204,7 +207,10 @@ function SessionsPage() {
                       ) : (
                         <></>
                       )}
-                      <div className="accordian-data-wrap">{session.data}</div>
+                      <MultiLineTextDisplay
+                        text={session.data || ""}
+                        className="accordian-data-wrap"
+                      />
                     </div>
                   ) : (
                     <>
@@ -215,12 +221,12 @@ function SessionsPage() {
                           handleChange(idx, e.target.value, "date")
                         }
                       />
-                      <TextareaAutosize
-                        className="session-resizer"
-                        value={session.data}
-                        onChange={(e) =>
-                          handleChange(idx, e.target.value, "data")
-                        }
+
+                      <MultiLineTextField 
+                        className="session-textarea"
+                        onChange={(value) => handleChange(idx, value, "data")}
+                        value={session.data || ""}
+                        placeholder="Session notes..."
                       />
                     </>
                   )}
