@@ -11,6 +11,7 @@ import {
 } from "../../../features/campaign/campaignApiSlice";
 import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
+import NotesBanner from "../../../Components/Notes/NotesBanner";
 
 function CampaignHomePage() {
   // Get homepage data
@@ -142,7 +143,14 @@ function CampaignHomePage() {
           </>
         )}
       </form>
-    </div>
+      <div className="notes-banner">
+        <NotesBanner
+          campaignId={campaignId}
+          noteType={"home_page"}
+          relatedId={"home_page"}
+        />
+      </div>
+      </div>
   );
 }
 

@@ -104,12 +104,12 @@ const MultiLineTextDisplay = ({ text }) => {
         } else {
           // If no mapping is found, display the raw text
           parts.push(
-            `<Deleted ${type.charAt(0).toUpperCase() + type.slice(1)}>`,
+            `<Unknown ${type.charAt(0).toUpperCase() + type.slice(1)}>`,
           );
         }
       } else {
         // If the type is invalid, display the raw text
-        parts.push("<Deleted Item>");
+        parts.push("<Unknown Item>");
       }
 
       lastIndex = regex.lastIndex;

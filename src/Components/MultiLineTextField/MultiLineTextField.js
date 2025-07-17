@@ -95,7 +95,7 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
         .toLowerCase();
       const suggestionList = createLink ? Object.keys(createLink) : [];
       const filtered = suggestionList.filter((item) =>
-        item.toLowerCase().startsWith(query),
+        item.toLowerCase().includes(query),
       );
 
       // Check if the query is a valid link and add it to suggestions
