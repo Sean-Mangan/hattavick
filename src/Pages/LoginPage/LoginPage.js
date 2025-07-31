@@ -19,6 +19,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { replayFailedRequests } from "../../app/api/apiSlice";
 
 const siteKey = "6Lels_8oAAAAAGys3yrJlITLx27kKvt9VVhOp1Ag";
 
@@ -77,6 +78,7 @@ function LoginPage({ reload }) {
       const userData = await login(payload).unwrap();
       const email = loginData.email;
       dispatch(setCredentials({ ...userData, email }));
+      replayFailedRequests();
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);

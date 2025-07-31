@@ -19,16 +19,6 @@ const RequireAuth = () => {
   const location = useLocation();
   const context = useOutletContext();
 
-  // Heartbeat: refresh token every 60 seconds if authenticated
-  const [refresh] = useRefreshMutation();
-  useEffect(() => {
-    if (!token) return;
-    const interval = setInterval(() => {
-      refresh();
-    }, 60000); // 60 seconds
-    return () => clearInterval(interval);
-  }, [token, refresh]);
-
   return (
     <>
       {token && permissions ? (

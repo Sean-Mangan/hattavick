@@ -6,6 +6,34 @@ import Settings from "../../config/settings";
 const BASE_URL = "https://api.hattavick.com";
 //const BASE_URL = "http://127.0.0.1:5001"
 
+// Store failed requests in localStorage
+const FAILED_REQUESTS_KEY = "failedApiRequests";
+
+function saveFailedRequest(args) {
+  try {
+    const existing = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
+    existing.push(args);
+    localStorage.setItem(FAILED_REQUESTS_KEY, JSON.stringify(existing));
+  } catch (e) {
+    // fallback: do nothing
+  }
+}
+
+export function replayFailedRequests(api) {
+  try {
+    const failed = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
+    failed.forEach((args) => {
+      // Only replay mutations (POST, PATCH, DELETE)
+      if (args && args.method && ["POST", "PATCH", "DELETE"].includes(args.method)) {
+        baseQuery(args, api, {});
+      }
+    });
+    localStorage.removeItem(FAILED_REQUESTS_KEY);
+  } catch (e) {
+    // fallback: do nothing
+  }
+}
+
 // Define a base query for all requests
 const baseQuery = fetchBaseQuery({
   baseUrl: Settings.API_ENDPOINT,
@@ -49,6 +77,14 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       api.dispatch(setCredentials({ ...refreshResult.data, user }));
       result = await baseQuery(args, api, extraOptions);
     } else {
+      // Save failed mutation requests for replay after login
+      if (
+        typeof args === "object" &&
+        args.method &&
+        ["POST", "PATCH", "DELETE"].includes(args.method)
+      ) {
+        saveFailedRequest(args);
+      }
       api.dispatch(logOut());
     }
   }
