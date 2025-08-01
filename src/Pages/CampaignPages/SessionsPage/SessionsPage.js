@@ -222,7 +222,7 @@ function SessionsPage() {
                         }
                       />
 
-                      <MultiLineTextField 
+                      <MultiLineTextField
                         className="session-textarea"
                         onChange={(value) => handleChange(idx, value, "data")}
                         value={session.data || ""}

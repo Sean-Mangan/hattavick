@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
-import MultiLineTextField from './MultiLineTextField';
-import { Box, TextField, Typography, FormControlLabel, Checkbox } from '@mui/material';
+import React, { useState } from "react";
+import MultiLineTextField from "./MultiLineTextField";
+import {
+  Box,
+  TextField,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 
 const MultiLineTextFieldExample = () => {
-  const [textValue, setTextValue] = useState("This is a sample text with some words to highlight. You can search for 'sample', 'text', or any other word.");
+  const [textValue, setTextValue] = useState(
+    "This is a sample text with some words to highlight. You can search for 'sample', 'text', or any other word.",
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);
   const [highlightStyle, setHighlightStyle] = useState("highlighted-text");
@@ -13,7 +21,7 @@ const MultiLineTextFieldExample = () => {
       <Typography variant="h5" gutterBottom>
         MultiLineTextField with Text Highlighting
       </Typography>
-      
+
       <Box sx={{ mb: 2 }}>
         <TextField
           label="Search Text to Highlight"
@@ -23,7 +31,7 @@ const MultiLineTextFieldExample = () => {
           margin="normal"
           placeholder="Enter text to highlight in the field below"
         />
-        
+
         <FormControlLabel
           control={
             <Checkbox
@@ -33,12 +41,18 @@ const MultiLineTextFieldExample = () => {
           }
           label="Case Sensitive"
         />
-        
+
         <Box sx={{ mt: 1 }}>
           <Typography variant="body2" gutterBottom>
             Highlight Style:
           </Typography>
-          {['highlighted-text', 'highlight-search-result', 'highlight-error', 'highlight-success', 'highlight-info'].map((style) => (
+          {[
+            "highlighted-text",
+            "highlight-search-result",
+            "highlight-error",
+            "highlight-success",
+            "highlight-info",
+          ].map((style) => (
             <FormControlLabel
               key={style}
               control={
@@ -49,7 +63,7 @@ const MultiLineTextFieldExample = () => {
                   onChange={(e) => setHighlightStyle(e.target.value)}
                 />
               }
-              label={style.replace('highlight-', '').replace('-', ' ')}
+              label={style.replace("highlight-", "").replace("-", " ")}
             />
           ))}
         </Box>
@@ -70,7 +84,8 @@ const MultiLineTextFieldExample = () => {
       </Box>
 
       <Typography variant="body2" color="text.secondary">
-        Try typing @ followed by a character name to see the autocomplete feature in action!
+        Try typing @ followed by a character name to see the autocomplete
+        feature in action!
       </Typography>
     </Box>
   );

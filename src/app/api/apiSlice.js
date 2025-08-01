@@ -11,7 +11,8 @@ const FAILED_REQUESTS_KEY = "failedApiRequests";
 
 function saveFailedRequest(args) {
   try {
-    const existing = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
+    const existing =
+      JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
     existing.push(args);
     localStorage.setItem(FAILED_REQUESTS_KEY, JSON.stringify(existing));
   } catch (e) {
@@ -24,7 +25,11 @@ export function replayFailedRequests(api) {
     const failed = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
     failed.forEach((args) => {
       // Only replay mutations (POST, PATCH, DELETE)
-      if (args && args.method && ["POST", "PATCH", "DELETE"].includes(args.method)) {
+      if (
+        args &&
+        args.method &&
+        ["POST", "PATCH", "DELETE"].includes(args.method)
+      ) {
         baseQuery(args, api, {});
       }
     });

@@ -11,7 +11,6 @@ import {
   selectCurrentPermissions,
   selectCurrentToken,
 } from "../../features/auth/authSlice";
-import { useRefreshMutation } from "../../features/auth/authApiSlice";
 
 const RequireAuth = () => {
   const token = useSelector(selectCurrentToken);

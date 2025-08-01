@@ -150,7 +150,7 @@ function CampaignHomePage() {
           relatedId={"home_page"}
         />
       </div>
-      </div>
+    </div>
   );
 }
 
