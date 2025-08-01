@@ -9,35 +9,39 @@ const BASE_URL = "https://api.hattavick.com";
 // Store failed requests in localStorage
 const FAILED_REQUESTS_KEY = "failedApiRequests";
 
-function saveFailedRequest(args) {
-  try {
-    const existing =
-      JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
-    existing.push(args);
-    localStorage.setItem(FAILED_REQUESTS_KEY, JSON.stringify(existing));
-  } catch (e) {
-    // fallback: do nothing
-  }
-}
+// function saveFailedRequest(args) {
+//   try {
+//     const existing =
+//       JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
+//     existing.push(args);
+//     localStorage.setItem(FAILED_REQUESTS_KEY, JSON.stringify(existing));
+//   } catch (e) {
+//     // fallback: do nothing
+//   }
+// }
 
-export function replayFailedRequests(api) {
-  try {
-    const failed = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
-    failed.forEach((args) => {
-      // Only replay mutations (POST, PATCH, DELETE)
-      if (
-        args &&
-        args.method &&
-        ["POST", "PATCH", "DELETE"].includes(args.method)
-      ) {
-        baseQuery(args, api, {});
-      }
-    });
-    localStorage.removeItem(FAILED_REQUESTS_KEY);
-  } catch (e) {
-    // fallback: do nothing
-  }
-}
+
+// export function replayFailedRequests(api) {
+//   try {
+//     const failed = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
+//     failed.forEach((args) => {
+//       // Only replay mutations (POST, PATCH, DELETE)
+//       if (
+//         args &&
+//         args.method &&
+//         ["POST", "PATCH", "DELETE"].includes(args.method)
+//       ) {
+//         baseQuery(args, api, {});
+//       }
+//     });
+//     localStorage.removeItem(FAILED_REQUESTS_KEY);
+//   } catch (e) {
+//     // fallback: do nothing
+//   }
+// }
+
+export function replayFailedRequests(api) {return null}
+export function saveFailedRequest(args) {return null}
 
 // Define a base query for all requests
 const baseQuery = fetchBaseQuery({

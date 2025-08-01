@@ -47,8 +47,12 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
 
   const adjustHeight = () => {
     if (textAreaRef.current) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
       textAreaRef.current.style.height = "auto"; // Reset height to auto
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`; // Set height to scrollHeight
+      // Restore scroll position
+      window.scrollTo(window.scrollX, scrollY);
     }
   };
 
