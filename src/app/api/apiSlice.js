@@ -20,7 +20,6 @@ const FAILED_REQUESTS_KEY = "failedApiRequests";
 //   }
 // }
 
-
 // export function replayFailedRequests(api) {
 //   try {
 //     const failed = JSON.parse(localStorage.getItem(FAILED_REQUESTS_KEY)) || [];
@@ -40,8 +39,12 @@ const FAILED_REQUESTS_KEY = "failedApiRequests";
 //   }
 // }
 
-export function replayFailedRequests(api) {return null}
-export function saveFailedRequest(args) {return null}
+export function replayFailedRequests(api) {
+  return null;
+}
+export function saveFailedRequest(args) {
+  return null;
+}
 
 // Define a base query for all requests
 const baseQuery = fetchBaseQuery({

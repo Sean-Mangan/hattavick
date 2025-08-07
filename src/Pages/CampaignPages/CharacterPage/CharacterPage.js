@@ -82,7 +82,7 @@ function PlayerCharacterPage() {
             </Grid>
           )
         }
-        
+
         <Grid item xs={12} md={contentSpacing}>
           <div className="char-page-public-centered-wrap">
             <Paper
