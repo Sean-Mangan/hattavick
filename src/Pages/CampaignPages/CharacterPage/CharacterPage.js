@@ -61,6 +61,28 @@ function PlayerCharacterPage() {
             <i>{character.description}</i>
           </div>
         </Grid>
+        {
+          // If the user is an admin or the owner of the character, show the private backstory
+          (isAdmin || userId === character?.user_id) && (
+            <Grid item xs={12} md={contentSpacing}>
+              <div className="char-page-public-centered-wrap">
+                <Paper
+                  className="char-page-paper-center"
+                  elevation={12}
+                  style={{ paddingBottom: "2em", paddingTop: "1em" }}
+                >
+                  <div className="char-page-title char-page-subtitle">
+                    Private backstory
+                  </div>
+                  <div className="char-page-paper-wrapper">
+                    <MultiLineTextDisplay text={character?.backstory} />
+                  </div>
+                </Paper>
+              </div>
+            </Grid>
+          )
+        }
+        
         <Grid item xs={12} md={contentSpacing}>
           <div className="char-page-public-centered-wrap">
             <Paper
@@ -77,28 +99,6 @@ function PlayerCharacterPage() {
             </Paper>
           </div>
         </Grid>
-
-        {
-          // If the user is an admin or the owner of the character, show the private backstory
-          (isAdmin || userId === character?.user_id) && (
-            <Grid item xs={12} md={contentSpacing}>
-              <div className="char-page-public-centered-wrap">
-                <Paper
-                  className="char-page-paper-center"
-                  elevation={12}
-                  style={{ paddingBottom: "2em", paddingTop: "1em" }}
-                >
-                  <div className="char-page-title char-page-subtitle">
-                    Public backstory
-                  </div>
-                  <div className="char-page-paper-wrapper">
-                    <MultiLineTextDisplay text={character?.backstory} />
-                  </div>
-                </Paper>
-              </div>
-            </Grid>
-          )
-        }
         <Grid item md={12}>
           <NotesBanner
             campaignId={campaignId}
