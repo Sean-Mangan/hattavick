@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import "./CampaignHomePage.css";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,8 +12,11 @@ import {
 import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
 import NotesBanner from "../../../Components/Notes/NotesBanner";
+import SystemNotificationWrapper from "../../../Components/SystemNotificationWrapper/SystemNotificationWrapper";
 
 function CampaignHomePage() {
+  const DEFAULT_IMAGE = "/placeholder.webp";
+
   // Get homepage data
   const { campaignId, isAdmin } = useOutletContext();
   const { data, isLoading, isSuccess, isError } =
@@ -32,6 +35,10 @@ function CampaignHomePage() {
   const [err, setErr] = useState("");
   const [editMode, setEditMode] = useState(false);
   const hiddenFileInput = React.useRef(null);
+
+  useEffect(() => {
+  setImg(homeData?.img || DEFAULT_IMAGE);
+}, [homeData]);
 
   /**
    * Will attempt to send an update request for the campaign
@@ -72,6 +79,7 @@ function CampaignHomePage() {
 
   return (
     <div className="campaign-home-wrapper">
+      <SystemNotificationWrapper />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="home-button-wrapper">
           {isAdmin && homeData?.campaign_name !== "" ? (
@@ -104,7 +112,7 @@ function CampaignHomePage() {
         {!editMode ? (
           <>
             <div className="homepage-title">{homeData.campaign_name}</div>
-            {homeData?.img ? <img className="img-wrapper" src={img} /> : <></>}
+            {homeData?.img ? <img className="img-wrapper" src={img} /> : <img className="img-wrapper" src={DEFAULT_IMAGE} />}
             <MultiLineTextDisplay
               className="homepage-overview"
               style={{ width: "800px" }}
@@ -121,11 +129,11 @@ function CampaignHomePage() {
               }
             />
             <div className="editable-container">
-              <img className="img-wrapper blur" src={img} />
+              <img className="img-wrapper blur" src={img || DEFAULT_IMAGE} />
               <div className="upload-btn" onClick={handleClick}>
                 Click to Upload a File
                 <br />
-                <a className="micro-text">{homeData?.img?.name}</a>
+                <a className="micro-text">{homeData?.img?.name || "No file chosen"}</a>
               </div>
               <input
                 type="file"
