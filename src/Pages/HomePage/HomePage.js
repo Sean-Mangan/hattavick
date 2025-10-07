@@ -1,8 +1,14 @@
 import { Button, Paper, Alert } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom"; // Import Link for internal navigation
+import { Link } from "react-router-dom";
 import "./HomePage.css";
+import Settings from "../../config/settings.json";
 
+/**
+ * HomePage component - Landing page for the Hattavick D&D campaign manager.
+ * Displays welcome message, feature overview, and changelog.
+ *
+ * @returns {JSX.Element} The home page
+ */
 function HomePage() {
   return (
     <main className="home_wrapper">
@@ -13,6 +19,7 @@ function HomePage() {
         shaping its future.
       </Alert>
 
+      {/* Header Section */}
       <header className="home_header">
         <h1>Hattavick - D&D and TTRPG Campaign Manager</h1>
         <p>
@@ -20,11 +27,13 @@ function HomePage() {
           collaboration in tabletop RPGs.
         </p>
       </header>
+
+      {/* Main Content Section */}
       <section className="home_content">
         <img
           className="home_image"
           alt="Animated dice rolling for tabletop RPGs"
-          src="https://i.pinimg.com/originals/db/b6/a4/dbb6a4485cd2b9d570a83fa6bf3a5cda.gif"
+          src={Settings.IMAGES.DICE_GIF_URL}
         />
         <Paper className="home_outline_wrapper" elevation={6}>
           <div className="home_outline_text">
@@ -54,7 +63,7 @@ function HomePage() {
           </p>
           <Button
             variant="contained"
-            href="https://discord.gg/nUcFjPY6s2"
+            href={Settings.EXTERNAL_URLS.DISCORD_INVITE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="home_button"
@@ -63,6 +72,8 @@ function HomePage() {
           </Button>
         </Paper>
       </section>
+
+      {/* Changelog Section */}
       <section className="main_changelog">
         <h2 className="changelog_title">Changelog</h2>
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./NotesBanner.css"; // Optional: Add a CSS file for styling
+import { useState, useEffect, useRef } from "react";
+import "./NotesBanner.css";
 import { Button } from "@mui/material";
 import {
   useGetTypeNotesQuery,
@@ -14,14 +14,23 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { useRef } from "react";
 import MultiLineTextField from "../MultiLineTextField/MultiLineTextField";
 import MultiLineTextDisplay from "../MultiLineTextDisplay/MultiLineTextDisplay";
 
+/**
+ * NoteRow component
+ * Displays and manages a single note with edit, delete, and collapse functionality
+ *
+ * @param {Object} props - Component props
+ * @param {Object} props.note - Note object containing note data
+ * @param {string} props.relatedId - ID of the related entity
+ * @param {string} props.noteType - Type of note (e.g., "npcs", "locations")
+ * @param {string} props.campaignId - Campaign ID
+ */
 const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
   const [collapsed, setCollapsed] = useState(true);
-  const [editMode, setEditMode] = React.useState(false);
-  const [delCount, setDelCount] = React.useState(0);
+  const [editMode, setEditMode] = useState(false);
+  const [delCount, setDelCount] = useState(0);
 
   const [noteTitle, setNoteTitle] = useState(note.title || "");
   const [noteContent, setNoteContent] = useState(note.data || "");
@@ -44,8 +53,12 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
   });
 
   const { userId } = useOutletContext();
-  let isNoteOwner = note.author_id === userId;
+  const isNoteOwner = note.author_id === userId;
 
+  /**
+   * Handle edit mode toggle and save
+   * Saves note changes when exiting edit mode
+   */
   const handleEdit = async () => {
     if (editMode) {
       const noteForm = new FormData();
@@ -68,6 +81,10 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
     setEditMode(!editMode);
   };
 
+  /**
+   * Handle file upload
+   * Validates for duplicates before adding file
+   */
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -92,10 +109,17 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
     }
   };
 
+  /**
+   * Remove uploaded file from the list
+   */
   const handleRemoveFile = (fileName) => {
     setUploadedFiles(uploadedFiles.filter((file) => file.name !== fileName));
   };
 
+  /**
+   * Handle note deletion with confirmation
+   * Requires two clicks to confirm deletion
+   */
   const handleDelete = async () => {
     if (delCount < 1) {
       setDelCount(delCount + 1);
@@ -114,6 +138,10 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
     }
   };
 
+  /**
+   * Remove existing asset from note
+   * Adds to removed files list and updates UI
+   */
   const handleRemoveExistingAsset = (url) => {
     setRemovedFiles([...removedFiles, url]);
     if (existingAssets.image.includes(url)) {
@@ -137,6 +165,10 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
     );
   };
 
+  /**
+   * Toggle note collapse state
+   * Prevents collapse when in edit mode
+   */
   const toggleCollapse = () => {
     if (!collapsed && editMode) {
       alert("Please save or cancel your changes before collapsing.");
@@ -213,7 +245,7 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
               >
                 <img
                   src={url}
-                  alt={`Asset ${url}`}
+                  alt={`Note asset for ${url.split("/").pop()}`}
                   style={{ maxWidth: "100px", margin: "5px" }}
                 />
                 <Button
@@ -366,13 +398,15 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
                     <img
                       key={index}
                       src={url}
-                      alt={`Asset ${index}`}
+                      alt={`Note asset ${index + 1}`}
                       style={{
                         maxWidth: "100px",
                         margin: "5px",
                         cursor: "pointer",
                       }}
-                      onClick={() => window.open(url, "_blank")}
+                      onClick={() =>
+                        window.open(url, "_blank", "noopener,noreferrer")
+                      }
                     />
                   ))}
                 </div>
@@ -423,6 +457,15 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
   );
 };
 
+/**
+ * NotesBanner component
+ * Displays and manages notes for a specific entity in a campaign
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.noteType - Type of notes to display
+ * @param {string} props.relatedId - ID of the related entity
+ * @param {string} props.campaignId - Campaign ID
+ */
 const NotesBanner = ({ noteType, relatedId, campaignId }) => {
   console.log("Rendering NotesBanner with:", {
     noteType,
@@ -440,19 +483,22 @@ const NotesBanner = ({ noteType, relatedId, campaignId }) => {
     fixedCacheKey: `create-${noteType}-note`,
   });
 
-  // Filter out any notes that are note related to the current entity
+  // Filter out any notes that are not related to the current entity
   let filteredNotes = [];
   if (isSuccess) {
     filteredNotes = notes.filter((note) => note.related_id === relatedId);
   }
 
+  /**
+   * Create a new note
+   */
   const handleCreateNote = async (e) => {
     e.preventDefault();
-    const form_data = new FormData();
+    const formData = new FormData();
     await createNote({
       campaignId,
       relatedId,
-      formData: form_data,
+      formData,
       noteType,
     }).unwrap();
   };

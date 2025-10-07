@@ -1,56 +1,52 @@
 import { Button, Card, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import {
-  Link,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import "./NPCsPage.css";
 import {
   useCreateNewNPCMutation,
   useGetNPCDataQuery,
 } from "../../../features/campaign/campaignApiSlice";
+import Settings from "../../../config/settings.json";
 
 function NPCsPage() {
-  // Some helpful hooks to get context and facilitate redirects
+  // Context and navigation hooks
   const { campaignId, isAdmin } = useOutletContext();
   const navigate = useNavigate();
 
-  // Get all characters
+  // Fetch NPC data for this campaign
   const { data: allChars } = useGetNPCDataQuery(campaignId);
 
-  // Handy mutation for creating a new character
+  // Mutation for creating new NPCs
   const [createNewNPC] = useCreateNewNPCMutation({
     fixedCacheKey: "create-npc",
   });
 
-  // Hold onto state for filtering of characters
+  // Local state for filtering and search
   const [chars, setChars] = useState(allChars);
   const [name, setName] = useState("");
 
-  // If a image is not associated, use this as default
-  const notGiven =
-    "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png";
-
   /**
-   * Will attempt to query the backend to create a new npc
+   * Creates a new NPC and navigates to its detail page
    */
-  const create_npc = async () => {
+  const createNPC = async () => {
     try {
       const result = await createNewNPC(campaignId).unwrap();
       navigate(`/campaign/${campaignId}/characters/npc/${result.character_id}`);
-    } catch {}
+    } catch (error) {
+      console.error("Failed to create NPC:", error);
+    }
   };
 
   /**
-   * Will filter out names from the list of all npc based on event input
-   * @param {*} e
+   * Filters NPCs based on search input
+   * @param {Event} e - Input change event
    */
-  const filter = (e) => {
+  const filterNPCs = (e) => {
     const keyword = e.target.value;
+
     if (keyword !== "") {
+      // Filter characters by name, excluding "Unknown" entries
       const results = allChars.filter((char) => {
         return (
           char.name.toLowerCase().includes(keyword.toLowerCase()) &&
@@ -65,11 +61,16 @@ function NPCsPage() {
   };
 
   /**
-   * A handy representation of character data in a row
-   * @param {*} param0
-   * @returns
+   * Renders a single NPC card with basic information
+   * @param {Object} char - NPC character data
    */
   const CharacterRow = ({ char }) => {
+    const displayName = char.name === "Unknown" ? "Unknown Name" : char.name;
+    const displayLocation = char.location || "Unknown Location";
+    const displayDescription = char.description
+      ? char.description.slice(0, 200) + "..."
+      : "You have not met this character yet";
+
     return (
       <div>
         <Link
@@ -80,31 +81,19 @@ function NPCsPage() {
           }
           style={{ textDecoration: "none" }}
         >
-          <Card
-            variant="outlined"
-            onClick={() => null}
-            className="row_wrapper button"
-          >
+          <Card variant="outlined" className="row_wrapper button">
             <div className="icon_wrapper">
               <img
                 className="npc_icon"
-                src={char.image ? char.image : notGiven}
-                alt=""
+                src={char.image || Settings.IMAGES.DEFAULT_AVATAR_URL}
+                alt={displayName}
               />
             </div>
             <div className="npc_data_wrapper">
               <div className="content_center">
-                <h4 className="character_name">
-                  {char.name === "Unknown" ? "Unknown Name" : char.name}
-                </h4>
-                <h4 className="character_header">
-                  {char.location ? char.location : "Unknown Location"}
-                </h4>
-                <p className="character_header blurb">
-                  {char.description
-                    ? char.description.slice(0, 200) + "..."
-                    : "You have not met this character yet"}
-                </p>
+                <h4 className="character_name">{displayName}</h4>
+                <h4 className="character_header">{displayLocation}</h4>
+                <p className="character_header blurb">{displayDescription}</p>
               </div>
             </div>
           </Card>
@@ -113,7 +102,7 @@ function NPCsPage() {
     );
   };
 
-  // If there are any character updates, reset the filter
+  // Reset filter when NPC data changes
   useEffect(() => {
     setChars(allChars);
     setName("");
@@ -123,24 +112,22 @@ function NPCsPage() {
     <div className="npcs-wrapper">
       <div className="npc-title">All NPCs</div>
       <div className="npc-page-form-wrap">
-        {isAdmin ? (
+        {isAdmin && (
           <Button
             className="npcs-btn"
             variant="contained"
             color="error"
-            onClick={() => create_npc()}
+            onClick={createNPC}
             startIcon={<AddIcon />}
           >
-            Add Npc
+            Add NPC
           </Button>
-        ) : (
-          <></>
         )}
         <TextField
           className="npc_search"
           type="search"
           value={name}
-          onChange={filter}
+          onChange={filterNPCs}
           placeholder="Search Name"
         />
       </div>

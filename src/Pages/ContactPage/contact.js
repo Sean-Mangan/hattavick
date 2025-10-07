@@ -1,11 +1,15 @@
-import { Button, Grid } from "@mui/material";
-import React from "react";
-
+import { Button } from "@mui/material";
 import "./contact.css";
+import Settings from "../../config/settings.json";
 
+/**
+ * Contact page component
+ * Displays contact information, Discord link, and support options
+ */
 function Contact() {
   return (
     <>
+      {/* Main contact section */}
       <div className="contact_wrapper">
         <p className="contact_title">Contact Us</p>
         <p className="contact_text">
@@ -16,8 +20,9 @@ function Contact() {
         </p>
         <Button
           variant="contained"
-          href="https://discord.gg/nUcFjPY6s2"
+          href={Settings.EXTERNAL_URLS.DISCORD_INVITE_URL}
           target="_blank"
+          rel="noopener noreferrer"
         >
           <strong>Join the Discord!</strong>
         </Button>
@@ -35,35 +40,41 @@ function Contact() {
           </p>
         </div>
       </div>
-      <div style={{ textAlign: "center" }}>
+
+      {/* Employee of the month section */}
+      <div className="contact_center_section">
         <img
-          className=" contact_image contact_center"
-          src="https://hattavick.s3.amazonaws.com/chef2.jpg"
+          className="contact_image contact_center"
+          src={Settings.IMAGES.CHEF_IMAGE_URL}
+          alt="Chef - Employee of the month"
         />
-        <p style={{ marginTop: "0" }}>
-          {"^^Chef is the employee of the month"}
-        </p>
+        <p className="contact_caption">^^Chef is the employee of the month</p>
       </div>
-      <div style={{ textAlign: "center", margin: "auto" }}>
-        <p className="contact_text" style={{ padding: "0", margin: "0" }}>
-          {
-            "If you are interested in reaching out to me personally, you can find my information on my personal site: "
-          }
-          <a href="https://www.seanpmangan.com/">
-            <strong className="linker">{"www.seanpmangan.com"}</strong>
+
+      {/* Additional contact and support links */}
+      <div className="contact_links_section">
+        <p className="contact_text contact_link_text">
+          If you are interested in reaching out to me personally, you can find
+          my information on my personal site:{" "}
+          <a
+            href={Settings.EXTERNAL_URLS.PERSONAL_WEBSITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong className="linker">www.seanpmangan.com</strong>
           </a>
           .
         </p>
         <br />
-        <p
-          className="contact_text"
-          style={{ paddingBottom: "1em", margin: "0" }}
-        >
-          {
-            "If you use the site and enjoy it, consider buying me a cup of coffee here "
-          }
-          <a href="https://www.buymeacoffee.com/seanpmangan">
-            <strong className="linker">{"Buy Me a Coffee"}</strong>
+        <p className="contact_text contact_link_text contact_support_text">
+          If you use the site and enjoy it, consider buying me a cup of coffee
+          here{" "}
+          <a
+            href={Settings.EXTERNAL_URLS.COFFEE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <strong className="linker">Buy Me a Coffee</strong>
           </a>
           .
         </p>

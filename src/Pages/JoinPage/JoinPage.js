@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import "./JoinPage.css";
@@ -10,62 +10,75 @@ import {
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import { useRefreshMutation } from "../../features/auth/authApiSlice";
+import Settings from "../../config/settings.json";
 
+/**
+ * JoinPage component handles users joining a campaign via invite link.
+ * Allows users to accept campaign invitations and join the campaign.
+ *
+ * @returns {JSX.Element} The campaign join page
+ */
 function JoinPage() {
-  // helpful navigation things
+  // Navigation hook
   const navigate = useNavigate();
 
-  // Some helpful state things
+  // State variables
   const { campaign_id } = useParams();
   const [campaign, setCampaign] = useState({});
-  const [err, SetErr] = useState("");
+  const [error, setError] = useState("");
 
   // Get the new permissions after joining
   const dispatch = useDispatch();
   const [refresh] = useRefreshMutation();
 
-  // RTK query stuff
+  // RTK query hooks
   const { data, isLoading, isSuccess } = useGetCampaignQuery(campaign_id);
   const [joinCampaign, { isLoading: joinLoad }] = useJoinCampaignMutation();
 
-  const join_campaign = async () => {
+  /**
+   * Handles joining the campaign.
+   * Refreshes user credentials and navigates to the campaign page.
+   */
+  const joinCampaignHandler = async () => {
     try {
       await joinCampaign(campaign_id).unwrap();
-      const data = await refresh().unwrap();
-      dispatch(setCredentials(data));
+      const refreshData = await refresh().unwrap();
+      dispatch(setCredentials(refreshData));
       navigate(`/campaign/${campaign_id}`);
-    } catch (e) {
-      SetErr(e.data.error);
+    } catch (error) {
+      setError(error.data.error);
     }
   };
 
-  // On Campaign change, set that data
+  // Update campaign data when it changes
   useEffect(() => {
     setCampaign(data);
   }, [data]);
 
   return (
     <>
-      {!isLoading || !joinLoad ? (
+      {!isLoading && !joinLoad ? (
         <>
+          {/* Success state - show invitation */}
           {isSuccess ? (
             <div className="join_wrapper">
               <h1>
                 You have been invited to join{" "}
-                {campaign?.name ?? "Unkown Campaign"}
+                {campaign?.name ?? Settings.DEFAULTS.DEFAULT_CAMPAIGN_NAME}
               </h1>
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => join_campaign()}
+                onClick={() => joinCampaignHandler()}
               >
                 Join Campaign
               </Button>
             </div>
           ) : (
+            /* Error state */
             <div className="join_wrapper">
-              <h1>Oops, an error occured</h1>
-              <h3>{err}</h3>
+              <h1>Oops, an error occurred</h1>
+              <h3>{error}</h3>
               <div>
                 Try again, or ask an admin to re-invite you to the campaign
               </div>
@@ -73,7 +86,8 @@ function JoinPage() {
           )}
         </>
       ) : (
-        <>Loading</>
+        /* Loading state */
+        <div className="join_wrapper">Loading...</div>
       )}
     </>
   );

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   useDeleteCampaignMutation,
   useGetCampaignsQuery,
   useLeaveCampaignMutation,
 } from "../../features/campaign/campaignApiSlice";
-
+import { useNavigate } from "react-router-dom";
 import "./CampaignManagementPage.css";
 import {
   Alert,
@@ -21,60 +21,68 @@ import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import CloseIcon from "@mui/icons-material/Close";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useNavigate } from "react-router-dom";
 
 const CampaignManagementPage = () => {
-  // Get campaign related datas
+  // Campaign API hooks
   const { data: campaigns, isSuccess, isLoading } = useGetCampaignsQuery();
   const [deleteCampaign, { isLoading: delLoading }] = useDeleteCampaignMutation(
     { fixedCacheKey: "delete-campaign" },
   );
   const [leaveCampaign] = useLeaveCampaignMutation();
 
-  // Helpful hooks
+  // Navigation hook
   const navigate = useNavigate();
 
-  // Hold onto state
+  // Component state
   const [delCampaignName, setDelCampaignName] = useState("");
   const [delVerify, setDelVerify] = useState("");
   const [delCampaignId, setDelCampaignId] = useState("");
   const [error, setError] = useState("");
 
   /**
-   * Handles the request to delete a campaign
+   * Clears the deletion modal state
+   */
+  const clearDeletionState = () => {
+    setDelCampaignId("");
+    setDelCampaignName("");
+    setDelVerify("");
+  };
+
+  /**
+   * Handles campaign deletion after user confirmation
    */
   const handleDelete = async () => {
     try {
       await deleteCampaign(delCampaignId).unwrap();
-      setDelCampaignId("");
-      setDelCampaignName("");
-      setDelVerify("");
+      clearDeletionState();
     } catch (err) {
       const errMsg = err?.data?.error
         ? err?.data?.error
-        : "An unkown error occured, try again or contact support";
+        : "An unknown error occurred, try again or contact support";
       setError(errMsg);
     }
   };
 
   /**
-   * Handles the request to leave a campaign
+   * Handles leaving a campaign (for non-owner users)
+   * @param {string} campaignId - ID of the campaign to leave
    */
   const handleLeave = async (campaignId) => {
     try {
       await leaveCampaign(campaignId).unwrap();
-      setDelCampaignId("");
-      setDelCampaignName("");
-      setDelVerify("");
+      clearDeletionState();
     } catch (err) {
       const errMsg = err?.data?.error
         ? err?.data?.error
-        : "An unkown error occured, try again or contact support";
+        : "An unknown error occurred, try again or contact support";
       setError(errMsg);
     }
   };
 
-  // A component for each campaign that the user owns
+  /**
+   * Renders a row for campaigns owned by the user (with full controls)
+   * @param {Object} campaignData - Campaign information
+   */
   const OwnerRow = ({ campaignData }) => {
     return (
       <div className="owner-row">
@@ -119,7 +127,10 @@ const CampaignManagementPage = () => {
     );
   };
 
-  // A component for each campaign that the user owns
+  /**
+   * Renders a row for campaigns where user is admin/player (limited controls)
+   * @param {Object} campaignData - Campaign information
+   */
   const RegularRow = ({ campaignData }) => {
     return (
       <div className="owner-row">
@@ -149,17 +160,14 @@ const CampaignManagementPage = () => {
 
   return (
     <div className="campaign-management-wrap">
-      {!isLoading ? (
+      {!isLoading && campaigns && (
         <>
-          {delCampaignName !== "" ? (
+          {delCampaignName !== "" && (
             <div className="delete-campaign-wrap">
               <Paper elevation={10} className="delete-campaign-box">
                 <div className="close-icon-wrap">
                   <Button
-                    onClick={() => {
-                      setDelCampaignName("");
-                      setDelVerify("");
-                    }}
+                    onClick={clearDeletionState}
                     startIcon={<CloseIcon />}
                     style={{ color: "black" }}
                     size="l"
@@ -179,32 +187,26 @@ const CampaignManagementPage = () => {
                   variant="contained"
                   color="error"
                   disabled={delVerify !== delCampaignName || delLoading}
-                  onClick={() => handleDelete()}
+                  onClick={handleDelete}
                 >
                   Delete
                 </Button>
               </Paper>
             </div>
-          ) : (
-            <></>
           )}
           <h1>Campaigns</h1>
-          <Alert
-            className="login_err"
-            onClose={() => {
-              setError("");
-            }}
-            style={
-              error !== ""
-                ? { textAlign: "left", marginBottom: "1em" }
-                : { display: "none" }
-            }
-            severity="error"
-          >
-            <AlertTitle>Error</AlertTitle>
-            <strong>Oops, an error occured</strong> — {Error}
-          </Alert>
-          {campaigns.owner.length !== 0 ? (
+          {error && (
+            <Alert
+              className="login_err"
+              onClose={() => setError("")}
+              style={{ textAlign: "left", marginBottom: "1em" }}
+              severity="error"
+            >
+              <AlertTitle>Error</AlertTitle>
+              <strong>Oops, an error occurred</strong> — {error}
+            </Alert>
+          )}
+          {campaigns.owner.length !== 0 && (
             <Paper elevation={10} className="campaign-management-box-wrap">
               <div className="owner-title-wrap">
                 <div className="campaign-management-box-title">
@@ -221,64 +223,41 @@ const CampaignManagementPage = () => {
                   New
                 </Button>
               </div>
-              {isSuccess ? (
-                <>
-                  {(campaigns.owner ?? []).map((item) => (
-                    <OwnerRow campaignData={item} key={item.id} />
-                  ))}
-                </>
-              ) : (
-                <></>
-              )}
+              {isSuccess &&
+                (campaigns.owner ?? []).map((item) => (
+                  <OwnerRow campaignData={item} key={item.id} />
+                ))}
             </Paper>
-          ) : (
-            <></>
           )}
           <br />
-          {campaigns.admin.length !== 0 ? (
+          {campaigns.admin.length !== 0 && (
             <Paper elevation={10} className="campaign-management-box-wrap">
               <div className="owner-title-wrap">
                 <div className="campaign-management-box-title">
                   <strong>Admin Campaigns</strong>
                 </div>
               </div>
-              {isSuccess ? (
-                <>
-                  {(campaigns.admin ?? []).map((item) => (
-                    <RegularRow campaignData={item} key={item.id} />
-                  ))}
-                </>
-              ) : (
-                <></>
-              )}
+              {isSuccess &&
+                (campaigns.admin ?? []).map((item) => (
+                  <RegularRow campaignData={item} key={item.id} />
+                ))}
             </Paper>
-          ) : (
-            <></>
           )}
           <br />
-          {campaigns.player.length !== 0 ? (
+          {campaigns.player.length !== 0 && (
             <Paper elevation={10} className="campaign-management-box-wrap">
               <div className="owner-title-wrap">
                 <div className="campaign-management-box-title">
                   <strong>Player Campaigns</strong>
                 </div>
               </div>
-              {isSuccess ? (
-                <>
-                  {(campaigns.player ?? []).map((item) => (
-                    <RegularRow campaignData={item} key={item.id} />
-                  ))}
-                </>
-              ) : (
-                <></>
-              )}
+              {isSuccess &&
+                (campaigns.player ?? []).map((item) => (
+                  <RegularRow campaignData={item} key={item.id} />
+                ))}
             </Paper>
-          ) : (
-            <></>
           )}
         </>
-      ) : (
-        <></>
       )}
     </div>
   );

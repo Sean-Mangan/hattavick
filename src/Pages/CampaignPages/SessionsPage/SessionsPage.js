@@ -3,10 +3,9 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  TextareaAutosize,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,12 +20,20 @@ import {
 
 import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
+import Settings from "../../../config/settings.json";
 
+/**
+ * SessionsPage component for managing campaign session notes.
+ * Allows admins to create, edit, and delete session notes.
+ * Players can view session notes in read-only mode.
+ *
+ * @returns {JSX.Element} The sessions page with accordion-style note entries
+ */
 function SessionsPage() {
   // Get the outlet context
   const { isAdmin, campaignId } = useOutletContext();
 
-  // Some helpful RTK Things
+  // RTK Query hooks
   const { data } = useGetSessionsQuery(campaignId);
   const [createSession] = useCreateSessionMutation({
     fixedCacheKey: "create-session",
@@ -38,20 +45,21 @@ function SessionsPage() {
     fixedCacheKey: "delete-session",
   });
 
-  // Set some helpful state variables
+  // State variables
   const [sessions, setSessions] = useState([]);
 
   /**
-   * Will attempt to delete the given session
-   * @param {*} idx The index of the session to delete
-   * @returns
+   * Attempts to delete the given session.
+   * Requires double confirmation (increment delete count, then confirm).
+   *
+   * @param {number} idx - The index of the session to delete
    */
   const handleDelCount = async (idx) => {
-    // If the del count is 0 then iterate up
-    if (sessions[idx].delCount === 0) {
-      const new_edits = sessions.slice();
-      new_edits[idx].delCount = 1;
-      setSessions(new_edits);
+    // If the delete count is 0 then increment
+    if (sessions[idx].delCount === Settings.UI.DELETE_COUNT_INITIAL) {
+      const newEdits = sessions.slice();
+      newEdits[idx].delCount = Settings.UI.DELETE_COUNT_CONFIRM;
+      setSessions(newEdits);
       return;
     }
 
@@ -61,71 +69,82 @@ function SessionsPage() {
         campaignId,
         sessionId: sessions[idx].session_id,
       }).unwrap();
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to delete session:", error);
+    }
   };
 
   /**
-   * Helpful function to create a new session.
+   * Creates a new session for the campaign.
    */
-  const create_new_session = async () => {
+  const createNewSession = async () => {
     try {
       await createSession(campaignId).unwrap();
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to create session:", error);
+    }
   };
 
   /**
-   * Will handle setting the editability of a session
-   * @param {*} idx The session index to update
-   * @returns
+   * Handles toggling edit mode and saving session changes.
+   *
+   * @param {number} idx - The session index to update
    */
   const handleEditSwap = async (idx) => {
-    // See if the current data aligns with the edited data
+    // Check if the current data aligns with the edited data
     const isSame = [
       data[idx].data === sessions[idx].data,
       data[idx].date === sessions[idx].date,
       data[idx].title === sessions[idx].title,
     ].every((isTrue) => isTrue);
 
-    // See if the currently selected session is editable
+    // If not in edit mode or no changes, just toggle edit mode
     if (!sessions[idx].edit || isSame) {
-      const new_edits = sessions.slice();
-      new_edits[idx].edit = !new_edits[idx].edit;
-      setSessions(new_edits);
+      const newEdits = sessions.slice();
+      newEdits[idx].edit = !newEdits[idx].edit;
+      setSessions(newEdits);
       return;
     }
 
     // Put together the form data
-    const form_data = new FormData();
-    form_data.append("title", sessions[idx].title);
-    form_data.append("date", sessions[idx].date);
-    form_data.append("data", sessions[idx].data);
+    const formData = new FormData();
+    formData.append("title", sessions[idx].title);
+    formData.append("date", sessions[idx].date);
+    formData.append("data", sessions[idx].data);
 
     // Attempt to perform the update
     try {
       await updateSession({
         campaignId,
         sessionId: sessions[idx].session_id,
-        formData: form_data,
+        formData: formData,
       }).unwrap();
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to update session:", error);
+    }
   };
 
   /**
-   * Will update the given session data
-   * @param {*} idx The session index to update
-   * @param {*} v The value of the json to update
-   * @param {*} k the key of the json to update
+   * Updates the given session data field.
+   *
+   * @param {number} idx - The session index to update
+   * @param {any} value - The new value
+   * @param {string} key - The key of the field to update
    */
-  const handleChange = (idx, v, k) => {
-    const new_edits = sessions.slice();
-    new_edits[idx][k] = v;
-    setSessions(new_edits);
+  const handleChange = (idx, value, key) => {
+    const newEdits = sessions.slice();
+    newEdits[idx][key] = value;
+    setSessions(newEdits);
   };
 
-  // Make sure the session data is set on crud operations
+  // Initialize session data with edit and delCount properties on data changes
   useEffect(() => {
     const sessionCopy = data.map((elem) => {
-      return { ...elem, edit: false, delCount: 0 };
+      return {
+        ...elem,
+        edit: false,
+        delCount: Settings.UI.DELETE_COUNT_INITIAL,
+      };
     });
     setSessions(sessionCopy);
   }, [data]);
@@ -145,11 +164,11 @@ function SessionsPage() {
                 >
                   <h3 style={{ padding: "0", margin: "0", width: "100%" }}>
                     {!session.edit ? (
-                      <>{session.title ? session.title : "None"} </>
+                      <>{session.title || "None"} </>
                     ) : (
                       <TextField
                         value={session.title}
-                        label={"Title"}
+                        label="Title"
                         onChange={(e) =>
                           handleChange(idx, e.target.value, "title")
                         }
@@ -158,13 +177,12 @@ function SessionsPage() {
                   </h3>
                 </AccordionSummary>
                 <AccordionDetails className="accordian-data-wrap">
+                  {/* Edit buttons (admin only) */}
                   <div
                     className="edit-btn-wrap"
                     style={{ display: `${isAdmin ? "block" : "none"}` }}
                   >
-                    {!session.edit ? (
-                      <></>
-                    ) : (
+                    {session.edit && (
                       <Button
                         variant="contained"
                         color="error"
@@ -172,7 +190,9 @@ function SessionsPage() {
                           handleDelCount(idx);
                         }}
                       >
-                        {session.delCount === 0 ? "Delete" : "Are You Sure?"}
+                        {session.delCount === Settings.UI.DELETE_COUNT_INITIAL
+                          ? "Delete"
+                          : "Are You Sure?"}
                       </Button>
                     )}
                     {!session.edit ? (
@@ -197,15 +217,15 @@ function SessionsPage() {
                       </Button>
                     )}
                   </div>
+
+                  {/* Display mode */}
                   {!session.edit ? (
                     <div className="accordian-data-wrap">
-                      {session.date ? (
+                      {session.date && (
                         <strong className="session-date">
                           {session.date}
                           <br />
                         </strong>
-                      ) : (
-                        <></>
                       )}
                       <MultiLineTextDisplay
                         text={session.data || ""}
@@ -213,10 +233,11 @@ function SessionsPage() {
                       />
                     </div>
                   ) : (
+                    /* Edit mode */
                     <>
                       <TextField
                         value={session.date}
-                        label={"Date"}
+                        label="Date"
                         onChange={(e) =>
                           handleChange(idx, e.target.value, "date")
                         }
@@ -236,16 +257,16 @@ function SessionsPage() {
           );
         })}
       </div>
-      {isAdmin ? (
+
+      {/* Add new session button (admin only) */}
+      {isAdmin && (
         <Button
-          onClick={() => create_new_session()}
+          onClick={() => createNewSession()}
           variant="contained"
           style={{ marginTop: "1em" }}
         >
           <AddIcon />
         </Button>
-      ) : (
-        <></>
       )}
     </div>
   );

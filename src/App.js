@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/HomePage/HomePage";
 import LoginPage from "./Pages/LoginPage/LoginPage";
-import PasswordReset from "./Pages/PasswordReset/PasswordReset";
+import PasswordReset from "./Pages/PasswordResetPage/PasswordReset";
 import JoinPage from "./Pages/JoinPage/JoinPage";
 import RequireAuth from "./Components/RequireAuth/RequireAuth";
-import React, { useState, useEffect } from "react";
 import CreateCampaignPage from "./Pages/CreateCampaignPage/CreateCampaignPage";
 import ValidateCampaignUser from "./Components/ValidateCampaignUser/ValidateCampaignUser";
 import CampaignNavBarWrapper from "./Components/CampaignNavBar/CampaignNavBarWrapper";
@@ -16,15 +15,15 @@ import CharacterPage from "./Pages/CampaignPages/CharacterPage/CharacterPage";
 import NPCsPage from "./Pages/CampaignPages/NPCsPage/NPCsPage";
 import SettingsPage from "./Pages/CampaignPages/SettingsPage/SettingsPage";
 import WorldLorePage from "./Pages/CampaignPages/WorldLorePage/WorldLorePage";
-import FactionsPage from "./Pages/CampaignPages/LorePages/FactionsPage";
-import LocationsPage from "./Pages/CampaignPages/LorePages/LocationsPage";
-import ThingsPage from "./Pages/CampaignPages/LorePages/ThingsPage";
+import FactionsPage from "./Pages/CampaignPages/LorePage/FactionsPage";
+import LocationsPage from "./Pages/CampaignPages/LorePage/LocationsPage";
+import ThingsPage from "./Pages/CampaignPages/LorePage/ThingsPage";
 import SessionsPage from "./Pages/CampaignPages/SessionsPage/SessionsPage";
 import Contact from "./Pages/ContactPage/contact";
 import NPCPage from "./Pages/CampaignPages/NPCPage/NPCPage";
 import CampaignErrorLoadingWindow from "./Components/CampaignErrorLoadingWindow/CampaignErrorLoadinWindow";
 import VerifyEmailPage from "./Pages/VerifyEmailPage/VerifyEmailPage";
-import CampaignManagementPage from "./Pages/CampaignManagmentPage/CampaignManagementPage";
+import CampaignManagementPage from "./Pages/CampaignManagementPage/CampaignManagementPage";
 
 function App() {
   return (

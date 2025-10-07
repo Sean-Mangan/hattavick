@@ -6,82 +6,101 @@ import {
   CardContent,
   CardMedia,
   Paper,
-  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./LoreStyle.css";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import {
-  useCreateLocationMutation,
-  useDeleteLocationMutation,
-  useGetLocationQuery,
-  useUpdateLocationMutation,
+  useCreateThingMutation,
+  useDeleteThingMutation,
+  useGetThingQuery,
+  useUpdateThingMutation,
 } from "../../../features/campaign/campaignApiSlice";
-import { useOutletContext, useSearchParams } from "react-router-dom";
-import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
+import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
 import NotesBanner from "../../../Components/Notes/NotesBanner";
+import Settings from "../../../config/settings.json";
 
-function LocationsPage() {
+/**
+ * ThingsPage component
+ * Displays and manages thing/item lore entries for a campaign
+ */
+function ThingsPage() {
   // Extract loreId from the URL parameters
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // Some helpful hooks to get data
   const { isAdmin, campaignId, error, resetError } = useOutletContext();
-  const { data: lore, isLoading } = useGetLocationQuery(campaignId);
-  const [updateLocation] = useUpdateLocationMutation({
-    fixedCacheKey: "update-location",
+  const { data: lore, isLoading } = useGetThingQuery(campaignId);
+  const [updateThing] = useUpdateThingMutation({
+    fixedCacheKey: "update-thing",
   });
-  const [createLocation] = useCreateLocationMutation({
-    fixedCacheKey: "create-location",
+  const [createThing] = useCreateThingMutation({
+    fixedCacheKey: "create-thing",
   });
-  const [deleteLocation] = useDeleteLocationMutation({
-    fixedCacheKey: "delete-location",
+  const [deleteThing] = useDeleteThingMutation({
+    fixedCacheKey: "delete-thing",
   });
 
-  // Sate variables
+  // Component state
   const [filteredLore, setFilteredLore] = useState(isLoading ? [] : lore);
-  const [delCount, setDelCount] = useState(0);
+  const [delCount, setDelCount] = useState(Settings.UI.DELETE_COUNT_INITIAL);
   const [searchName, setSearchName] = useState("");
   const [selectedLore, setSelectedLore] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [img, setImg] = useState("");
 
-  // Will handle changing the image of the selected loew
-  const hiddenCharacterFileInput = React.useRef(null);
-  const handleChange = (event) => {
+  // Refs for file input and UI elements
+  const hiddenCharacterFileInput = useRef(null);
+
+  /**
+   * Handles file selection for lore image
+   * @param {Event} event - File input change event
+   */
+  const handleImageChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setSelectedLore({ ...selectedLore, image: fileUploaded });
-    setImg(URL.createObjectURL(fileUploaded));
-  };
-  const handleClick = (event) => {
-    hiddenCharacterFileInput.current.click();
+    if (fileUploaded) {
+      setSelectedLore({ ...selectedLore, image: fileUploaded });
+      setImg(URL.createObjectURL(fileUploaded));
+    }
   };
 
-  // Handle dynamic styling for selecting images
+  /**
+   * Triggers the hidden file input click
+   */
+  const triggerFileInput = () => {
+    hiddenCharacterFileInput.current?.click();
+  };
+
+  // Refs for UI element manipulation
   const rightRef = useRef();
   const viewerRef = useRef();
   const bodyRef = useRef();
-  const showRight = () => {
-    rightRef.current.classList.toggle("show-right");
-  };
-  const closePreview = () => {
-    viewerRef.current.classList.toggle("show-img");
-    bodyRef.current.classList.toggle("no-scroll");
-    bodyRef.current.classList.toggle("no-scroll");
-  };
-
-  const DEFAULT_IMAGE =
-    "https://hattavick.s3.us-east-1.amazonaws.com/placeholder.jpg";
 
   /**
-   * Small helper function to filter out all pieces of lore that do not match
-   * @param {*} e
+   * Toggles the right panel visibility
    */
-  const filter = (e) => {
+  const showRight = () => {
+    rightRef.current?.classList.toggle("show-right");
+  };
+
+  /**
+   * Toggles the fullscreen image preview
+   */
+  const closePreview = () => {
+    viewerRef.current?.classList.toggle("show-img");
+    bodyRef.current?.classList.toggle("no-scroll");
+  };
+
+  /**
+   * Filters lore items based on search input
+   * @param {Event} e - Input change event
+   */
+  const filterLore = (e) => {
     const keyword = e.target.value;
     if (keyword !== "") {
       const results = lore.filter((lore_item) => {
@@ -98,57 +117,62 @@ function LocationsPage() {
   };
 
   /**
-   * Will handle creating a new piece of lore
+   * Handles creating a new piece of lore
    */
   const createNewLore = async () => {
     try {
-      await createLocation(campaignId).unwrap();
+      await createThing(campaignId).unwrap();
       setFilteredLore(lore);
       setSearchName("");
-    } catch {}
-  };
-
-  /**
-   * Will handle deleting the selected piece of lore
-   * @param {*} lore_id
-   */
-  const handleDelete = async (lore_id) => {
-    if (delCount === 0) {
-      setDelCount(1);
-    } else {
-      try {
-        await deleteLocation({ campaignId, lore_id }).unwrap();
-        setSelectedLore({});
-        setDelCount(0);
-        setEditMode(!editMode);
-        showRight();
-      } catch {}
+    } catch (error) {
+      console.error("Failed to create thing:", error);
     }
   };
 
   /**
-   * Will handle updating the slected piece of lore
-   * @param {*} e
+   * Handles deleting the selected piece of lore
+   * @param {string} lore_id - The ID of the lore item to delete
+   */
+  const handleDelete = async (lore_id) => {
+    if (delCount === Settings.UI.DELETE_COUNT_INITIAL) {
+      setDelCount(Settings.UI.DELETE_COUNT_CONFIRM);
+    } else {
+      try {
+        await deleteThing({ campaignId, lore_id }).unwrap();
+        setSelectedLore({});
+        setDelCount(Settings.UI.DELETE_COUNT_INITIAL);
+        setEditMode(!editMode);
+        showRight();
+      } catch (error) {
+        console.error("Failed to delete thing:", error);
+      }
+    }
+  };
+
+  /**
+   * Handles updating the selected piece of lore
+   * @param {Event} e - Form submit event
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Add the new image to the form if it changed
-    const form_data = new FormData();
+    const formData = new FormData();
     const updatedImage = selectedLore.image !== img;
-    if (selectedLore.image !== img) {
-      form_data.append("image", selectedLore.image);
-    }
-    form_data.append("name", selectedLore.name);
-    form_data.append("private", selectedLore.private);
-    form_data.append("about", selectedLore.about);
-    form_data.append("visible", selectedLore.visible);
 
-    // Attempt to perform the locations update
+    if (updatedImage) {
+      formData.append("image", selectedLore.image);
+    }
+    formData.append("name", selectedLore.name);
+    formData.append("private", selectedLore.private);
+    formData.append("about", selectedLore.about);
+    formData.append("visible", selectedLore.visible);
+
+    // Attempt to perform the things update
     try {
-      await updateLocation({
+      await updateThing({
         campaignId,
-        formData: form_data,
+        formData,
         lore_id: selectedLore.lore_id,
       }).unwrap();
       if (updatedImage) {
@@ -164,7 +188,9 @@ function LocationsPage() {
         });
       }
       setEditMode(!editMode);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to update thing:", error);
+    }
   };
 
   // In the event of a lore change, reset the filtered data
@@ -172,6 +198,7 @@ function LocationsPage() {
     setFilteredLore(lore);
     setSearchName("");
   }, [lore]);
+
   const previousLoreId = useRef(null);
 
   useEffect(() => {
@@ -195,7 +222,7 @@ function LocationsPage() {
     <div className="lore-wrapper" ref={bodyRef}>
       <div className="fullscreen-wrap" ref={viewerRef}>
         <div className="large-img-wrap">
-          <img src={img ? img : DEFAULT_IMAGE} className="preview-img" />
+          <img src={img ? img : Settings.IMAGES.DEFAULT_IMAGE} className="preview-img" alt="Fullscreen preview" />
           <CloseIcon
             className="close-img-btn"
             style={{ fontSize: "min(10vw, 48px)", fontWeight: "bold" }}
@@ -203,12 +230,12 @@ function LocationsPage() {
           />
         </div>
       </div>
-      <div className="lore-title">Locations</div>
+      <div className="lore-title">Things</div>
       <div className="lore-body-wrap">
         <Paper className="lore-left" elevation={12}>
           <div className="lore-options">
-            <TextField label="Search" value={searchName} onChange={filter} />
-            {isAdmin ? (
+            <TextField label="Search" value={searchName} onChange={filterLore} />
+            {isAdmin && (
               <Button
                 variant="contained"
                 color="primary"
@@ -217,8 +244,6 @@ function LocationsPage() {
               >
                 <AddIcon />
               </Button>
-            ) : (
-              <></>
             )}
           </div>
           <div className="lore-left-wrap">
@@ -242,7 +267,7 @@ function LocationsPage() {
                       component="img"
                       height="235"
                       image={
-                        lore_item?.image ? lore_item?.image : DEFAULT_IMAGE
+                        lore_item?.image ? lore_item?.image : Settings.IMAGES.DEFAULT_IMAGE
                       }
                       alt="Lore Image"
                     />
@@ -272,22 +297,20 @@ function LocationsPage() {
                 />
               </Button>
             </div>
-            {error ? (
+            {error && (
               <Alert
                 className="campaign_create_err lore-err"
                 onClose={() => {
                   resetError();
                 }}
-                style={error ? { textAlign: "left" } : { display: "none" }}
+                style={{ textAlign: "left" }}
                 severity="error"
               >
                 <AlertTitle>Error</AlertTitle>
-                <strong>Oops, an error occured</strong> — {error}
+                <strong>Oops, an error occurred</strong> — {error}
               </Alert>
-            ) : (
-              <></>
             )}
-            {isAdmin && selectedLore?.lore_id ? (
+            {isAdmin && selectedLore?.lore_id && (
               <div className="lore-btn-wrap">
                 <Button
                   variant="contained"
@@ -307,7 +330,7 @@ function LocationsPage() {
                   color="error"
                   onClick={() => handleDelete(selectedLore?.lore_id)}
                 >
-                  {delCount == 0 ? "Delete?" : "Are You Sure?"}
+                  {delCount === Settings.UI.DELETE_COUNT_INITIAL ? "Delete?" : "Are You Sure?"}
                 </Button>
 
                 {editMode ? (
@@ -330,21 +353,20 @@ function LocationsPage() {
                   </Button>
                 )}
               </div>
-            ) : (
-              <></>
             )}
 
             {!editMode ? (
-              // An item has been select
+              // An item has been selected
               <>
                 {selectedLore?.lore_id ? (
                   <>
                     <div className="lore-selected">{selectedLore.name}</div>
                     <div className="selected-wrapper">
                       <img
-                        src={img ? img : DEFAULT_IMAGE}
+                        src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
                         onClick={() => closePreview()}
                         className="selected-image"
+                        alt={selectedLore.name}
                       />
                       <div>
                         <strong>About:</strong>
@@ -353,21 +375,17 @@ function LocationsPage() {
                         <MultiLineTextDisplay text={selectedLore?.about} />
                       </div>
 
-                      {isAdmin ? (
-                        <>
+                      {isAdmin && (
+                        <div>
                           <div>
-                            <div>
-                              <strong>Private:</strong>
-                            </div>
-                            <div className="lore-about">
-                              <MultiLineTextDisplay
-                                text={selectedLore?.private}
-                              />
-                            </div>
+                            <strong>Private:</strong>
                           </div>
-                        </>
-                      ) : (
-                        <></>
+                          <div className="lore-about">
+                            <MultiLineTextDisplay
+                              text={selectedLore?.private}
+                            />
+                          </div>
+                        </div>
                       )}
                     </div>
                   </>
@@ -375,16 +393,18 @@ function LocationsPage() {
                   // There has been no selected item yet
                   <div className="lore-mid-wrap">
                     <div className="lore-mid-content">
-                      <div className="lore-selected">Locations Overview</div>
+                      <div className="lore-selected">Things Overview</div>
                       <div className="default-wrapper">
                         <img
                           className="selected-image"
-                          src="https://cdn.britannica.com/80/149180-050-23E41CF0/topographic-map.jpg"
+                          src={Settings.IMAGES.THINGS_OVERVIEW_IMAGE_URL}
+                          alt="Things overview"
                         />
                         <div className="lore-about">
-                          Here you can find location information for your
-                          campaign. This may include images, maps, descriptions
-                          and more.
+                          Here be stored information on items of interest;
+                          magical items recently discovered, cursed items with
+                          an unknown effect, amongst other useful pieces of
+                          information.
                         </div>
                       </div>
                     </div>
@@ -404,19 +424,21 @@ function LocationsPage() {
                 <div className="char-page-editable-container">
                   <img
                     className="char-page-img blur"
-                    src={img ? img : DEFAULT_IMAGE}
+                    src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
+                    alt="Thing"
                   />
-                  <div className="char-page-upload-btn" onClick={handleClick}>
+                  <div className="char-page-upload-btn" onClick={triggerFileInput}>
                     Click to Upload a File
                     <br />
-                    <a className="char-page-micro-text">
+                    <span className="char-page-micro-text">
                       {selectedLore?.image?.name}
-                    </a>
+                    </span>
                   </div>
                   <input
                     type="file"
+                    accept="image/*"
                     ref={hiddenCharacterFileInput}
-                    onChange={handleChange}
+                    onChange={handleImageChange}
                     style={{ display: "none" }}
                   />
                 </div>
@@ -452,7 +474,7 @@ function LocationsPage() {
       {selectedLore?.lore_id && (
         <NotesBanner
           campaignId={campaignId}
-          noteType={"locations"}
+          noteType={"things"}
           relatedId={selectedLore?.lore_id}
         />
       )}
@@ -460,4 +482,4 @@ function LocationsPage() {
   );
 }
 
-export default LocationsPage;
+export default ThingsPage;

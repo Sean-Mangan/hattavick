@@ -1,57 +1,52 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useValidateEmailMutation } from "../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
 import "./VerifyEmailPage.css";
+import Settings from "../../config/settings.json";
 
+/**
+ * VerifyEmailPage component handles email verification via link.
+ * Automatically validates the email on page load and displays the result.
+ *
+ * @returns {JSX.Element} The email verification page
+ */
 function VerifyEmailPage() {
-  // Get the verification id and some helpful hooks
+  // Get the verification id and hooks
   const { verificationId } = useParams();
   const dispatch = useDispatch();
 
-  // Mutation to validate the address
+  // Mutation to validate the email address
   const [validate, { isSuccess }] = useValidateEmailMutation();
 
-  // State to hold onto any error
+  // State to hold any error
   const [error, setError] = useState("");
 
   /**
-   * Function to make a request to validate the email address of the user
+   * Validates the user's email address.
+   * Dispatches credentials on success or sets error on failure.
    */
   const validateOnLoad = async () => {
     try {
       const userData = await validate(verificationId).unwrap();
       dispatch(setCredentials({ ...userData }));
-    } catch (err) {
-      const errMsg = err?.data?.error
-        ? err?.data?.error
-        : "An unkown error occured, try again or contact support";
-      setError(errMsg);
+    } catch (error) {
+      const errorMsg =
+        error?.data?.error || Settings.DEFAULTS.DEFAULT_ERROR_MESSAGE;
+      setError(errorMsg);
     }
   };
 
+  // Validate email on component mount
   useEffect(() => {
-    /**
-     * Function to make a request to validate the email address of the user
-     */
-    const validateOnLoad = async () => {
-      try {
-        const userData = await validate(verificationId).unwrap();
-        dispatch(setCredentials({ ...userData }));
-      } catch (err) {
-        const errMsg = err?.data?.error
-          ? err?.data?.error
-          : "An unkown error occured, try again or contact support";
-        setError(errMsg);
-      }
-    };
     validateOnLoad();
   }, []);
 
   // Set the content based on state
-  let loadingContent = <p className="verify_title">Loading</p>;
-  let errorContent = (
+  const loadingContent = <p className="verify_title">Loading</p>;
+
+  const errorContent = (
     <>
       <p className="verify_title">Error</p>
       <div className="desc_stuff contact_center">
@@ -59,7 +54,8 @@ function VerifyEmailPage() {
       </div>
     </>
   );
-  let successContent = (
+
+  const successContent = (
     <>
       <p className="verify_title">Success</p>
       <div className="desc_stuff contact_center">
@@ -72,15 +68,9 @@ function VerifyEmailPage() {
   );
 
   return (
-    <>
-      <div className="verify_wrapper">
-        {isSuccess
-          ? successContent
-          : error !== ""
-            ? errorContent
-            : loadingContent}
-      </div>
-    </>
+    <div className="verify_wrapper">
+      {isSuccess ? successContent : error ? errorContent : loadingContent}
+    </div>
   );
 }
 
