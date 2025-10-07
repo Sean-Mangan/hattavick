@@ -222,7 +222,11 @@ function ThingsPage() {
     <div className="lore-wrapper" ref={bodyRef}>
       <div className="fullscreen-wrap" ref={viewerRef}>
         <div className="large-img-wrap">
-          <img src={img ? img : Settings.IMAGES.DEFAULT_IMAGE} className="preview-img" alt="Fullscreen preview" />
+          <img
+            src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
+            className="preview-img"
+            alt="Fullscreen preview"
+          />
           <CloseIcon
             className="close-img-btn"
             style={{ fontSize: "min(10vw, 48px)", fontWeight: "bold" }}
@@ -234,7 +238,11 @@ function ThingsPage() {
       <div className="lore-body-wrap">
         <Paper className="lore-left" elevation={12}>
           <div className="lore-options">
-            <TextField label="Search" value={searchName} onChange={filterLore} />
+            <TextField
+              label="Search"
+              value={searchName}
+              onChange={filterLore}
+            />
             {isAdmin && (
               <Button
                 variant="contained"
@@ -267,7 +275,9 @@ function ThingsPage() {
                       component="img"
                       height="235"
                       image={
-                        lore_item?.image ? lore_item?.image : Settings.IMAGES.DEFAULT_IMAGE
+                        lore_item?.image
+                          ? lore_item?.image
+                          : Settings.IMAGES.DEFAULT_IMAGE
                       }
                       alt="Lore Image"
                     />
@@ -330,7 +340,9 @@ function ThingsPage() {
                   color="error"
                   onClick={() => handleDelete(selectedLore?.lore_id)}
                 >
-                  {delCount === Settings.UI.DELETE_COUNT_INITIAL ? "Delete?" : "Are You Sure?"}
+                  {delCount === Settings.UI.DELETE_COUNT_INITIAL
+                    ? "Delete?"
+                    : "Are You Sure?"}
                 </Button>
 
                 {editMode ? (
@@ -427,7 +439,10 @@ function ThingsPage() {
                     src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
                     alt="Thing"
                   />
-                  <div className="char-page-upload-btn" onClick={triggerFileInput}>
+                  <div
+                    className="char-page-upload-btn"
+                    onClick={triggerFileInput}
+                  >
                     Click to Upload a File
                     <br />
                     <span className="char-page-micro-text">

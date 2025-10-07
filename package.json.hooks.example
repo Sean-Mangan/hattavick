@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "eslint src --ext .js,.jsx --cache",
+    "lint:fix": "eslint src --ext .js,.jsx --fix --cache",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,scss,md}\""
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "eslint --fix --cache",
+      "prettier --write"
+    ],
+    "src/**/*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.0",
+    "prettier": "^2.8.0"
+  }
+}
