@@ -269,7 +269,7 @@ unset HUSKY
 # Husky documentation
 open https://typicode.github.io/husky/
 
-# Lint-staged documentation  
+# Lint-staged documentation
 open https://github.com/okonet/lint-staged
 
 # Commitlint documentation

@@ -37,7 +37,7 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
   const [isPrivate, setIsPrivate] = useState(note.is_private || false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [existingAssets, setExistingAssets] = useState(
-    note.assets || { image: [], other: [] },
+    note.assets || { image: [], other: [] }
   );
 
   // Manage files when added or removed
@@ -90,7 +90,7 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
     if (file) {
       // Check if the file name already exists
       let isDuplicate = uploadedFiles.some(
-        (uploadedFile) => uploadedFile.name === file.name,
+        (uploadedFile) => uploadedFile.name === file.name
       );
       isDuplicate =
         isDuplicate ||
@@ -161,7 +161,7 @@ const NoteRow = ({ note, relatedId, noteType, campaignId }) => {
       });
     }
     setSelectedFiles(
-      selectedFiles.filter((file) => file.name !== url.split("/").pop()),
+      selectedFiles.filter((file) => file.name !== url.split("/").pop())
     );
   };
 

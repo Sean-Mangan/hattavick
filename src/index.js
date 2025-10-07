@@ -17,5 +17,5 @@ root.render(
         <App />
       </QueryClientProvider>
     </PersistGate>
-  </Provider>,
+  </Provider>
 );

@@ -96,7 +96,7 @@ const MultiLineTextDisplay = ({ text }) => {
             className="link-external"
           >
             {type}
-          </a>,
+          </a>
         );
       } else if (["thing", "location", "pc", "faction", "npc"].includes(type)) {
         // Create an internal link using the createLink mapping
@@ -109,12 +109,12 @@ const MultiLineTextDisplay = ({ text }) => {
               className={`link-${type}`}
             >
               {linkData.name}
-            </Link>,
+            </Link>
           );
         } else {
           // If no mapping is found, display the raw text
           parts.push(
-            `<Unknown ${type.charAt(0).toUpperCase() + type.slice(1)}>`,
+            `<Unknown ${type.charAt(0).toUpperCase() + type.slice(1)}>`
           );
         }
       } else {

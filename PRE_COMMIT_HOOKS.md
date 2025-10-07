@@ -5,6 +5,7 @@ This guide will help you set up automated pre-commit hooks to enforce code quali
 ## 🎯 Recommended Pre-Commit Hooks
 
 ### Essential Hooks
+
 1. **Linting** - ESLint for JavaScript/React
 2. **Formatting** - Prettier for consistent code style
 3. **Type Checking** - (Future: TypeScript)
@@ -13,6 +14,7 @@ This guide will help you set up automated pre-commit hooks to enforce code quali
 6. **No Debug Code** - Block console.log, debugger
 
 ### Nice-to-Have Hooks
+
 - **Bundle Size Analysis** - Warn on large bundle increases
 - **Accessibility Checks** - Basic a11y validation
 - **Dependency Audit** - Check for vulnerable packages
@@ -53,13 +55,8 @@ Add these configurations to your `package.json`:
     "format:check": "prettier --check \"src/**/*.{js,jsx,json,css,scss,md}\""
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "src/**/*.{json,css,scss,md}": [
-      "prettier --write"
-    ]
+    "src/**/*.{js,jsx}": ["eslint --fix", "prettier --write"],
+    "src/**/*.{json,css,scss,md}": ["prettier --write"]
   }
 }
 ```
@@ -71,6 +68,7 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ```
 
 This creates `.husky/pre-commit` file:
+
 ```bash
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
@@ -90,10 +88,7 @@ Create `.eslintrc.json`:
 
 ```json
 {
-  "extends": [
-    "react-app",
-    "react-app/jest"
-  ],
+  "extends": ["react-app", "react-app/jest"],
   "rules": {
     "no-console": "warn",
     "no-debugger": "error",
@@ -136,26 +131,26 @@ Create `commitlint.config.js`:
 
 ```javascript
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
   rules: {
-    'type-enum': [
+    "type-enum": [
       2,
-      'always',
+      "always",
       [
-        'feat',
-        'fix',
-        'docs',
-        'style',
-        'refactor',
-        'perf',
-        'test',
-        'chore',
-        'revert'
-      ]
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "chore",
+        "revert",
+      ],
     ],
-    'subject-case': [0], // Allow any case
-    'subject-max-length': [2, 'always', 100]
-  }
+    "subject-case": [0], // Allow any case
+    "subject-max-length": [2, "always", 100],
+  },
 };
 ```
 
@@ -239,6 +234,7 @@ exit 0
 ```
 
 Make them executable:
+
 ```bash
 chmod +x .husky/pre-commit
 chmod +x .husky/commit-msg
@@ -311,15 +307,13 @@ Add to `.vscode/settings.json`:
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact"],
   "files.eol": "\n"
 }
 ```
 
 Recommended VS Code Extensions:
+
 - **ESLint** (dbaeumer.vscode-eslint)
 - **Prettier** (esbenp.prettier-vscode)
 - **GitLens** (eamodio.gitlens)
@@ -482,13 +476,16 @@ git push
 For the Hattavick UI project, I recommend:
 
 ### Minimal Setup (Start Here)
+
 1. **Husky** - Git hooks manager
 2. **Lint-staged** - Run linters on staged files
 3. **Prettier** - Code formatting
 4. **Commitlint** - Enforce conventional commits
 
 ### Full Setup (Future)
+
 Add these when ready:
+
 1. **ESLint** - Already configured with CRA
 2. **TypeScript** - Add type checking
 3. **Bundle analyzer** - Monitor bundle size

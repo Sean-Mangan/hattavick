@@ -39,17 +39,20 @@ A modern React application for managing D&D and TTRPG campaigns, featuring lore 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/Sean-Mangan/hattavick.git
    cd hattavick/hattavick_ui
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment** (if needed)
+
    - Update `src/config/settings.json` with your API endpoints
    - Ensure backend API URL is correctly set
 
@@ -68,36 +71,44 @@ A modern React application for managing D&D and TTRPG campaigns, featuring lore 
 ### Available Scripts
 
 #### `npm start`
+
 Runs the app in development mode with hot reload.
 
 #### `npm run build`
+
 Creates optimized production build in `/build` folder.
 
 #### `npm test`
+
 ⚠️ **Note**: Tests are not currently implemented. This is planned for future development.
 
 #### `npm run eject`
+
 ⚠️ **Warning**: One-way operation. Only use if you need full webpack control.
 
 ### Development Workflow
 
 1. **Create a feature branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
 
 2. **Make your changes**
+
    - Follow coding standards (see below)
    - Test manually in the browser
    - Check console for errors
 
 3. **Review your changes**
+
    ```bash
    git status
    git diff
    ```
 
 4. **Commit with descriptive message**
+
    ```bash
    git add .
    git commit -m "feat: add new lore filtering feature"
@@ -173,6 +184,7 @@ src/
 ### JavaScript/React
 
 #### Component Structure
+
 ```javascript
 // 1. Imports (grouped logically)
 import { useState, useEffect } from "react";
@@ -189,23 +201,19 @@ function ComponentName({ prop1, prop2 }) {
   // 3. Hooks first
   const [state, setState] = useState(null);
   const data = useSelector(selectData);
-  
+
   // 4. Event handlers
   const handleClick = () => {
     // ...
   };
-  
+
   // 5. Effects last
   useEffect(() => {
     // ...
   }, []);
-  
+
   // 6. Render
-  return (
-    <div>
-      {/* JSX */}
-    </div>
-  );
+  return <div>{/* JSX */}</div>;
 }
 
 export default ComponentName;
@@ -223,6 +231,7 @@ export default ComponentName;
 #### Best Practices
 
 ✅ **DO:**
+
 - Use functional components with hooks
 - Implement `useCallback` for event handlers passed as props
 - Use `useMemo` for expensive computations
@@ -233,6 +242,7 @@ export default ComponentName;
 - Clean up effects (return cleanup function)
 
 ❌ **DON'T:**
+
 - Use class components (use functional instead)
 - Mutate state directly (use setState)
 - Forget dependency arrays in useEffect
@@ -246,16 +256,21 @@ export default ComponentName;
 #### Style Organization
 
 1. **CSS Modules for scoped styles** (preferred)
+
    ```css
    /* Component.module.css */
-   .container { }
-   .title { }
+   .container {
+   }
+   .title {
+   }
    ```
 
 2. **Regular CSS for shared/legacy styles**
+
    ```css
    /* Component.css */
-   .component-specific-class { }
+   .component-specific-class {
+   }
    ```
 
 3. **Material-UI `sx` prop for one-offs**
@@ -266,6 +281,7 @@ export default ComponentName;
 #### CSS Best Practices
 
 ✅ **DO:**
+
 - Use CSS Grid for layouts
 - Use Flexbox for component alignment
 - Mobile-first responsive design
@@ -274,6 +290,7 @@ export default ComponentName;
 - Prefer CSS transitions over JS animations
 
 ❌ **DON'T:**
+
 - Use `!important` (unless absolutely necessary)
 - Use fixed pixel heights/widths
 - Ignore responsive breakpoints
@@ -301,6 +318,7 @@ const [updateFaction] = useUpdateFactionMutation();
 ### Automated Pre-Commit Hooks (Recommended)
 
 We strongly recommend setting up automated pre-commit hooks to enforce code quality automatically. This will:
+
 - ✅ Auto-fix linting issues
 - ✅ Format code with Prettier
 - ✅ Validate commit messages
@@ -309,6 +327,7 @@ We strongly recommend setting up automated pre-commit hooks to enforce code qual
 **📚 [Complete Hooks Setup Guide](./PRE_COMMIT_HOOKS.md)** - Full documentation
 
 **⚡ Quick Setup:**
+
 ```bash
 # Install dependencies
 npm install --save-dev husky lint-staged prettier @commitlint/cli @commitlint/config-conventional
@@ -387,6 +406,7 @@ type(scope): subject
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -397,6 +417,7 @@ type(scope): subject
 - `chore`: Build process, dependencies
 
 **Examples:**
+
 ```
 feat(lore): add unified lore page with tabs
 fix(auth): resolve token expiration issue
@@ -447,17 +468,20 @@ git push origin <branch>
 ### Planned Testing Strategy
 
 #### Unit Tests (Future)
+
 - Jest + React Testing Library
 - Test individual components
 - Test Redux reducers and actions
 - Test utility functions
 
 #### Integration Tests (Future)
+
 - Test component interactions
 - Test API integration with RTK Query
 - Test routing and navigation
 
 #### E2E Tests (Future)
+
 - Cypress or Playwright
 - Test critical user flows
 - Test authentication
@@ -468,18 +492,21 @@ git push origin <branch>
 Until automated tests are implemented, follow these manual testing procedures:
 
 1. **Feature Testing**
+
    - Test happy path
    - Test edge cases
    - Test error scenarios
    - Test loading states
 
 2. **Browser Testing**
+
    - Chrome (primary)
    - Firefox
    - Safari
    - Mobile browsers (iOS Safari, Chrome Mobile)
 
 3. **Responsive Testing**
+
    - Desktop (1920x1080)
    - Tablet (768x1024)
    - Mobile (375x667)
@@ -508,6 +535,7 @@ npm run build
 ### Environment Configuration
 
 Update `src/config/settings.json` for different environments:
+
 - API endpoints
 - Feature flags
 - Image URLs
@@ -516,6 +544,7 @@ Update `src/config/settings.json` for different environments:
 ### Deployment Platforms
 
 This app can be deployed to:
+
 - **Vercel** (recommended for React apps)
 - **Netlify**
 - **AWS S3 + CloudFront**
@@ -546,6 +575,7 @@ This app can be deployed to:
 ### Code Review Guidelines
 
 **Reviewers should check:**
+
 - Code follows style guide
 - Components are properly structured
 - No obvious bugs

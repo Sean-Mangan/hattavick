@@ -10,7 +10,7 @@ import {
 
 const MultiLineTextFieldExample = () => {
   const [textValue, setTextValue] = useState(
-    "This is a sample text with some words to highlight. You can search for 'sample', 'text', or any other word.",
+    "This is a sample text with some words to highlight. You can search for 'sample', 'text', or any other word."
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);

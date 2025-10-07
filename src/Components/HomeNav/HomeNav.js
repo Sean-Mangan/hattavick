@@ -79,7 +79,7 @@ function HomeNav() {
     if (campaigns) {
       campList = campaigns["owner"].concat(
         campaigns["admin"],
-        campaigns["player"],
+        campaigns["player"]
       );
     }
     setCampaignList(campList);

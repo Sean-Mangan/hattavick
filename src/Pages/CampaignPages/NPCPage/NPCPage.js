@@ -40,7 +40,7 @@ function NPCPage() {
   // Get all characters and filter down to the NPC in question
   const { data: npcs } = useGetNPCDataQuery(campaignId);
   const filteredNPCs = npcs.filter(
-    (character) => character.character_id === characterId,
+    (character) => character.character_id === characterId
   );
   const npc = filteredNPCs.length === 1 ? filteredNPCs[0] : {};
 

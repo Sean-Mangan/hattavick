@@ -71,7 +71,7 @@ function CampaignHomePage() {
       console.error("Failed to update home page:", err);
       setError(
         err?.response?.data?.error ||
-          "Failed to update home page. Please try again.",
+          "Failed to update home page. Please try again."
       );
     }
   };
