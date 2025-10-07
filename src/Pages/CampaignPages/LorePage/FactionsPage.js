@@ -5,15 +5,13 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Grid,
   Paper,
-  TextareaAutosize,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./LoreStyle.css";
-import { useOutletContext, useParams, useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -24,14 +22,18 @@ import {
 } from "../../../features/campaign/campaignApiSlice";
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
 import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
-import { Notes } from "@mui/icons-material";
 import NotesBanner from "../../../Components/Notes/NotesBanner";
+import Settings from "../../../config/settings.json";
 
+/**
+ * FactionsPage component
+ * Displays and manages faction lore entries for a campaign
+ */
 function FactionsPage() {
   // Extract loreId from the URL parameters
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  // Some helpful hooks to get data
+  // Context and API hooks
   const { isAdmin, campaignId, error, resetError } = useOutletContext();
   const { data: lore } = useGetFactionsQuery(campaignId);
   const [updateFaction] = useUpdateFactionMutation({
@@ -44,53 +46,67 @@ function FactionsPage() {
     fixedCacheKey: "delete-faction",
   });
 
-  // Sate variables
+  // Component state
   const [filteredLore, setFilteredLore] = useState(lore);
-  const [delCount, setDelCount] = useState(0);
+  const [delCount, setDelCount] = useState(Settings.UI.DELETE_COUNT_INITIAL);
   const [searchName, setSearchName] = useState("");
   const [selectedLore, setSelectedLore] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [img, setImg] = useState("");
 
-  // Will handle changing the image of the selected loew
-  const hiddenCharacterFileInput = React.useRef(null);
-  const handleChange = (event) => {
+  // Refs for file input and UI elements
+  const hiddenCharacterFileInput = useRef(null);
+
+  /**
+   * Handles file selection for lore image
+   * @param {Event} event - File input change event
+   */
+  const handleImageChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setSelectedLore({ ...selectedLore, image: fileUploaded });
-    setImg(URL.createObjectURL(fileUploaded));
-  };
-  const handleClick = (event) => {
-    hiddenCharacterFileInput.current.click();
+    if (fileUploaded) {
+      setSelectedLore({ ...selectedLore, image: fileUploaded });
+      setImg(URL.createObjectURL(fileUploaded));
+    }
   };
 
-  // Handle dynamic styling for selecting images
+  /**
+   * Triggers the hidden file input click
+   */
+  const triggerFileInput = () => {
+    hiddenCharacterFileInput.current?.click();
+  };
+
+  // Refs for UI element manipulation
   const rightRef = useRef();
   const viewerRef = useRef();
   const bodyRef = useRef();
-  const showRight = () => {
-    rightRef.current.classList.toggle("show-right");
-  };
-  const closePreview = () => {
-    viewerRef.current.classList.toggle("show-img");
-    bodyRef.current.classList.toggle("no-scroll");
-    bodyRef.current.classList.toggle("no-scroll");
-  };
-
-  // If no image is given, use this
-  const DEFAULT_IMAGE =
-    "https://hattavick.s3.us-east-1.amazonaws.com/placeholder.jpg";
 
   /**
-   * Small helper function to filter out all pieces of lore that do not match
-   * @param {*} e
+   * Toggles the right panel visibility
    */
-  const filter = (e) => {
+  const showRight = () => {
+    rightRef.current?.classList.toggle("show-right");
+  };
+
+  /**
+   * Toggles the fullscreen image preview
+   */
+  const closePreview = () => {
+    viewerRef.current?.classList.toggle("show-img");
+    bodyRef.current?.classList.toggle("no-scroll");
+  };
+
+  /**
+   * Filters lore items based on search input
+   * @param {Event} e - Input change event
+   */
+  const filterLore = (e) => {
     const keyword = e.target.value;
     if (keyword !== "") {
-      const results = lore.filter((lore_item) => {
+      const results = lore.filter((loreItem) => {
         return (
-          lore_item.name.toLowerCase().includes(keyword.toLowerCase()) &&
-          !lore_item.name.includes("Unknown")
+          loreItem.name.toLowerCase().includes(keyword.toLowerCase()) &&
+          !loreItem.name.includes("Unknown")
         );
       });
       setFilteredLore(results);
@@ -101,57 +117,61 @@ function FactionsPage() {
   };
 
   /**
-   * Will handle creating a new piece of lore
+   * Handles creating a new piece of lore
    */
   const createNewLore = async () => {
     try {
       await createFaction(campaignId).unwrap();
       setFilteredLore(lore);
       setSearchName("");
-    } catch {}
-  };
-
-  /**
-   * Will handle deleting the selected piece of lore
-   * @param {*} lore_id
-   */
-  const handleDelete = async (lore_id) => {
-    if (delCount === 0) {
-      setDelCount(1);
-    } else {
-      try {
-        await deleteFaction({ campaignId, lore_id }).unwrap();
-        setSelectedLore({});
-        setDelCount(0);
-        setEditMode(!editMode);
-        showRight();
-      } catch {}
+    } catch (error) {
+      console.error("Failed to create faction:", error);
     }
   };
 
   /**
-   * Will handle updating the slected piece of lore
-   * @param {*} e
+   * Handles deleting the selected piece of lore
+   * @param {string} lore_id - The ID of the lore item to delete
+   */
+  const handleDelete = async (lore_id) => {
+    if (delCount === Settings.UI.DELETE_COUNT_INITIAL) {
+      setDelCount(Settings.UI.DELETE_COUNT_CONFIRM);
+    } else {
+      try {
+        await deleteFaction({ campaignId, lore_id }).unwrap();
+        setSelectedLore({});
+        setDelCount(Settings.UI.DELETE_COUNT_INITIAL);
+        setEditMode(!editMode);
+        showRight();
+      } catch (error) {
+        console.error("Failed to delete faction:", error);
+      }
+    }
+  };
+
+  /**
+   * Handles updating the selected piece of lore
+   * @param {Event} e - Form submit event
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Add the new image to the form if it changed
-    const form_data = new FormData();
+    const formData = new FormData();
     const updatedImage = selectedLore.image !== img;
     if (updatedImage) {
-      form_data.append("image", selectedLore.image);
+      formData.append("image", selectedLore.image);
     }
-    form_data.append("name", selectedLore.name);
-    form_data.append("private", selectedLore.private);
-    form_data.append("about", selectedLore.about);
-    form_data.append("visible", selectedLore.visible);
+    formData.append("name", selectedLore.name);
+    formData.append("private", selectedLore.private);
+    formData.append("about", selectedLore.about);
+    formData.append("visible", selectedLore.visible);
 
     // Attempt to perform the factions update
     try {
       await updateFaction({
         campaignId,
-        formData: form_data,
+        formData,
         lore_id: selectedLore.lore_id,
       }).unwrap();
       if (updatedImage) {
@@ -167,7 +187,9 @@ function FactionsPage() {
         });
       }
       setEditMode(!editMode);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to update faction:", error);
+    }
   };
 
   // In the event of a lore change, reset the filtered data
@@ -199,7 +221,11 @@ function FactionsPage() {
     <div className="lore-wrapper" ref={bodyRef}>
       <div className="fullscreen-wrap" ref={viewerRef}>
         <div className="large-img-wrap">
-          <img src={img ? img : DEFAULT_IMAGE} className="preview-img" />
+          <img
+            src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
+            className="preview-img"
+            alt="Fullscreen preview"
+          />
           <CloseIcon
             className="close-img-btn"
             style={{ fontSize: "min(10vw, 48px)", fontWeight: "bold" }}
@@ -211,8 +237,12 @@ function FactionsPage() {
       <div className="lore-body-wrap">
         <Paper className="lore-left" elevation={12}>
           <div className="lore-options">
-            <TextField label="Search" value={searchName} onChange={filter} />
-            {isAdmin ? (
+            <TextField
+              label="Search"
+              value={searchName}
+              onChange={filterLore}
+            />
+            {isAdmin && (
               <Button
                 variant="contained"
                 color="primary"
@@ -221,8 +251,6 @@ function FactionsPage() {
               >
                 <AddIcon />
               </Button>
-            ) : (
-              <></>
             )}
           </div>
           <div className="lore-left-wrap">
@@ -246,7 +274,9 @@ function FactionsPage() {
                       component="img"
                       height="235" // Increase the height (e.g., from 140 to 200)
                       image={
-                        lore_item?.image ? lore_item?.image : DEFAULT_IMAGE
+                        lore_item?.image
+                          ? lore_item?.image
+                          : Settings.IMAGES.DEFAULT_IMAGE
                       }
                       alt="Lore Image"
                       style={{ objectFit: "cover" }} // Optional: Ensure the image scales properly
@@ -277,22 +307,20 @@ function FactionsPage() {
                 />
               </Button>
             </div>
-            {error ? (
+            {error && (
               <Alert
                 className="campaign_create_err lore-err"
                 onClose={() => {
                   resetError();
                 }}
-                style={error ? { textAlign: "left" } : { display: "none" }}
+                style={{ textAlign: "left" }}
                 severity="error"
               >
                 <AlertTitle>Error</AlertTitle>
-                <strong>Oops, an error occured</strong> — {error}
+                <strong>Oops, an error occurred</strong> — {error}
               </Alert>
-            ) : (
-              <></>
             )}
-            {isAdmin && selectedLore?.lore_id ? (
+            {isAdmin && selectedLore?.lore_id && (
               <div className="lore-btn-wrap">
                 <Button
                   variant="contained"
@@ -312,7 +340,9 @@ function FactionsPage() {
                   color="error"
                   onClick={() => handleDelete(selectedLore?.lore_id)}
                 >
-                  {delCount == 0 ? "Delete?" : "Are You Sure?"}
+                  {delCount === Settings.UI.DELETE_COUNT_INITIAL
+                    ? "Delete?"
+                    : "Are You Sure?"}
                 </Button>
 
                 {editMode ? (
@@ -335,8 +365,6 @@ function FactionsPage() {
                   </Button>
                 )}
               </div>
-            ) : (
-              <></>
             )}
 
             {!editMode ? (
@@ -347,9 +375,10 @@ function FactionsPage() {
                     <div className="lore-selected">{selectedLore.name}</div>
                     <div className="selected-wrapper">
                       <img
-                        src={img ? img : DEFAULT_IMAGE}
+                        src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
                         onClick={() => closePreview()}
                         className="selected-image"
+                        alt={selectedLore.name}
                       />
                       <div>
                         <strong>About:</strong>
@@ -358,21 +387,17 @@ function FactionsPage() {
                         <MultiLineTextDisplay text={selectedLore?.about} />
                       </div>
 
-                      {isAdmin ? (
-                        <>
+                      {isAdmin && (
+                        <div>
                           <div>
-                            <div>
-                              <strong>Private:</strong>
-                            </div>
-                            <div className="lore-about">
-                              <MultiLineTextDisplay
-                                text={selectedLore?.private}
-                              />
-                            </div>
+                            <strong>Private:</strong>
                           </div>
-                        </>
-                      ) : (
-                        <></>
+                          <div className="lore-about">
+                            <MultiLineTextDisplay
+                              text={selectedLore?.private}
+                            />
+                          </div>
+                        </div>
                       )}
                     </div>
                   </>
@@ -384,7 +409,8 @@ function FactionsPage() {
                       <div className="default-wrapper">
                         <img
                           className="selected-image"
-                          src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/967c21f0-7dee-4123-84aa-8b2bf2265243/db2we6x-cb977bc4-ac74-4e6e-b93c-8ba13689518c.png/v1/fill/w_1000,h_469,strp/colouyr_mon_by_traceofhatred_db2we6x-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDY5IiwicGF0aCI6IlwvZlwvOTY3YzIxZjAtN2RlZS00MTIzLTg0YWEtOGIyYmYyMjY1MjQzXC9kYjJ3ZTZ4LWNiOTc3YmM0LWFjNzQtNGU2ZS1iOTNjLThiYTEzNjg5NTE4Yy5wbmciLCJ3aWR0aCI6Ijw9MTAwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xSq9P8OV1HeUW5uQSiwoJgb3DBvcS-tXHw4fn3rgiNQ"
+                          src={Settings.IMAGES.FACTIONS_OVERVIEW_IMAGE_URL}
+                          alt="Factions overview"
                         />
                         <div className="lore-about">
                           Here you can find information on each faction in the
@@ -409,19 +435,24 @@ function FactionsPage() {
                 <div className="char-page-editable-container">
                   <img
                     className="char-page-img blur"
-                    src={img ? img : DEFAULT_IMAGE}
+                    src={img ? img : Settings.IMAGES.DEFAULT_IMAGE}
+                    alt="Faction"
                   />
-                  <div className="char-page-upload-btn" onClick={handleClick}>
+                  <div
+                    className="char-page-upload-btn"
+                    onClick={triggerFileInput}
+                  >
                     Click to Upload a File
                     <br />
-                    <a className="char-page-micro-text">
+                    <span className="char-page-micro-text">
                       {selectedLore?.image?.name}
-                    </a>
+                    </span>
                   </div>
                   <input
                     type="file"
+                    accept="image/*"
                     ref={hiddenCharacterFileInput}
-                    onChange={handleChange}
+                    onChange={handleImageChange}
                     style={{ display: "none" }}
                   />
                 </div>

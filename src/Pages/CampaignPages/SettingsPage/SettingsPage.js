@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import "./SettingsPage.css";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
@@ -11,12 +11,22 @@ import {
   useLeaveCampaignMutation,
   useSendInviteMutation,
 } from "../../../features/campaign/campaignApiSlice";
+import Settings from "../../../config/settings.json";
 
+/**
+ * SettingsPage component for managing campaign settings.
+ * Provides different options based on user role:
+ * - Owner: Can delete campaign, invite players, kick players
+ * - Admin: Can invite players, kick players
+ * - Player: Can leave campaign
+ *
+ * @returns {JSX.Element} The campaign settings page
+ */
 function SettingsPage() {
-  // Grab some perms from the context
+  // Grab permissions from context
   const { campaignId, isOwner, isAdmin } = useOutletContext();
 
-  // Some RTK query hooks
+  // RTK Query hooks
   const [deleteCampaign] = useDeleteCampaignMutation({
     fixedCacheKey: "delete-campaign",
   });
@@ -32,21 +42,21 @@ function SettingsPage() {
     skip: !isAdmin,
   });
 
-  // Navigation for successful deletion
+  // Navigation for successful deletion or leaving
   const navigate = useNavigate();
 
-  // Some helpful state vars
-  const [delCount, setDelCount] = useState(0);
+  // State variables
+  const [delCount, setDelCount] = useState(Settings.UI.DELETE_COUNT_INITIAL);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteLink, setInviteLink] = useState("");
 
   /**
-   * Will iterate the delete count or delete
-   * @returns
+   * Handles campaign deletion with confirmation.
+   * First click increments delete count, second click confirms deletion.
    */
   const handleDelete = async () => {
-    if (delCount === 0) {
-      setDelCount(1);
+    if (delCount === Settings.UI.DELETE_COUNT_INITIAL) {
+      setDelCount(Settings.UI.DELETE_COUNT_CONFIRM);
       return;
     }
 
@@ -54,55 +64,61 @@ function SettingsPage() {
     try {
       await deleteCampaign(campaignId).unwrap();
       navigate("/");
-    } catch (e) {
-      alert(e.data.error);
+    } catch (error) {
+      alert(error.data.error);
     }
   };
 
   /**
-   * Will attempt to kick the given player
-   * @returns
+   * Attempts to kick the given player from the campaign.
+   *
+   * @param {string} playerEmail - The email of the player to kick
    */
   const handleKickPlayer = async (playerEmail) => {
-    // Attempt to delete the campaign
     try {
       await kickPlayer({
         campaignId,
         formData: { email: playerEmail },
       }).unwrap();
       alert(`Successfully kicked ${playerEmail}`);
-    } catch (e) {
-      alert(e.data.error);
+    } catch (error) {
+      alert(error.data.error);
     }
   };
 
   /**
-   * Will attempt to get an invite link to share
+   * Generates an invite link for the campaign.
    */
-  const get_invite_link = async () => {
+  const getInviteLinkHandler = async () => {
     try {
       const result = await getInviteLink(campaignId).unwrap();
       setInviteLink(result.url);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to get invite link:", error);
+    }
   };
 
   /**
-   * Will attempt to have the user leave the given campaign
+   * Handles user leaving the campaign with confirmation.
+   * First click increments delete count, second click confirms leaving.
    */
   const handleLeave = async () => {
-    if (delCount === 0) {
-      setDelCount(1);
+    if (delCount === Settings.UI.DELETE_COUNT_INITIAL) {
+      setDelCount(Settings.UI.DELETE_COUNT_CONFIRM);
       return;
     }
     try {
       await leaveCampaign(campaignId).unwrap();
       navigate("/");
-    } catch (e) {}
+    } catch (error) {
+      console.error("Failed to leave campaign:", error);
+    }
   };
 
   /**
-   * Will attempt to send a player invite
-   * @param {*} e
+   * Sends a campaign invite to the specified email address.
+   *
+   * @param {Event} e - The form submit event
    */
   const handleInvite = async (e) => {
     e.preventDefault();
@@ -111,15 +127,20 @@ function SettingsPage() {
         campaignId,
         formData: { invite_address: inviteEmail },
       }).unwrap();
-      alert("Successfully sent invite invite email");
-    } catch (e) {}
+      alert("Successfully sent invite email");
+    } catch (error) {
+      console.error("Failed to send invite:", error);
+    }
   };
 
   return (
     <div className="settings-wrapper">
       <div className="settings-title">Settings</div>
-      {isAdmin ? (
+
+      {/* Admin section - invites and player management */}
+      {isAdmin && (
         <div>
+          {/* Email invite form */}
           <form onSubmit={(e) => handleInvite(e)}>
             <div className="settings-option-label">Email Invite:</div>
             <TextField
@@ -139,27 +160,27 @@ function SettingsPage() {
               Send Invite
             </Button>
           </form>
+
+          {/* Link invite */}
           <div className="settings-option-label">Link Invite:</div>
-          {inviteLink !== "" ? (
+          {inviteLink && (
             <TextField
               sx={{ width: "100%" }}
               value={inviteLink}
               onChange={(e) => null}
             />
-          ) : (
-            <></>
           )}
-          <Button variant="contained" onClick={() => get_invite_link()}>
+          <Button variant="contained" onClick={() => getInviteLinkHandler()}>
             Generate Invite Link
           </Button>
 
-          {/* Handle Removing players */}
-          {campaign.players.length !== 0 ? (
+          {/* Player removal section */}
+          {campaign.players.length !== 0 && (
             <>
               <div className="settings-option-label">Remove Players:</div>
               {campaign.players.map((item) => {
                 return (
-                  <div key={{ item }} className="kick-player-box">
+                  <div key={item} className="kick-player-box">
                     <Button
                       variant="outlined"
                       color="error"
@@ -172,14 +193,12 @@ function SettingsPage() {
                 );
               })}
             </>
-          ) : (
-            <></>
           )}
         </div>
-      ) : (
-        <></>
       )}
-      {isOwner ? (
+
+      {/* Owner section - campaign deletion */}
+      {isOwner && (
         <div className="settings-del-btn-wrap">
           <div className="settings-option-label">Delete Campaign:</div>
           <Button
@@ -188,13 +207,15 @@ function SettingsPage() {
             style={{ marginTop: "0.5em" }}
             color="error"
           >
-            {delCount === 0 ? "Delete Campaign" : "Are You Sure?"}
+            {delCount === Settings.UI.DELETE_COUNT_INITIAL
+              ? "Delete Campaign"
+              : "Are You Sure?"}
           </Button>
         </div>
-      ) : (
-        <></>
       )}
-      {!(isOwner || isAdmin) ? (
+
+      {/* Player section - leave campaign */}
+      {!(isOwner || isAdmin) && (
         <div className="settings-del-btn-wrap">
           <div className="settings-option-label">Leave Campaign:</div>
           <Button
@@ -203,11 +224,11 @@ function SettingsPage() {
             style={{ marginTop: "0.5em" }}
             color="error"
           >
-            {delCount === 0 ? "Leave Campaign" : "Are You Sure?"}
+            {delCount === Settings.UI.DELETE_COUNT_INITIAL
+              ? "Leave Campaign"
+              : "Are You Sure?"}
           </Button>
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );

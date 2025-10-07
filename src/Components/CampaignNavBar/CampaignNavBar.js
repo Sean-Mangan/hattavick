@@ -1,40 +1,44 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import * as AiIcons from "react-icons/ai";
 import Nav_data from "./Nav_data";
 import SubMenu from "../SubMenu/SubMenu";
 import MenuIcon from "@mui/icons-material/Menu";
-
-import "./CampaignNavBar.css";
 import { Button } from "@mui/material";
+import "./CampaignNavBar.css";
 
 function CampaignNavBar() {
-  //Define ref for side menu and css value for left
-  // Such that the menu is not on screen
+  // Ref for detecting clicks outside the sidebar
   const wrapperRef = useRef(null);
+
+  // Sidebar position: "-100%" (hidden) or "0" (visible)
   const [sideBar, setSideBar] = useState("-100%");
 
-  // Adds an event listener to the dom for an onclick method
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside, false);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, false);
-    };
-  }, []);
-
-  // Function that will switch between 0 and 11% for the sidenav left value
-  const showSidebar = () => {
-    setSideBar(sideBar === "0" ? "-100%" : "0");
-  };
-
-  // On a outside click close the menu
+  /**
+   * Closes the sidebar when clicking outside of it
+   * @param {Event} event - Click event
+   */
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setSideBar("-100%");
     }
   };
 
-  //render function
+  /**
+   * Toggles sidebar visibility between hidden and visible states
+   */
+  const showSidebar = () => {
+    setSideBar(sideBar === "0" ? "-100%" : "0");
+  };
+
+  // Set up click outside listener for closing sidebar
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, false);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div ref={wrapperRef}>
       <div className="nav-content">

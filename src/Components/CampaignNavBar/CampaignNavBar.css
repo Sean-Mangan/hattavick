@@ -18,19 +18,19 @@
   float: left;
 }
 
+/* Hide scrollbar for all browsers */
 .example::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome, Safari, Opera */
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .example {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
+/* Sidebar navigation menu */
 .nav-sidebar {
-  display: none;
-  background-color: rgba(0, 0, 0, 01);
+  background-color: rgba(0, 0, 0, 0.95);
   width: 250px;
   display: flex;
   justify-content: center;

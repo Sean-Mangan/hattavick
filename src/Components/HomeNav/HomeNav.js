@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Divider, Menu, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLogOutQueryMutation } from "../../features/auth/authApiSlice";
 import { useGetCampaignsQuery } from "../../features/campaign/campaignApiSlice";
 
+/**
+ * HomeNav component
+ * Main navigation bar for the home page
+ * Handles user authentication, campaign navigation, and responsive mobile menu
+ */
 function HomeNav() {
   // Get campaign related datas
   const { data: campaigns } = useGetCampaignsQuery();
@@ -27,34 +32,50 @@ function HomeNav() {
   const dispatch = useDispatch();
 
   // Functionality for mobile opening and closing the menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  /**
+   * Toggle mobile navigation menu visibility
+   */
   const showNavBar = () => {
-    navRef.current.classList.toggle("responsive_nav");
+    navRef.current?.classList.toggle("responsive_nav");
   };
+
+  /**
+   * Handle campaign dropdown menu click
+   */
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  /**
+   * Close campaign dropdown menu
+   */
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // Small helper function that will wipe auth data
+  /**
+   * Handle user logout
+   * Clears authentication data and redirects to home page
+   */
   const handleLogout = async () => {
     try {
       // TODO Figure out why this does not navigate to home
       await logOutQuery().unwrap();
       dispatch(logOut());
       navigate("/");
-    } catch {
+    } catch (error) {
       // TODO render an error message
+      console.error("Logout failed:", error);
       alert("Logout Failed");
     }
   };
 
-  // On any change to the campiagns, set the list of campaigns
+  // On any change to the campaigns, set the list of campaigns
   useEffect(() => {
-    var campList = [];
+    let campList = [];
     if (campaigns) {
       campList = campaigns["owner"].concat(
         campaigns["admin"],

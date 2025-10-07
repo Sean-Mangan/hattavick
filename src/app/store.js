@@ -4,13 +4,14 @@ import authReducer from "../features/auth/authSlice";
 import campaignReducer from "../features/campaign/campaignSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import Settings from "../config/settings.json";
 
 // Configure persistant storage
 const persistConfig = {
-  key: "root",
-  version: 1,
+  key: Settings.REDUX.PERSIST_CONFIG.KEY,
+  version: Settings.REDUX.PERSIST_CONFIG.VERSION,
   storage,
-  whitelist: ["email", "token", "user_id"],
+  whitelist: Settings.REDUX.PERSIST_CONFIG.WHITELIST,
 };
 
 // Configure the store

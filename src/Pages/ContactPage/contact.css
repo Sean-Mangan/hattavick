@@ -1,27 +1,33 @@
+/* Main contact wrapper */
 .contact_wrapper {
   max-width: 60%;
   margin: auto;
   text-align: center;
 }
 
+/* Contact text styling */
 .contact_text {
   font-size: 20px;
 }
 
+/* Description section padding */
 .desc_stuff {
   padding: 0 2em 2em 2em;
 }
 
+/* Contact page image styling */
 .contact_image {
   border-radius: 10px;
   max-width: 90%;
 }
 
+/* External link styling */
 .linker {
   text-decoration: none;
   color: blue;
 }
 
+/* Page title */
 .contact_title {
   padding-top: 0.5em;
   font-family: "Poppins", sans-serif;
@@ -31,11 +37,40 @@
   margin-top: 0.5em;
 }
 
+/* Center alignment utility */
 .contact_center {
   text-align: center;
   align-items: center;
 }
 
+/* Image section wrapper */
+.contact_center_section {
+  text-align: center;
+}
+
+/* Image caption */
+.contact_caption {
+  margin-top: 0;
+}
+
+/* Links section wrapper */
+.contact_links_section {
+  text-align: center;
+  margin: auto;
+}
+
+/* Link text styling */
+.contact_link_text {
+  padding: 0;
+  margin: 0;
+}
+
+/* Support link text */
+.contact_support_text {
+  padding-bottom: 1em;
+}
+
+/* Mobile responsive styles */
 @media only screen and (max-width: 800px) {
   .contact_wrapper {
     max-width: 95%;

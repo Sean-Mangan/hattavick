@@ -38,10 +38,15 @@ import {
   useUpdateNoteMutation,
   useCreateNoteMutation,
 } from "../../features/campaign/campaignApiSlice";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingScreen from "../Loading/LoadingScreen";
 import { Alert, AlertTitle } from "@mui/material";
 
+/**
+ * CampaignErrorLoadingWindow component
+ * Manages loading states and errors for all campaign-related queries and mutations
+ * Displays loading screen and error alerts as needed
+ */
 const CampaignErrorLoadingWindow = () => {
   // get the campaign id and if the user is an admin
   const { campaignId, isAdmin } = useOutletContext();
@@ -440,8 +445,8 @@ const CampaignErrorLoadingWindow = () => {
     },
   ] = useDeleteNoteMutation({ fixedCacheKey: "delete-npcs-note" });
 
-  // Create some arrays for Fetching data
-  var fetchingArr = [
+  // Create some arrays for fetching data
+  const fetchingArr = [
     npcNotesFetching,
     locationNotesFetching,
     thingNotesFetching,
@@ -506,7 +511,7 @@ const CampaignErrorLoadingWindow = () => {
   ];
 
   // Create some arrays for errors
-  const errArr = [
+  const errorArr = [
     homeError,
     partyError,
     npcError,
@@ -622,9 +627,12 @@ const CampaignErrorLoadingWindow = () => {
   const [error, setError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
 
-  // Helpful function to reset whatever error occured
+  /**
+   * Reset all error states
+   * Calls reset on all mutation hooks and clears the error message
+   */
   const resetError = () => {
-    resetArr.map((reset) => reset());
+    resetArr.forEach((reset) => reset());
     setError("");
   };
 
@@ -635,27 +643,23 @@ const CampaignErrorLoadingWindow = () => {
 
   // If any event has failed, raise the error
   useEffect(() => {
-    const err = errArr.find((elem) => elem != null);
-    if (err) setError(err?.data?.error ?? "An unkown error occured");
-  }, errArr);
+    const error = errorArr.find((elem) => elem !== null);
+    if (error) setError(error?.data?.error ?? "An unknown error occurred");
+  }, errorArr);
 
   return (
     <>
-      {isFetching ? <LoadingScreen background={"transparent"} /> : <></>}
-      {error ? (
+      {isFetching && <LoadingScreen background="transparent" />}
+      {error && (
         <Alert
           className="campaign_create_err"
-          onClose={() => {
-            resetError();
-          }}
+          onClose={resetError}
           style={error !== "" ? { textAlign: "left" } : { display: "none" }}
           severity="error"
         >
           <AlertTitle>Error</AlertTitle>
-          <strong>Oops, an error occured</strong> — {error}
+          <strong>Oops, an error occurred</strong> — {error}
         </Alert>
-      ) : (
-        <></>
       )}
       <Outlet context={{ ...useOutletContext(), error, resetError }} />
     </>

@@ -1,4 +1,75 @@
 {
   "BASE_URL": "https://hattavick.com/",
-  "API_ENDPOINT": "https://api.hattavick.com"
+  "API_ENDPOINT": "https://api.hattavick.com",
+
+  "AUTH": {
+    "RECAPTCHA_SITE_KEY": "6Lels_8oAAAAAGys3yrJlITLx27kKvt9VVhOp1Ag",
+    "MIN_PASSWORD_LENGTH": 8,
+    "MAX_EMAIL_LENGTH": 64,
+    "MAX_PASSWORD_LENGTH": 36,
+    "MAX_USERNAME_LENGTH": 36
+  },
+
+  "EXTERNAL_URLS": {
+    "TERMS_URL": "https://hattavick.s3.amazonaws.com/terms_of_service.html",
+    "PRIVACY_URL": "https://hattavick.s3.amazonaws.com/privacy_policy.html",
+    "DISCORD_INVITE_URL": "https://discord.gg/nUcFjPY6s2",
+    "PERSONAL_WEBSITE_URL": "https://www.seanpmangan.com/",
+    "COFFEE_URL": "https://www.buymeacoffee.com/seanpmangan"
+  },
+
+  "IMAGES": {
+    "SUCCESS_GIF_URL": "https://i.pinimg.com/originals/6e/34/f0/6e34f0027ae54a25873e2e07cf0aafb2.gif",
+    "DICE_GIF_URL": "https://i.pinimg.com/originals/db/b6/a4/dbb6a4485cd2b9d570a83fa6bf3a5cda.gif",
+    "CHEF_IMAGE_URL": "https://hattavick.s3.amazonaws.com/chef2.jpg",
+    "DEFAULT_AVATAR_URL": "https://d32ogoqmya1dw8.cloudfront.net/images/serc/empty_user_icon_256.v2.png",
+    "DEFAULT_IMAGE": "https://hattavick.s3.us-east-1.amazonaws.com/placeholder.jpg",
+    "DEFAULT_HOME_IMAGE": "/placeholder.webp",
+    "FACTIONS_OVERVIEW_IMAGE_URL": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/967c21f0-7dee-4123-84aa-8b2bf2265243/db2we6x-cb977bc4-ac74-4e6e-b93c-8ba13689518c.png/v1/fill/w_1000,h_469,strp/colouyr_mon_by_traceofhatred_db2we6x-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDY5IiwicGF0aCI6IlwvZlwvOTY3YzIxZjAtN2RlZS00MTIzLTg0YWEtOGIyYmYyMjY1MjQzXC9kYjJ3ZTZ4LWNiOTc3YmM0LWFjNzQtNGU2ZS1iOTNjLThiYTEzNjg5NTE4Yy5wbmciLCJ3aWR0aCI6Ijw9MTAwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xSq9P8OV1HeUW5uQSiwoJgb3DBvcS-tXHw4fn3rgiNQ",
+    "LOCATIONS_OVERVIEW_IMAGE_URL": "https://cdn.britannica.com/80/149180-050-23E41CF0/topographic-map.jpg",
+    "THINGS_OVERVIEW_IMAGE_URL": "http://2.bp.blogspot.com/-xO9D2WKjLLQ/UYIUEicQ-MI/AAAAAAAABPA/21NOtHcqqak/s1600/prophet+inventory.png"
+  },
+
+  "VALIDATION": {
+    "MAX_CAMPAIGN_NAME_LENGTH": 64,
+    "MAX_DESCRIPTION_LENGTH": 355
+  },
+
+  "DEFAULTS": {
+    "DEFAULT_CAMPAIGN_NAME": "Unknown Campaign",
+    "DEFAULT_CHARACTER_NAME": "My Character",
+    "DEFAULT_NAME_ADMIN": "Unknown",
+    "DEFAULT_NAME_PLAYER": "Not Named",
+    "DEFAULT_ERROR_MESSAGE": "An unknown error occurred, try again or contact support"
+  },
+
+  "UI": {
+    "DELETE_COUNT_INITIAL": 0,
+    "DELETE_COUNT_CONFIRM": 1
+  },
+
+  "REDUX": {
+    "PERSIST_CONFIG": {
+      "KEY": "root",
+      "VERSION": 1,
+      "WHITELIST": ["email", "token", "user_id"]
+    }
+  },
+
+  "API": {
+    "TAG_TYPES": [
+      "Campaigns",
+      "Campaign",
+      "CampaignHome",
+      "MyCharacter",
+      "Party",
+      "NPC",
+      "WorldLore",
+      "Factions",
+      "Sessions",
+      "Locations",
+      "Things",
+      "Players"
+    ]
+  }
 }

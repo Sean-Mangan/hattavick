@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -11,6 +11,16 @@ import {
 } from "../../features/campaign/campaignApiSlice";
 import { useOutletContext } from "react-router-dom";
 
+/**
+ * MultiLineTextField component
+ * Text field with autocomplete for campaign entities (NPCs, factions, things, locations, party members)
+ * Supports @ mentions and external URL linking
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.value - Current text value
+ * @param {Function} props.onChange - Callback when text changes
+ * @param {string} props.placeholder - Placeholder text
+ */
 const MultiLineTextField = ({ value, onChange, placeholder }) => {
   const { campaignId, isAdmin } = useOutletContext();
   const { data: allChars } = useGetNPCDataQuery(campaignId);
@@ -45,6 +55,10 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
   const [cursorPosition, setCursorPosition] = useState(0);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1); // Tracks the active suggestion index
 
+  /**
+   * Adjust textarea height to fit content
+   * Preserves scroll position during height adjustment
+   */
   const adjustHeight = () => {
     if (textAreaRef.current) {
       // Save current scroll position
@@ -64,11 +78,18 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
     adjustHeight(); // Adjust height whenever value changes
   }, [value]);
 
+  /**
+   * Check if text is a valid URL
+   */
   const isValidLink = (text) => {
     const linkRegex = /^(https?:\/\/|www\.)[^\s]+$/i;
     return linkRegex.test(text);
   };
 
+  /**
+   * Extract domain name from URL
+   * Removes protocol and TLD to get the main domain name
+   */
   const extractDomainName = (url) => {
     // Remove protocol (http, https, www) and .com/.org/.net etc.
     const domainRegex = /^(?:https?:\/\/)?(?:www\.)?([^\/\s]+)(?:\/.*)?$/i;
@@ -85,6 +106,10 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
     return url;
   };
 
+  /**
+   * Handle text input change
+   * Filters and displays suggestions based on @ mentions
+   */
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     const caretPosition = e.target.selectionStart;
@@ -115,6 +140,10 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
     }
   };
 
+  /**
+   * Handle keyboard navigation in suggestions dropdown
+   * Supports arrow keys for navigation and Enter/Tab for selection
+   */
   const handleKeyDown = (e) => {
     if (showDropdown) {
       if (e.key === "ArrowDown") {
@@ -137,6 +166,10 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
     }
   };
 
+  /**
+   * Handle suggestion click
+   * Inserts selected suggestion as a formatted link
+   */
   const handleSuggestionClick = (suggestion) => {
     const inputValue = value || ""; // Ensure value is not undefined
     const lastAtIndex = inputValue.lastIndexOf("@", cursorPosition - 1);

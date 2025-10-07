@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./MyCharacterPage.css";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button, Grid, Paper } from "@mui/material";
+import { Button, Grid, Paper, TextareaAutosize } from "@mui/material";
 import { SaveOutlined } from "@mui/icons-material";
-import { TextareaAutosize } from "@mui/material";
 import {
   useGetMyCharacterDataQuery,
   useUpdateMyCharacterMutation,
 } from "../../../features/campaign/campaignApiSlice";
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
 import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLineTextField";
+import Settings from "../../../config/settings.json";
 
+/**
+ * MyCharacterPage component for managing the user's character in a D&D campaign.
+ * Allows users to view and edit their character's name, image, description, and backstory.
+ *
+ * @returns {JSX.Element} The character management page
+ */
 function MyCharacterPage() {
-  // Grab dat campaign id and other info
+  // Grab campaign id
   const { campaignId } = useParams();
 
-  // Get all them datas
+  // Get character data
   const {
     data: myChar,
     isLoading: myCharLoading,
@@ -24,7 +30,7 @@ function MyCharacterPage() {
     isError: myCharError,
   } = useGetMyCharacterDataQuery(campaignId);
 
-  // State Vars for character, img and editability
+  // State variables for character, image and editability
   const [charData, setCharData] = useState(myChar);
   const [img, setImg] = useState(charData?.image);
   const [editMode, setEditMode] = useState(false);
@@ -34,51 +40,63 @@ function MyCharacterPage() {
     fixedCacheKey: "update-my-char",
   });
 
-  // Button for selecting a character image
-  const hiddenCharacterFileInput = React.useRef(null);
+  // File input ref for character image
+  const hiddenCharacterFileInput = useRef(null);
+
+  /**
+   * Handles file input change when user selects a new character image
+   * @param {Event} event - The file input change event
+   */
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
     setCharData({ ...charData, image: fileUploaded });
     setImg(URL.createObjectURL(fileUploaded));
   };
-  const handleClick = (event) => {
-    hiddenCharacterFileInput.current.click();
+
+  /**
+   * Triggers the hidden file input click
+   */
+  const handleClick = () => {
+    hiddenCharacterFileInput.current?.click();
   };
 
   /**
-   * Will handle the update for the current character.
-   * @param {*} e
+   * Handles the character update submission
+   * @param {Event} e - The form submit event
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Add the new image to the form if it changed
-    const form_data = new FormData();
+    const formData = new FormData();
     const updateImage = charData.image !== img;
     if (updateImage) {
-      form_data.append("image", charData.image);
+      formData.append("image", charData.image);
     }
-    form_data.append("campaign_name", charData.name);
-    form_data.append("backstory", charData.backstory);
-    form_data.append("description", charData.description);
-    form_data.append("public", charData.public);
-    form_data.append("name", charData.name);
+    formData.append("campaign_name", charData.name);
+    formData.append("backstory", charData.backstory);
+    formData.append("description", charData.description);
+    formData.append("public", charData.public);
+    formData.append("name", charData.name);
 
     // Attempt to perform the update
     try {
-      await updateMyCharacter({ formData: form_data, id: campaignId }).unwrap();
+      await updateMyCharacter({ formData: formData, id: campaignId }).unwrap();
       setEditMode(!editMode);
       if (updateImage) setImg(URL.createObjectURL(charData.image));
-    } catch (err) {}
+    } catch (error) {
+      console.error("Failed to update character:", error);
+    }
   };
 
   return (
     <div className="pc-wrapper">
       <form onSubmit={(e) => handleSubmit(e)}>
+        {/* Edit/Save Button */}
         <div className="btn-wrapper">
           {editMode ? (
             <Button
-              key={"save"}
+              key="save"
               type="submit"
               className="char-edit-btn"
               variant="contained"
@@ -88,7 +106,7 @@ function MyCharacterPage() {
             </Button>
           ) : (
             <Button
-              key={"edit"}
+              key="edit"
               className="char-edit-btn"
               variant="contained"
               color="error"
@@ -99,6 +117,8 @@ function MyCharacterPage() {
             </Button>
           )}
         </div>
+
+        {/* Display mode */}
         {!editMode ? (
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
@@ -111,10 +131,16 @@ function MyCharacterPage() {
                 }}
               >
                 <strong>
-                  {charData?.name ? charData?.name : "My Character"}
+                  {charData?.name || Settings.DEFAULTS.DEFAULT_CHARACTER_NAME}
                 </strong>
               </div>
-              {charData?.image ? <img className="char-img" src={img} /> : <></>}
+              {charData?.image && (
+                <img
+                  className="char-img"
+                  src={img}
+                  alt={charData?.name || "Character portrait"}
+                />
+              )}
 
               <div className="desc-wrapper">
                 <i>{charData.description}</i>
@@ -142,6 +168,7 @@ function MyCharacterPage() {
             </Grid>
           </Grid>
         ) : (
+          /* Edit mode */
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
               <input
@@ -153,14 +180,19 @@ function MyCharacterPage() {
                 }
               />
               <div className="editable-container">
-                <img className="char-img blur" src={img} />
+                <img
+                  className="char-img blur"
+                  src={img}
+                  alt={charData?.name || "Character portrait"}
+                />
                 <div className="upload-btn" onClick={handleClick}>
                   Click to Upload a File
                   <br />
-                  <a className="micro-text">{charData?.image?.name}</a>
+                  <span className="micro-text">{charData?.image?.name}</span>
                 </div>
                 <input
                   type="file"
+                  accept="image/*"
                   ref={hiddenCharacterFileInput}
                   onChange={handleChange}
                   style={{ display: "none" }}
@@ -204,7 +236,7 @@ function MyCharacterPage() {
                     onChange={(value) =>
                       setCharData({ ...charData, public: value })
                     }
-                    placeholder="Write the private backstory here..."
+                    placeholder="Write the public backstory here..."
                   />
                 </div>
               </Paper>

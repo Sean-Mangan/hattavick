@@ -1,7 +1,6 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import "./MultiLineTextDisplay.css"; // Optional: Add styles if needed
+import { Link, useOutletContext } from "react-router-dom";
+import "./MultiLineTextDisplay.css";
 import {
   useGetFactionsQuery,
   useGetLocationQuery,
@@ -9,10 +8,17 @@ import {
   useGetPartyDataQuery,
   useGetThingQuery,
 } from "../../features/campaign/campaignApiSlice";
-import { useOutletContext } from "react-router-dom";
 
+/**
+ * MultiLineTextDisplay component
+ * Displays text with support for internal and external links
+ * Parses special link syntax: [type|id] where type can be npc, faction, thing, location, pc, or external URL
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.text - Text content to display with optional link syntax
+ */
 const MultiLineTextDisplay = ({ text }) => {
-  text = text || ""; // Ensure text is a string
+  const displayText = text || ""; // Ensure text is a string
 
   const { campaignId, isAdmin } = useOutletContext();
   const { data: allChars } = useGetNPCDataQuery(campaignId);
@@ -54,6 +60,10 @@ const MultiLineTextDisplay = ({ text }) => {
     };
   });
 
+  /**
+   * Parse text and convert special link syntax to clickable links
+   * Supports both internal campaign links and external URLs
+   */
   const parseTextToLinks = (text) => {
     const regex = /\[\s*([a-zA-Z0-9_ ]+)\s*\|\s*([^\]]+)\s*\]/g; // Match [ <type> | <id> ] with optional whitespace
     const parts = [];
@@ -131,7 +141,7 @@ const MultiLineTextDisplay = ({ text }) => {
 
   return (
     <div className="multi-line-text-display">
-      <p className="multi-line-p-content">{parseTextToLinks(text)}</p>
+      <p className="multi-line-p-content">{parseTextToLinks(displayText)}</p>
     </div>
   );
 };

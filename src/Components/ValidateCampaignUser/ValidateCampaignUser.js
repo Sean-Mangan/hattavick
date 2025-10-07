@@ -15,10 +15,16 @@ import {
   useGetThingQuery,
   useGetWorldLoreQuery,
 } from "../../features/campaign/campaignApiSlice";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import LoadingScreen from "../Loading/LoadingScreen";
-export const CampaignContext = React.createContext();
 
+export const CampaignContext = createContext();
+
+/**
+ * ValidateCampaignUser component
+ * Validates user access to campaign and loads all campaign data
+ * Determines user role (admin/owner) and provides context to child routes
+ */
 const ValidateCampaignUser = () => {
   // Grab dat campaign id and other info
   const { campaignId } = useParams();
@@ -34,13 +40,13 @@ const ValidateCampaignUser = () => {
     isError,
   } = useGetCampaignsQuery();
   const userId = useSelector(selectCurrentUserId);
-  var adminCampaigns = campaignsSuccess
+  const adminCampaigns = campaignsSuccess
     ? campaigns.admin.concat(campaigns.owner)
     : [];
-  var isAdmin = adminCampaigns
+  const isAdmin = adminCampaigns
     .map((campaign) => campaign?.id)
     .includes(campaignId);
-  var isOwner = (campaignsSuccess ? campaigns.owner : [])
+  const isOwner = (campaignsSuccess ? campaigns.owner : [])
     .map((campaign) => campaign?.id)
     .includes(campaignId);
 
@@ -113,7 +119,7 @@ const ValidateCampaignUser = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   // Check to see if all the calls were successful
-  var loadingList = [
+  const loadingList = [
     homeLoading,
     campaignsLoading,
     myCharLoading,
@@ -145,25 +151,21 @@ const ValidateCampaignUser = () => {
       setHasLoaded(true);
   }, loadingList);
 
-  // TODO: Add a Better error page here
+  // TODO: Add a better error page here
   // also add conditions for failure
-  return (
-    <>
-      {!hasLoaded ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          {!allCampaignIds.includes(campaignId) ? (
-            <div style={{ textAlign: "center" }}>
-              <h1>You Do not Have Permission to View this Campaign.</h1>
-            </div>
-          ) : (
-            <Outlet context={{ campaignId, isAdmin, isOwner, userId }} />
-          )}
-        </>
-      )}
-    </>
-  );
+  if (!hasLoaded) {
+    return <LoadingScreen />;
+  }
+
+  if (!allCampaignIds.includes(campaignId)) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <h1>You Do Not Have Permission to View This Campaign.</h1>
+      </div>
+    );
+  }
+
+  return <Outlet context={{ campaignId, isAdmin, isOwner, userId }} />;
 };
 
 export default ValidateCampaignUser;

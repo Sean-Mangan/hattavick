@@ -1,13 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import "./SubMenu.css";
 
+/**
+ * SubMenu component
+ * Renders a navigation menu item with optional submenu
+ * Hides "My Character" submenu item for admin users
+ *
+ * @param {Object} props - Component props
+ * @param {Object} props.item - Menu item configuration
+ * @param {Function} props.onclick - Click handler for menu items
+ */
 function SubMenu({ item, onclick }) {
   const [subnav, setSubnav] = useState(false);
-  const showSubnav = () => setSubnav(!subnav);
   const { campaignId } = useParams();
-
   const { isAdmin } = useOutletContext();
+
+  /**
+   * Toggle submenu visibility
+   */
+  const showSubnav = () => setSubnav(!subnav);
 
   return (
     <div>
@@ -29,21 +41,24 @@ function SubMenu({ item, onclick }) {
         </div>
       </Link>
       {subnav &&
-        item.subNav.map((item, idx) => {
-          return item.title === "My Character" && isAdmin ? (
-            <></>
-          ) : (
-            <div onClick={onclick} key={item.title}>
+        item.subNav.map((subItem) => {
+          // Hide "My Character" for admin users
+          if (subItem.title === "My Character" && isAdmin) {
+            return null;
+          }
+
+          return (
+            <div onClick={onclick} key={subItem.title}>
               <Link
                 to={
-                  item.path !== "#"
-                    ? `/campaign/${campaignId}/${item.path}`
+                  subItem.path !== "#"
+                    ? `/campaign/${campaignId}/${subItem.path}`
                     : "#"
                 }
                 className="dropdown_link"
               >
-                {item.icon}
-                <span className="dropdown_label">{item.title}</span>
+                {subItem.icon}
+                <span className="dropdown_label">{subItem.title}</span>
               </Link>
             </div>
           );

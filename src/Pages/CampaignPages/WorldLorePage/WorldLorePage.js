@@ -1,8 +1,9 @@
 import { SaveOutlined } from "@mui/icons-material";
-import { Button, TextareaAutosize } from "@mui/material";
-import React, { useState } from "react";
+import { Button } from "@mui/material";
+import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import "./WorldLorePage.css";
 import {
   useGetWorldLoreQuery,
   useUpdateWorldLoreMutation,
@@ -12,61 +13,85 @@ import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLine
 import NotesBanner from "../../../Components/Notes/NotesBanner";
 
 function WorldLorePage() {
-  // GSome helpful hooks to get world data and manipulation mutations
+  // Context and API hooks
   const { campaignId, isAdmin } = useOutletContext();
   const { data: world } = useGetWorldLoreQuery(campaignId);
   const [updateWorldLore] = useUpdateWorldLoreMutation({
     fixedCacheKey: "update-world-lore",
   });
 
-  // Some helpful state content
+  // Component state
   const [worldData, setWorldData] = useState(world);
   const [img, setImg] = useState(world?.img);
   const [editMode, setEditMode] = useState(false);
 
-  // Some helpful utils for handling file changes
-  const hiddenFileInput = React.useRef(null);
-  const handleChange = (event) => {
+  // Ref for hidden file input
+  const hiddenFileInput = useRef(null);
+
+  // Update worldData when API data loads
+  useEffect(() => {
+    if (world) {
+      setWorldData(world);
+      setImg(world.img);
+    }
+  }, [world]);
+
+  /**
+   * Handles file selection and preview
+   * @param {Event} event - File input change event
+   */
+  const handleImageChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setWorldData({ ...worldData, img: fileUploaded });
-    setImg(URL.createObjectURL(fileUploaded));
-  };
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
+    if (fileUploaded) {
+      setWorldData({ ...worldData, img: fileUploaded });
+      setImg(URL.createObjectURL(fileUploaded));
+    }
   };
 
   /**
-   * Will handle formatting the payload to send the updated world lore data to the backend
-   * @param {*} e
+   * Triggers the hidden file input click
+   */
+  const triggerFileInput = () => {
+    hiddenFileInput.current?.click();
+  };
+
+  /**
+   * Handles form submission to update world lore data
+   * @param {Event} e - Form submit event
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Add the new image to the form if it changed
-    const form_data = new FormData();
-    const updateImage = worldData.img !== img;
-    if (updateImage) {
-      form_data.append("image", worldData.img);
-    }
-    form_data.append("campaign_name", worldData.campaign_name);
-    form_data.append("data", worldData.data);
+    // Create FormData payload
+    const formData = new FormData();
+    const hasImageChanged = worldData.img !== img;
 
-    // Attempt to send the new world lore data to the backend
+    // Only include image if it has changed
+    if (hasImageChanged) {
+      formData.append("image", worldData.img);
+    }
+    formData.append("campaign_name", worldData.campaign_name);
+    formData.append("data", worldData.data);
+
+    // Submit updates to the backend
     try {
-      await updateWorldLore({ campaignId, formData: form_data }).unwrap();
-      if (updateImage) setImg(URL.createObjectURL(worldData.img));
-      setEditMode(!editMode);
-    } catch {}
+      await updateWorldLore({ campaignId, formData }).unwrap();
+      if (hasImageChanged) {
+        setImg(URL.createObjectURL(worldData.img));
+      }
+      setEditMode(false);
+    } catch (error) {
+      console.error("Failed to update world lore:", error);
+    }
   };
 
   return (
     <div className="campaign-home-wrapper">
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={handleSubmit}>
         <div className="home-button-wrapper">
-          {isAdmin && worldData?.campaign_name !== "" ? (
-            editMode ? (
+          {isAdmin &&
+            (editMode ? (
               <Button
-                key={"save"}
                 type="submit"
                 className="edit-btn"
                 variant="contained"
@@ -76,24 +101,22 @@ function WorldLorePage() {
               </Button>
             ) : (
               <Button
-                key={"edit"}
                 className="edit-btn"
                 variant="contained"
                 color="error"
                 endIcon={<EditIcon />}
-                onClick={() => setEditMode(!editMode)}
+                onClick={() => setEditMode(true)}
               >
                 Edit
               </Button>
-            )
-          ) : (
-            <></>
-          )}
+            ))}
         </div>
         {!editMode ? (
           <>
             <div className="homepage-title">World Lore</div>
-            {worldData?.img ? <img className="img-wrapper" src={img} /> : <></>}
+            {worldData?.img && (
+              <img className="img-wrapper" src={img} alt="World lore" />
+            )}
             <MultiLineTextDisplay
               text={worldData?.data}
               className="homepage-overview"
@@ -103,17 +126,22 @@ function WorldLorePage() {
           <>
             <div className="homepage-title">World Lore</div>
             <div className="editable-container">
-              <img className="img-wrapper blur" src={img} />
-              <div className="upload-btn" onClick={handleClick}>
+              <img
+                className="img-wrapper blur"
+                src={img}
+                alt="World lore preview"
+              />
+              <div className="upload-btn" onClick={triggerFileInput}>
                 Click to Upload a File
                 <br />
-                <a className="micro-text">{worldData?.img?.name}</a>
+                <span className="micro-text">{worldData?.img?.name}</span>
               </div>
               <input
                 type="file"
                 ref={hiddenFileInput}
-                onChange={handleChange}
+                onChange={handleImageChange}
                 style={{ display: "none" }}
+                accept="image/*"
               />
             </div>
             <MultiLineTextField

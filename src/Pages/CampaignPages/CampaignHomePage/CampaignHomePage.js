@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import "./CampaignHomePage.css";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
 import { SaveOutlined } from "@mui/icons-material";
-import { TextareaAutosize } from "@mui/material";
 import {
   useGetCampaignHomeDataQuery,
   useUpdateHomePageMutation,
@@ -13,79 +12,98 @@ import MultiLineTextField from "../../../Components/MultiLineTextField/MultiLine
 import MultiLineTextDisplay from "../../../Components/MultiLineTextDisplay/MultiLineTextDisplay";
 import NotesBanner from "../../../Components/Notes/NotesBanner";
 import SystemNotificationWrapper from "../../../Components/SystemNotificationWrapper/SystemNotificationWrapper";
+import Settings from "../../../config/settings.json";
 
+/**
+ * CampaignHomePage component
+ * Displays and allows editing of the campaign home page content
+ */
 function CampaignHomePage() {
-  const DEFAULT_IMAGE = "/placeholder.webp";
-
-  // Get homepage data
+  // Context and API hooks
   const { campaignId, isAdmin } = useOutletContext();
-  const { data, isLoading, isSuccess, isError } =
-    useGetCampaignHomeDataQuery(campaignId);
+  const { data } = useGetCampaignHomeDataQuery(campaignId);
 
-  // Set the data in state to make it editable
-  const [homeData, setHomeData] = useState(data);
-  const [img, setImg] = useState(homeData?.img);
-
-  // Hooks for updating the data
+  // API mutation for updating homepage
   const [updateHomeData] = useUpdateHomePageMutation({
     fixedCacheKey: "update-home",
   });
 
-  // Some helpful state vars
-  const [err, setErr] = useState("");
+  // Component state
+  const [homeData, setHomeData] = useState(data);
+  const [img, setImg] = useState(homeData?.img);
+  const [error, setError] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const hiddenFileInput = React.useRef(null);
 
+  // Ref for hidden file input
+  const hiddenFileInput = useRef(null);
+
+  // Update image preview when homeData changes
   useEffect(() => {
-  setImg(homeData?.img || DEFAULT_IMAGE);
-}, [homeData]);
+    setImg(homeData?.img || Settings.IMAGES.DEFAULT_HOME_IMAGE);
+  }, [homeData]);
 
   /**
-   * Will attempt to send an update request for the campaign
-   * @param {*} e the click event, dummy
+   * Handles form submission to update campaign home page
+   * @param {Event} e - Form submit event
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Add the new image to the form if it changed
-    const form_data = new FormData();
-    if (homeData.img !== img) {
-      form_data.append("image", homeData.img);
-    }
-    form_data.append("campaign_name", homeData.campaign_name);
-    form_data.append("data", homeData.data);
+    // Create FormData payload
+    const formData = new FormData();
+    const hasImageChanged = homeData.img !== img;
 
-    // Attempt to perform the update
+    // Only include image if it has changed
+    if (hasImageChanged) {
+      formData.append("image", homeData.img);
+    }
+    formData.append("campaign_name", homeData.campaign_name);
+    formData.append("data", homeData.data);
+
+    // Submit updates to the backend
     try {
-      await updateHomeData({ formData: form_data, id: campaignId }).unwrap();
-      setEditMode(!editMode);
-      setImg(URL.createObjectURL(homeData.img));
+      await updateHomeData({ formData, id: campaignId }).unwrap();
+      setEditMode(false);
+      if (hasImageChanged) {
+        setImg(URL.createObjectURL(homeData.img));
+      }
     } catch (err) {
-      setErr(err?.response?.data?.error);
+      console.error("Failed to update home page:", err);
+      setError(
+        err?.response?.data?.error ||
+          "Failed to update home page. Please try again.",
+      );
     }
   };
 
-  // Extract the file, and set the image as src
-  const handleChange = (event) => {
+  /**
+   * Handles file selection and preview
+   * @param {Event} event - File input change event
+   */
+  const handleImageChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setHomeData({ ...homeData, img: fileUploaded });
-    setImg(URL.createObjectURL(fileUploaded));
+    if (fileUploaded) {
+      setHomeData({ ...homeData, img: fileUploaded });
+      setImg(URL.createObjectURL(fileUploaded));
+    }
   };
 
-  // Lets hecking prompt a image to upload
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
+  /**
+   * Triggers the hidden file input click
+   */
+  const triggerFileInput = () => {
+    hiddenFileInput.current?.click();
   };
 
   return (
     <div className="campaign-home-wrapper">
       <SystemNotificationWrapper />
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={handleSubmit}>
         <div className="home-button-wrapper">
-          {isAdmin && homeData?.campaign_name !== "" ? (
-            editMode ? (
+          {isAdmin &&
+            homeData?.campaign_name &&
+            (editMode ? (
               <Button
-                key={"save"}
                 type="submit"
                 className="edit-btn"
                 variant="contained"
@@ -95,24 +113,30 @@ function CampaignHomePage() {
               </Button>
             ) : (
               <Button
-                key={"edit"}
+                type="button"
                 className="edit-btn"
                 variant="contained"
                 color="error"
                 endIcon={<EditIcon />}
-                onClick={() => setEditMode(!editMode)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setEditMode(true);
+                }}
               >
                 Edit
               </Button>
-            )
-          ) : (
-            <></>
-          )}
+            ))}
         </div>
         {!editMode ? (
           <>
+            {/* Display mode */}
             <div className="homepage-title">{homeData.campaign_name}</div>
-            {homeData?.img ? <img className="img-wrapper" src={img} /> : <img className="img-wrapper" src={DEFAULT_IMAGE} />}
+            <img
+              className="img-wrapper"
+              src={homeData?.img ? img : Settings.IMAGES.DEFAULT_HOME_IMAGE}
+              alt={homeData.campaign_name || "Campaign home"}
+            />
             <MultiLineTextDisplay
               className="homepage-overview"
               style={{ width: "800px" }}
@@ -121,6 +145,7 @@ function CampaignHomePage() {
           </>
         ) : (
           <>
+            {/* Edit mode */}
             <input
               className="homepage-title text-field"
               value={homeData.campaign_name}
@@ -129,17 +154,24 @@ function CampaignHomePage() {
               }
             />
             <div className="editable-container">
-              <img className="img-wrapper blur" src={img || DEFAULT_IMAGE} />
-              <div className="upload-btn" onClick={handleClick}>
+              <img
+                className="img-wrapper blur"
+                src={img || Settings.IMAGES.DEFAULT_HOME_IMAGE}
+                alt="Campaign preview"
+              />
+              <div className="upload-btn" onClick={triggerFileInput}>
                 Click to Upload a File
                 <br />
-                <a className="micro-text">{homeData?.img?.name || "No file chosen"}</a>
+                <span className="micro-text">
+                  {homeData?.img?.name || "No file chosen"}
+                </span>
               </div>
               <input
                 type="file"
                 ref={hiddenFileInput}
-                onChange={handleChange}
+                onChange={handleImageChange}
                 style={{ display: "none" }}
+                accept="image/*"
               />
             </div>
             <MultiLineTextField
