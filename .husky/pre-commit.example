@@ -1,0 +1,23 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Run lint-staged
+npx lint-staged
+
+# Check for console.log (warning only)
+if git diff --cached --name-only | grep -E '\.js$|\.jsx$' | xargs grep -l 'console\.log' > /dev/null 2>&1; then
+    echo "⚠️  Warning: console.log found in staged files"
+    echo "   Consider removing them before committing to production"
+fi
+
+# Check for debugger statements (error)
+if git diff --cached --name-only | grep -E '\.js$|\.jsx$' | xargs grep -l 'debugger' > /dev/null 2>&1; then
+    echo "❌ Error: debugger statement found in staged files"
+    echo "   Please remove debugger statements before committing"
+    exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"
+exit 0

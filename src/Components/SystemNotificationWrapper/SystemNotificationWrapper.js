@@ -67,7 +67,7 @@ const SystemNotificationWrapper = () => {
               </AlertTitle>
               {notification.message}
             </Alert>
-          ),
+          )
       )}
     </>
   );

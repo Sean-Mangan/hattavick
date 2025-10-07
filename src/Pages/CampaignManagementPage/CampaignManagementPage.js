@@ -26,7 +26,7 @@ const CampaignManagementPage = () => {
   // Campaign API hooks
   const { data: campaigns, isSuccess, isLoading } = useGetCampaignsQuery();
   const [deleteCampaign, { isLoading: delLoading }] = useDeleteCampaignMutation(
-    { fixedCacheKey: "delete-campaign" },
+    { fixedCacheKey: "delete-campaign" }
   );
   const [leaveCampaign] = useLeaveCampaignMutation();
 

@@ -1,0 +1,25 @@
+{
+  "extends": ["react-app", "react-app/jest"],
+  "rules": {
+    "no-console": "warn",
+    "no-debugger": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off",
+    "no-irregular-whitespace": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+        "no-undef": "error"
+      }
+    }
+  ]
+}

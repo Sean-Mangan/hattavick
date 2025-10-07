@@ -74,7 +74,7 @@ function PasswordReset() {
       setSuccess(true);
     } catch (error) {
       setError(
-        "Some error occurred when resetting, this link maybe expired. Try again!",
+        "Some error occurred when resetting, this link maybe expired. Try again!"
       );
     }
   };

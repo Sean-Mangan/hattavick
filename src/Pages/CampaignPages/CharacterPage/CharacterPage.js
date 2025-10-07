@@ -28,7 +28,7 @@ function PlayerCharacterPage() {
 
   // Find the specific character from party data
   const filteredCharacters = party.filter(
-    (character) => character.character_id === characterId,
+    (character) => character.character_id === characterId
   );
   const character =
     filteredCharacters.length === 1 ? filteredCharacters[0] : {};

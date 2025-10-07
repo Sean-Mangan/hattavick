@@ -49,7 +49,7 @@ function CreateCampaignPage() {
     } catch (err) {
       console.error("Failed to create campaign:", err);
       setError(
-        err.data?.error || "Failed to create campaign. Please try again.",
+        err.data?.error || "Failed to create campaign. Please try again."
       );
     }
   };

@@ -131,7 +131,7 @@ function LoginPage({ reload }) {
     if (name === "password" && isRegister) {
       if (value.length < Settings.AUTH.MIN_PASSWORD_LENGTH) {
         setPassError(
-          `Password must have at least ${Settings.AUTH.MIN_PASSWORD_LENGTH} characters`,
+          `Password must have at least ${Settings.AUTH.MIN_PASSWORD_LENGTH} characters`
         );
       } else if (value !== confPass) {
         setPassError("Passwords must match");

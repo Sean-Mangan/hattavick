@@ -141,7 +141,7 @@ const ValidateCampaignUser = () => {
     setAllCampaignIds(
       adminCampaigns
         .concat(ownerCampaigns, playerCampaigns)
-        .map((campaign) => campaign?.id),
+        .map((campaign) => campaign?.id)
     );
   }, [campaigns]);
 

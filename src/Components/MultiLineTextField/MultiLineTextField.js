@@ -124,7 +124,7 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
         .toLowerCase();
       const suggestionList = createLink ? Object.keys(createLink) : [];
       const filtered = suggestionList.filter((item) =>
-        item.toLowerCase().includes(query),
+        item.toLowerCase().includes(query)
       );
 
       // Check if the query is a valid link and add it to suggestions
@@ -149,12 +149,12 @@ const MultiLineTextField = ({ value, onChange, placeholder }) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
         setActiveSuggestionIndex((prevIndex) =>
-          prevIndex < filteredSuggestions.length - 1 ? prevIndex + 1 : 0,
+          prevIndex < filteredSuggestions.length - 1 ? prevIndex + 1 : 0
         );
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
         setActiveSuggestionIndex((prevIndex) =>
-          prevIndex > 0 ? prevIndex - 1 : filteredSuggestions.length - 1,
+          prevIndex > 0 ? prevIndex - 1 : filteredSuggestions.length - 1
         );
       } else if (
         (e.key === "Enter" || e.key === "Tab") &&

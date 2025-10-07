@@ -39,7 +39,7 @@ function PartyPage() {
     const truncatedDescription =
       character.description.substring(
         0,
-        Settings.VALIDATION.MAX_DESCRIPTION_LENGTH,
+        Settings.VALIDATION.MAX_DESCRIPTION_LENGTH
       ) + "...";
 
     return (
