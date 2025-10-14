@@ -27,7 +27,8 @@
     "DEFAULT_HOME_IMAGE": "/placeholder.webp",
     "FACTIONS_OVERVIEW_IMAGE_URL": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/967c21f0-7dee-4123-84aa-8b2bf2265243/db2we6x-cb977bc4-ac74-4e6e-b93c-8ba13689518c.png/v1/fill/w_1000,h_469,strp/colouyr_mon_by_traceofhatred_db2we6x-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDY5IiwicGF0aCI6IlwvZlwvOTY3YzIxZjAtN2RlZS00MTIzLTg0YWEtOGIyYmYyMjY1MjQzXC9kYjJ3ZTZ4LWNiOTc3YmM0LWFjNzQtNGU2ZS1iOTNjLThiYTEzNjg5NTE4Yy5wbmciLCJ3aWR0aCI6Ijw9MTAwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.xSq9P8OV1HeUW5uQSiwoJgb3DBvcS-tXHw4fn3rgiNQ",
     "LOCATIONS_OVERVIEW_IMAGE_URL": "https://cdn.britannica.com/80/149180-050-23E41CF0/topographic-map.jpg",
-    "THINGS_OVERVIEW_IMAGE_URL": "http://2.bp.blogspot.com/-xO9D2WKjLLQ/UYIUEicQ-MI/AAAAAAAABPA/21NOtHcqqak/s1600/prophet+inventory.png"
+    "THINGS_OVERVIEW_IMAGE_URL": "http://2.bp.blogspot.com/-xO9D2WKjLLQ/UYIUEicQ-MI/AAAAAAAABPA/21NOtHcqqak/s1600/prophet+inventory.png",
+    "HOME_PAGE_HERO_IMAGE_URL": "hattavick-hero.jpeg"
   },
 
   "VALIDATION": {

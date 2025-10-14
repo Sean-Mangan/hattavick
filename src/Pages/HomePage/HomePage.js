@@ -179,7 +179,7 @@ function HomePage() {
               <img
                 className="hero_image"
                 alt="Animated dice rolling for tabletop RPGs"
-                src={Settings.IMAGES.DICE_GIF_URL}
+                src={Settings.IMAGES.HOME_PAGE_HERO_IMAGE_URL}
               />
             </Grid>
           </Grid>
