@@ -1,84 +1,267 @@
-/* Main contact wrapper */
-.contact_wrapper {
-  max-width: 60%;
-  margin: auto;
-  text-align: center;
-}
-
-/* Contact text styling */
-.contact_text {
-  font-size: 20px;
-}
-
-/* Description section padding */
-.desc_stuff {
-  padding: 0 2em 2em 2em;
-}
-
-/* Contact page image styling */
-.contact_image {
-  border-radius: 10px;
-  max-width: 90%;
-}
-
-/* External link styling */
-.linker {
-  text-decoration: none;
-  color: blue;
-}
-
-/* Page title */
-.contact_title {
-  padding-top: 0.5em;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-size: 56px;
-  margin-bottom: 0;
-  margin-top: 0.5em;
-}
-
-/* Center alignment utility */
-.contact_center {
-  text-align: center;
-  align-items: center;
-}
-
-/* Image section wrapper */
-.contact_center_section {
-  text-align: center;
-}
-
-/* Image caption */
-.contact_caption {
-  margin-top: 0;
-}
-
-/* Links section wrapper */
-.contact_links_section {
-  text-align: center;
-  margin: auto;
-}
-
-/* Link text styling */
-.contact_link_text {
+/* Page Wrapper */
+.contact_page_wrapper {
+  margin: 0;
   padding: 0;
+  width: 100%;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.contact_hero_section {
+  padding: 4rem 2rem 3rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 50%, #1a1a1a 100%);
+  color: white;
+  text-align: center;
+}
+
+.contact_hero_title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.contact_hero_subtitle {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
 }
 
-/* Support link text */
-.contact_support_text {
-  padding-bottom: 1em;
+/* Main Contact Section */
+.contact_main_section {
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
 }
 
-/* Mobile responsive styles */
-@media only screen and (max-width: 800px) {
-  .contact_wrapper {
-    max-width: 95%;
+/* Contact Card (About Developer) */
+.contact_card {
+  padding: 2.5rem !important;
+  border-radius: 12px !important;
+  height: 100%;
+  background-color: white !important;
+}
+
+.contact_card_header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #dc143c;
+}
+
+.contact_card_icon {
+  font-size: 2.5rem !important;
+  color: #dc143c;
+}
+
+.contact_card_title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.contact_card_content {
+  line-height: 1.7;
+}
+
+.contact_intro_text {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.contact_body_text {
+  font-size: 1rem;
+  color: #5f6c7b;
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.contact_highlight_text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #dc143c;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+/* Contact Options Wrapper */
+.contact_options_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact_option_card {
+  padding: 2rem !important;
+  border-radius: 12px !important;
+  background-color: white !important;
+  text-align: center;
+  transition: all 0.3s ease !important;
+}
+
+.contact_option_card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.contact_option_icon {
+  font-size: 3rem !important;
+  color: #dc143c;
+  margin-bottom: 1rem;
+}
+
+.contact_option_title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+}
+
+.contact_option_description {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Contact Buttons */
+.contact_cta_button {
+  background-color: #dc143c !important;
+  color: white !important;
+  padding: 12px 24px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4) !important;
+  transition: all 0.3s ease !important;
+}
+
+.contact_cta_button:hover {
+  background-color: #b8102e !important;
+  box-shadow: 0 6px 16px rgba(220, 20, 60, 0.5) !important;
+}
+
+.contact_secondary_button {
+  border: 2px solid #dc143c !important;
+  color: #dc143c !important;
+  padding: 12px 24px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.contact_secondary_button:hover {
+  background-color: rgba(220, 20, 60, 0.05) !important;
+  border-color: #b8102e !important;
+  color: #b8102e !important;
+}
+
+/* Employee of the Month Section */
+.contact_employee_section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 50%, #1a1a1a 100%);
+}
+
+.contact_employee_card {
+  padding: 3rem 2rem !important;
+  text-align: center;
+  border-radius: 16px !important;
+  background-color: white !important;
+}
+
+.contact_employee_title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.contact_employee_image_wrapper {
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.contact_employee_image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.contact_employee_image:hover {
+  transform: scale(1.02);
+}
+
+.contact_employee_caption {
+  font-size: 1.1rem;
+  color: #5f6c7b;
+  margin: 1.5rem 0 0;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 960px) {
+  .contact_hero_title {
+    font-size: 2.2rem;
   }
-  .contact_title {
-    padding-top: 0;
+
+  .contact_hero_subtitle {
+    font-size: 1.1rem;
   }
-  .contact_image {
-    max-width: 100%;
+
+  .contact_card {
+    margin-bottom: 2rem;
+  }
+
+  .contact_card_header {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .contact_hero_section {
+    padding: 3rem 1rem 2rem;
+  }
+
+  .contact_hero_title {
+    font-size: 1.8rem;
+  }
+
+  .contact_hero_subtitle {
+    font-size: 1rem;
+  }
+
+  .contact_main_section,
+  .contact_employee_section {
+    padding: 3rem 1rem;
+  }
+
+  .contact_card {
+    padding: 1.5rem !important;
+  }
+
+  .contact_card_title {
+    font-size: 1.5rem;
+  }
+
+  .contact_option_card {
+    padding: 1.5rem !important;
+  }
+
+  .contact_employee_card {
+    padding: 2rem 1rem !important;
+  }
+
+  .contact_employee_title {
+    font-size: 1.6rem;
   }
 }
