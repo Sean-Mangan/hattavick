@@ -1,143 +1,221 @@
-# Hattavick UI - D&D Campaign Manager Frontend
+# Hattavick
 
-A modern React application for managing D&D and TTRPG campaigns, featuring lore management, character tracking, session notes, and collaborative tools.
+**Stop juggling Google Docs, Discord, and Roll20. Run your D&D campaign from one free, organized hub.**
 
-## 📋 Table of Contents
-
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Development Guide](#development-guide)
-- [Project Structure](#project-structure)
-- [Coding Standards](#coding-standards)
-- [Pre-Commit Rules](#pre-commit-rules)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
+![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
+![License](https://img.shields.io/badge/license-TBD-lightgrey.svg)
 
 ---
 
-## 🛠 Tech Stack
+## What is Hattavick?
 
+Hattavick is a **free, self-hosted D&D campaign manager** designed for story-focused Dungeon Masters who want to keep their campaign lore organized without the complexity of World Anvil or the subscription cost of Roll20 Pro.
+
+### The Problem We Solve
+
+Running a D&D campaign means juggling:
+- Roll20 for combat
+- Google Docs for lore
+- Discord for session notes
+- Notion/OneNote for NPC tracking
+- Sticky notes for plot twists you can't let players see yet
+
+**Hattavick puts it all in one place.**
+
+---
+
+## Why Choose Hattavick?
+
+| Feature | Roll20 | Foundry VTT | World Anvil | **Hattavick** |
+|---------|--------|-------------|-------------|---------------|
+| **Lore Management** | Basic handouts | Journal entries | Excellent | **Excellent** |
+| **Hide Secrets from Players** | No | Manual workarounds | Yes (complex) | **Yes (everywhere)** |
+| **Player-Owned Characters** | No | No | Limited | **Yes** |
+| **Context-Aware Notes** | No | Basic | Basic | **Attached to everything** |
+| **Mobile-Friendly** | Poor | Poor | Good | **Good** |
+| **Cost** | $10/month | $50 one-time | $5-10/month | **Free** |
+| **Dice Rolling & Maps** | Yes | Yes | No | No |
+
+**Hattavick is not a VTT replacement**—it's a companion tool for managing your campaign's story, lore, and characters.
+
+---
+
+## Key Features
+
+### 1. Unified Lore System
+Organize your world with four interconnected categories:
+- **Factions** - Political groups, guilds, organizations
+- **Locations** - Cities, dungeons, points of interest
+- **Things** - Artifacts, important items, MacGuffins
+- **World Lore** - Campaign-wide context and history
+
+Each lore item includes:
+- Image upload
+- Public description (visible to players)
+- Private notes (admin-only, for plot twists)
+- Visibility toggles
+- File attachments
+
+### 2. Progressive Disclosure for Plot Twists
+**The killer feature:** Every piece of lore has public and private sections.
+
+Want to show players the Thieves' Guild exists, but hide their secret alliance with the City Guard until the dramatic reveal? You can do that.
+
+- Hide faction motivations until the right moment
+- Show a location's public face while keeping secret passages private
+- Control exactly what players discover and when
+
+### 3. Player-Owned Characters
+Players create and edit their own characters. You can view them, but you can't accidentally change them.
+
+**Each character has:**
+- Player-editable portrait, stats, and backstory
+- Private backstory section (visible only to player and DM)
+- Public backstory (shared with party)
+- Attached notes with file uploads
+
+### 4. Context-Aware Notes
+Never lose track of campaign details again. Attach notes to:
+- Characters (PC or NPC)
+- Factions, locations, artifacts
+- Session notes
+- Campaign home page
+
+**Notes support:**
+- Public/private visibility
+- File attachments (images, PDFs, audio)
+- Author tracking
+- Collapse/expand organization
+
+### 5. Collaborative Campaign Management
+- Invite players via email or shareable link
+- Role-based permissions (Owner, Admin, Player)
+- Session notes with date tracking
+- Party page showing all characters
+
+### 6. Free & Self-Hostable
+No subscriptions. No vendor lock-in. Host it yourself for free.
+
+---
+
+## Screenshots
+
+> **Note for Contributors**: We need screenshots! Priority areas:
+> 1. Faction page showing public/private toggle
+> 2. Character creation/edit view
+> 3. Party page with character cards
+> 4. Lore overview with faction/location/thing tabs
+> 5. Session notes interface
+
+---
+
+## Who Is This For?
+
+### Perfect for DMs who...
+- Run narrative-heavy campaigns (not just combat)
+- Track multiple factions, NPCs, and plot threads
+- Want to hide plot twists until the perfect moment
+- Are tired of alt-tabbing between 5 different tools
+- Don't want to pay $10/month for campaign management
+
+### Not ideal if you need...
+- Dice rolling and battle maps (use Roll20/Foundry for combat)
+- A complete VTT solution
+- Character sheet automation (we're story-focused, not rules-focused)
+
+---
+
+## Getting Started
+
+### Option 1: Try the Demo (Coming Soon)
+We're working on a hosted demo. For now, follow Option 2.
+
+### Option 2: Run Locally
+
+#### Prerequisites
+- Node.js 16+ and npm 8+
+- Backend API running ([backend repository](https://github.com/Sean-Mangan/hattavick))
+- Git
+
+#### Quick Start
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/Sean-Mangan/hattavick.git
+cd hattavick/hattavick_ui
+
+# 2. Install dependencies
+npm install
+
+# 3. Configure API endpoint
+# Edit src/config/settings.json with your backend API URL
+
+# 4. Start the app
+npm start
+```
+
+The app opens at [http://localhost:3000](http://localhost:3000).
+
+#### Full Setup Guide
+For detailed setup including backend installation, see our [Installation Guide](./docs/INSTALLATION.md) _(coming soon)_.
+
+---
+
+## Roadmap
+
+### Current Status (v0.1.0)
+- Core lore management (factions, locations, things)
+- Character management (PC and NPC)
+- Session notes
+- Public/private visibility controls
+- Email and link-based invites
+
+### Planned Features
+- [ ] Dice roller integration
+- [ ] Campaign export/backup (JSON/PDF)
+- [ ] Search across all campaign content
+- [ ] Timeline view for session history
+- [ ] Mobile app (React Native)
+- [ ] Initiative tracker
+- [ ] Relationship mapping (visual faction/character connections)
+- [ ] Markdown support in descriptions
+- [ ] Dark mode
+
+**Want to help prioritize?** Join our [discussions](https://github.com/Sean-Mangan/hattavick/discussions) or Discord _(coming soon)_.
+
+---
+
+## Contributing
+
+We're actively looking for contributors! Here's how you can help:
+
+### High Priority Needs
+- **UX/UI Designers**: Help refine the user experience
+- **Technical Writers**: Improve documentation and user guides
+- **Frontend Developers**: React/Redux feature development
+- **Backend Developers**: API enhancements ([backend repo](https://github.com/Sean-Mangan/hattavick))
+- **Beta Testers**: Run real campaigns and give feedback
+
+### How to Contribute
+1. Check out our [Contributing Guide](./CONTRIBUTING.md) _(coming soon)_
+2. Browse [open issues](https://github.com/Sean-Mangan/hattavick/issues)
+3. Join our Discord _(coming soon)_ to discuss ideas
+4. Submit pull requests (see [Development Guide](#development-guide) below)
+
+---
+
+## For Developers
+
+### Tech Stack
 - **React** 18.1.0 - UI framework
 - **Redux Toolkit** 1.9.5 - State management with RTK Query
 - **React Router** 6.3.0 - Client-side routing
 - **Material-UI** 5.8.3 - Component library
 - **Redux Persist** - State persistence
 - **Axios** - HTTP client
-- **React Helmet** - SEO management
 - **SASS** - CSS preprocessing
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js** 16+ and npm 8+
-- **Backend API** running (see backend repository)
-- **Git** for version control
-
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/Sean-Mangan/hattavick.git
-   cd hattavick/hattavick_ui
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment** (if needed)
-
-   - Update `src/config/settings.json` with your API endpoints
-   - Ensure backend API URL is correctly set
-
-4. **Start development server**
-   ```bash
-   npm start
-   ```
-   - Opens [http://localhost:3000](http://localhost:3000)
-   - Hot reload enabled
-   - Console shows lint errors
-
----
-
-## 💻 Development Guide
-
-### Available Scripts
-
-#### `npm start`
-
-Runs the app in development mode with hot reload.
-
-#### `npm run build`
-
-Creates optimized production build in `/build` folder.
-
-#### `npm test`
-
-⚠️ **Note**: Tests are not currently implemented. This is planned for future development.
-
-#### `npm run eject`
-
-⚠️ **Warning**: One-way operation. Only use if you need full webpack control.
-
-### Development Workflow
-
-1. **Create a feature branch**
-
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make your changes**
-
-   - Follow coding standards (see below)
-   - Test manually in the browser
-   - Check console for errors
-
-3. **Review your changes**
-
-   ```bash
-   git status
-   git diff
-   ```
-
-4. **Commit with descriptive message**
-
-   ```bash
-   git add .
-   git commit -m "feat: add new lore filtering feature"
-   ```
-
-5. **Push and create Pull Request**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-### Hot Reload & Browser DevTools
-
-- Changes auto-reload in browser
-- Use **React DevTools** for component inspection
-- Use **Redux DevTools** for state debugging
-- Check **Network tab** for API calls
-- **Console** shows errors and warnings
-
-### Working with the Backend
-
-- Backend must be running for full functionality
-- API calls are handled via RTK Query in `src/features/`
-- Check `src/app/api/apiSlice.js` for base configuration
-- Mock data can be used for UI development
-
----
-
-## 📁 Project Structure
-
+### Project Structure
 ```
 src/
 ├── app/
@@ -152,464 +230,119 @@ src/
 │   ├── LoginPage/            # Authentication
 │   ├── CampaignPages/        # Campaign-specific pages
 │   │   ├── CampaignHomePage/
-│   │   ├── LorePage/         # Unified lore management (NEW)
+│   │   ├── LorePage/         # Unified lore management
 │   │   ├── CharacterPage/
 │   │   └── ...
 │   └── ...
-├── Components/
-│   ├── CampaignNavBar/       # Campaign navigation
-│   ├── HomeNav/              # Main site navigation
-│   ├── Loading/              # Loading states
-│   └── ...
+├── Components/               # Reusable components
 ├── config/
 │   └── settings.json         # App configuration
-├── Resources/                # Static assets
-├── App.js                    # Main app & routing
-├── index.js                  # App entry point
-└── index.css                 # Global styles
+└── Resources/                # Static assets
 ```
 
-### Key Architectural Patterns
-
-- **Feature-based organization**: Related code grouped by feature
-- **RTK Query**: API calls with caching and state management
-- **Redux Persist**: Auth state persists across sessions
-- **CSS Modules**: Scoped styling for components
-- **React Router v6**: Nested routes with outlet context
-
----
-
-## 📏 Coding Standards
-
-### JavaScript/React
-
-#### Component Structure
-
-```javascript
-// 1. Imports (grouped logically)
-import { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
-
-// 2. JSDoc comments for complex components
-/**
- * ComponentName - Brief description
- * @param {Object} props - Component props
- * @returns {JSX.Element}
- */
-function ComponentName({ prop1, prop2 }) {
-  // 3. Hooks first
-  const [state, setState] = useState(null);
-  const data = useSelector(selectData);
-
-  // 4. Event handlers
-  const handleClick = () => {
-    // ...
-  };
-
-  // 5. Effects last
-  useEffect(() => {
-    // ...
-  }, []);
-
-  // 6. Render
-  return <div>{/* JSX */}</div>;
-}
-
-export default ComponentName;
-```
-
-#### Naming Conventions
-
-- **Components**: PascalCase (`HomePage.js`, `LoreCard.js`)
-- **Files**: Match component name (`HomePage.js` for `HomePage` component)
-- **Functions**: camelCase (`handleSubmit`, `fetchData`)
-- **Constants**: UPPER_SNAKE_CASE (`API_BASE_URL`)
-- **CSS Modules**: Component.module.css
-- **Regular CSS**: Component.css (co-located with component)
-
-#### Best Practices
-
-✅ **DO:**
-
-- Use functional components with hooks
-- Implement `useCallback` for event handlers passed as props
-- Use `useMemo` for expensive computations
-- Add JSDoc comments for complex functions
-- Keep components small and focused (< 300 lines)
-- Use prop destructuring
-- Handle loading and error states
-- Clean up effects (return cleanup function)
-
-❌ **DON'T:**
-
-- Use class components (use functional instead)
-- Mutate state directly (use setState)
-- Forget dependency arrays in useEffect
-- Leave console.log in production code
-- Use inline styles (prefer CSS modules)
-- Create deeply nested components
-- Ignore PropTypes or TypeScript (future enhancement)
-
-### CSS/Styling
-
-#### Style Organization
-
-1. **CSS Modules for scoped styles** (preferred)
-
-   ```css
-   /* Component.module.css */
-   .container {
-   }
-   .title {
-   }
-   ```
-
-2. **Regular CSS for shared/legacy styles**
-
-   ```css
-   /* Component.css */
-   .component-specific-class {
-   }
-   ```
-
-3. **Material-UI `sx` prop for one-offs**
-   ```javascript
-   <Button sx={{ mt: 2 }} />
-   ```
-
-#### CSS Best Practices
-
-✅ **DO:**
-
-- Use CSS Grid for layouts
-- Use Flexbox for component alignment
-- Mobile-first responsive design
-- Use CSS variables for theming
-- Use rem/em for font sizes
-- Prefer CSS transitions over JS animations
-
-❌ **DON'T:**
-
-- Use `!important` (unless absolutely necessary)
-- Use fixed pixel heights/widths
-- Ignore responsive breakpoints
-- Create deeply nested selectors
-- Use inline styles excessively
-
-### State Management
-
-#### Redux/RTK Query
-
-- **Global state**: User auth, campaign context
-- **Local state**: Component UI state, forms
-- **Server state**: RTK Query (automatic caching)
-
-```javascript
-// RTK Query example
-const { data, isLoading, error } = useGetFactionsQuery(campaignId);
-const [updateFaction] = useUpdateFactionMutation();
-```
-
----
-
-## 🔒 Pre-Commit Rules
-
-### Automated Pre-Commit Hooks (Recommended)
-
-We strongly recommend setting up automated pre-commit hooks to enforce code quality automatically. This will:
-
-- ✅ Auto-fix linting issues
-- ✅ Format code with Prettier
-- ✅ Validate commit messages
-- ✅ Catch common mistakes before they're committed
-
-**📚 [Complete Hooks Setup Guide](./PRE_COMMIT_HOOKS.md)** - Full documentation
-
-**⚡ Quick Setup:**
+### Development Workflow
 
 ```bash
-# Install dependencies
-npm install --save-dev husky lint-staged prettier @commitlint/cli @commitlint/config-conventional
+# 1. Create a feature branch
+git checkout -b feature/your-feature-name
 
-# Initialize Husky
-npx husky-init && npm install
+# 2. Make changes (follow our coding standards)
+# See CONTRIBUTING.md for details
 
-# Add hooks
-npx husky add .husky/pre-commit "npx lint-staged"
-npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
-```
+# 3. Run the app locally
+npm start
 
-See [HOOKS_SETUP.md](./HOOKS_SETUP.md) for quick installation instructions.
-
-### Manual Pre-Commit Checklist
-
-If you haven't set up automated hooks yet, follow this manual checklist:
-
-#### 1. Code Quality Checks
-
-```bash
-# Check for console.logs (remove them)
-grep -r "console.log" src/
-
-# Check for TODO comments (create issues for them)
-grep -r "TODO" src/
-
-# Check for debugging code
-grep -r "debugger" src/
-```
-
-#### 2. Manual Testing Checklist
-
-- [ ] Component renders without errors
-- [ ] No console errors in browser
-- [ ] Responsive design works (test mobile view)
-- [ ] Navigation functions correctly
-- [ ] API calls complete successfully
-- [ ] Loading states display
-- [ ] Error handling works
-
-#### 3. Code Review Self-Check
-
-- [ ] Code follows naming conventions
-- [ ] Components are properly documented
-- [ ] No unused imports
-- [ ] No commented-out code (delete or explain)
-- [ ] CSS is organized and scoped
-- [ ] No hardcoded values (use config/settings.json)
-- [ ] Proper error handling
-- [ ] Accessibility considered (alt text, aria labels)
-
-#### 4. Git Hygiene
-
-```bash
-# Review changes
-git diff
-
-# Stage only relevant files
-git add src/path/to/changed/files
-
-# Write meaningful commit message
-git commit -m "type: descriptive message"
-```
-
-### Commit Message Format
-
-Use conventional commits:
-
-```
-type(scope): subject
-
-[optional body]
-
-[optional footer]
-```
-
-**Types:**
-
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting)
-- `refactor`: Code refactoring
-- `perf`: Performance improvements
-- `test`: Adding/updating tests
-- `chore`: Build process, dependencies
-
-**Examples:**
-
-```
-feat(lore): add unified lore page with tabs
-fix(auth): resolve token expiration issue
-docs(readme): update development guide
-refactor(cards): optimize card component performance
-style(navbar): improve mobile responsiveness
-```
-
-### Pre-Commit Checklist Summary
-
-```bash
-# 1. Lint check (manual - no linter configured yet)
-# - Check for obvious errors
-# - Review imports
-
-# 2. Build check
-npm run build
-# - Ensure no build errors
-# - Check bundle size if concerned
-
-# 3. Manual testing
-# - Test your feature
-# - Test on mobile size
-# - Check console for errors
-
-# 4. Git review
-git status
-git diff
-# - Review every change
-# - Ensure no unintended modifications
-
-# 5. Commit
-git add <files>
-git commit -m "type: message"
-
-# 6. Push
-git push origin <branch>
-```
-
----
-
-## 🧪 Testing
-
-### Current Status
-
-⚠️ **No automated tests are currently implemented.**
-
-### Planned Testing Strategy
-
-#### Unit Tests (Future)
-
-- Jest + React Testing Library
-- Test individual components
-- Test Redux reducers and actions
-- Test utility functions
-
-#### Integration Tests (Future)
-
-- Test component interactions
-- Test API integration with RTK Query
-- Test routing and navigation
-
-#### E2E Tests (Future)
-
-- Cypress or Playwright
-- Test critical user flows
-- Test authentication
-- Test campaign management
-
-### Manual Testing Guidelines
-
-Until automated tests are implemented, follow these manual testing procedures:
-
-1. **Feature Testing**
-
-   - Test happy path
-   - Test edge cases
-   - Test error scenarios
-   - Test loading states
-
-2. **Browser Testing**
-
-   - Chrome (primary)
-   - Firefox
-   - Safari
-   - Mobile browsers (iOS Safari, Chrome Mobile)
-
-3. **Responsive Testing**
-
-   - Desktop (1920x1080)
-   - Tablet (768x1024)
-   - Mobile (375x667)
-
-4. **Accessibility Testing**
-   - Keyboard navigation
-   - Screen reader compatibility (basic)
-   - Color contrast
-
----
-
-## 🚢 Deployment
-
-### Production Build
-
-```bash
-# Create optimized build
+# 4. Build for production
 npm run build
 
-# Build output in /build folder
-# - Minified
-# - Optimized
-# - Ready for deployment
+# 5. Commit with conventional commits
+git commit -m "feat: add faction relationship mapping"
+
+# 6. Push and create a PR
+git push origin feature/your-feature-name
 ```
 
-### Environment Configuration
+### Coding Standards
+- Functional components with hooks
+- PascalCase for components, camelCase for functions
+- CSS Modules for scoped styling
+- JSDoc comments for complex functions
+- Conventional commits (feat, fix, docs, etc.)
 
-Update `src/config/settings.json` for different environments:
-
-- API endpoints
-- Feature flags
-- Image URLs
-- App settings
-
-### Deployment Platforms
-
-This app can be deployed to:
-
-- **Vercel** (recommended for React apps)
-- **Netlify**
-- **AWS S3 + CloudFront**
-- **Heroku**
-- Any static hosting service
+Full coding standards in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ---
 
-## 🤝 Contributing
+## Community & Support
 
-### Getting Help
+### Get Help
+- **Issues**: [GitHub Issues](https://github.com/Sean-Mangan/hattavick/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Sean-Mangan/hattavick/discussions)
+- **Discord**: _(coming soon)_
 
-- Review existing code for patterns
-- Ask questions in pull requests
-- Document your changes
-
-### Pull Request Process
-
-1. Create feature branch from `main` or `dev`
-2. Make changes following coding standards
-3. Test thoroughly (manual testing)
-4. Update documentation if needed
-5. Create PR with clear description
-6. Wait for code review
-7. Address feedback
-8. Merge after approval
-
-### Code Review Guidelines
-
-**Reviewers should check:**
-
-- Code follows style guide
-- Components are properly structured
-- No obvious bugs
-- Responsive design works
-- No console errors
-- Performance considerations
-- Accessibility basics
+### Stay Updated
+- Star this repo to follow development
+- Watch for release notifications
+- Follow [@HattavickApp](https://twitter.com/HattavickApp) _(coming soon)_
 
 ---
 
-## 📚 Additional Resources
+## FAQ
 
-### Learn More
+### Is Hattavick free?
+Yes, completely free and open source. Self-host it on your own infrastructure.
 
-- [Create React App Documentation](https://facebook.github.io/create-react-app/docs/getting-started)
-- [React Documentation](https://reactjs.org/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [Material-UI](https://mui.com/)
-- [React Router v6](https://reactrouter.com/)
+### Do I need to be technical to use it?
+To self-host, you'll need basic command-line knowledge. We're working on simpler deployment options (one-click deploys, hosted demo).
+
+### Can I use this for other RPGs besides D&D?
+Absolutely! It works for Pathfinder, Call of Cthulhu, homebrew systems—anything with campaigns, characters, and lore.
+
+### How does this compare to World Anvil?
+World Anvil is more comprehensive but also more complex. Hattavick focuses on core campaign management with a simpler, faster interface. Plus, it integrates character management better.
+
+### What about Roll20/Foundry VTT?
+Those are VTTs focused on combat. Hattavick focuses on lore and story. Use them together—Roll20 for battles, Hattavick for everything else.
+
+### Is there a mobile app?
+Not yet, but the web app is mobile-responsive. A native mobile app is on the roadmap.
+
+### How do I back up my campaign data?
+Export feature coming soon. For now, your data lives in your backend database—back up that database regularly.
 
 ---
 
-## 📝 License
+## License
 
-[Add your license information here]
-
----
-
-## 👥 Team
-
-- **Owner**: Sean-Mangan
-- **Repository**: [hattavick](https://github.com/Sean-Mangan/hattavick)
-- **Current Branch**: `main`
+[License TBD - Add your license here]
 
 ---
 
-**Happy Coding! 🎲**
+## Credits
+
+**Created by**: [Sean-Mangan](https://github.com/Sean-Mangan)
+
+**Contributors**: [View all contributors](https://github.com/Sean-Mangan/hattavick/graphs/contributors)
+
+**Inspired by**: The frustration of managing a 3-year campaign across 7 different tools.
+
+---
+
+## Share & Support
+
+If Hattavick helps you run better campaigns:
+- Star this repo
+- Share it with your D&D group
+- Contribute features or bug fixes
+- Tell us about your campaign in [Discussions](https://github.com/Sean-Mangan/hattavick/discussions)
+
+**Happy DMing!** 🎲
+
+---
+
+## Development Documentation
+
+Looking for developer-specific documentation?
+- [Pre-Commit Hooks](./PRE_COMMIT_HOOKS.md)
+- [Hooks Setup Guide](./HOOKS_SETUP.md)
+- [Hooks Commands Reference](./HOOKS_COMMANDS.md)
